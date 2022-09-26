@@ -1,2 +1,5 @@
 func_playground
 a.out
+*.o
+*.a
+minishell
