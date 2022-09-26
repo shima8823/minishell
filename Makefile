@@ -1,6 +1,6 @@
 CFLAGS = 
 # CFLAGS = -Wall -Wextra -Werror 
-CPPFLAGS = -lreadline -I includes
+CPPFLAGS = -L$(shell brew --prefix readline)/lib -lreadline -lhistory -I $(shell brew --prefix readline)/include -I includes
 NAME = minishell
 SRCS = $(shell cd srcs && echo *.c)
 OBJ = $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.o))
@@ -21,7 +21,7 @@ $(LIBFT):
 	make bonus -C $(LIBFT_DIR)
 
 $(OBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ -c $<
 
 clean:
 	$(RM) $(OBJ)
