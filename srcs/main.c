@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
+/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/09/26 15:18:29 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/09/26 17:00:36 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
 void	prompt(void)
 {
 	char	*line;
+
 	while (true)
 	{
 		line = readline("> ");
@@ -47,15 +48,25 @@ void	prompt(void)
 
 int	parse_command(char *line)
 {
-	// c
-	if (is_command(line, "cd"))
+	// return値 -1 = err, 0 = success 1以上はとりあえず
+	char	**args;
+
+	args = ft_split(line, ' ');
+	if (!args)
+	{
+		perror("ft_split");
+		return (-1);
+	}
+	if (!(args[0]))
+		return (0);
+	if (is_command(args[0], "cd"))
 		return (1);
-	else if (is_command(line, "pwd"))
+	else if (is_command(args[0], "pwd"))
 		return (2);
-	else if (is_command(line, "echo"))
+	else if (is_command(args[0], "echo"))
 		return (3);
-	else if (is_command(line, "exit"))
-		exit(EXIT_SUCCESS);
+	else if (is_command(args[0], "exit"))
+		return (4);
 	return (0);
 }
 
