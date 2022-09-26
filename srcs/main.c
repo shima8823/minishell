@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/09/26 10:18:55 by shima            ###   ########.fr       */
+/*   Updated: 2022/09/26 15:18:29 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
 	if (argc != 1)
 		return (EXIT_FAILURE);
 	printf("hello, minishell\n");
+	signal_set();
 	prompt();
 	
 	return (EXIT_SUCCESS);
@@ -35,8 +36,8 @@ void	prompt(void)
 		line = readline("> ");
 		if (!line)
 		{
-			perror("malloc");
-			exit(EXIT_FAILURE);
+			printf("exit\n");
+			exit(EXIT_SUCCESS);
 		}
 		printf("cmd_id: %d\n", parse_command(line));
 		// printf("%s\n", line);
