@@ -6,39 +6,48 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 13:35:27 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/09/26 15:01:32 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/09/26 16:34:09 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+static void	display_new_line(void)
+{
+	rl_on_new_line();
+	write(STDOUT_FILENO, "\n", 1);
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
 void	signal_handler(int code)
 {
-	struct sigaction	sa;
-
-	ft_memset(&sa, 0, sizeof(struct sigaction));
-	sa.sa_handler = signal_handler;
-	sa.sa_flags = 0;
 	if (code == SIGINT)
 	{
-		ft_putstr_fd("\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-		if (sigaction(SIGINT, &sa, NULL) < 0)
-			printf("sigacation error\n");
+		display_new_line();
+		if (signal(SIGINT, signal_handler) == SIG_ERR)
+		{
+			printf("signal error\n");
+			exit(EXIT_FAILURE);
+		}
+	}
+	else if (code == SIGQUIT)
+	{
+		if (signal(SIGQUIT, signal_handler) == SIG_ERR)
+		{
+			printf("signal error\n");
+			exit(EXIT_FAILURE);
+		}
 	}
 }
 
 void	signal_set(void)
 {
-	struct sigaction	sa;
-
-	ft_memset(&sa, 0, sizeof(struct sigaction));
-	sa.sa_handler = signal_handler;
-	sa.sa_flags = 0;
-	if (sigaction(SIGINT, &sa, NULL) < 0)
-		printf("sigacation error\n");
+	if (signal(SIGINT, signal_handler) == SIG_ERR || signal(SIGQUIT, signal_handler))
+	{
+		printf("signal error\n");
+		exit(EXIT_FAILURE);
+	}
 }
 
 // int main(int argc, char **argv)
