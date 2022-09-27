@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
+/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/09/26 13:58:19 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/09/26 21:13:56 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@
 # include "../libft/libft.h"
 
 void	signal_set(void);
+int		ft_echo(char **args);
 
 #endif
