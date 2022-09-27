@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 12:32:58 by shima             #+#    #+#             */
-/*   Updated: 2022/09/27 09:56:01 by shima            ###   ########.fr       */
+/*   Updated: 2022/09/27 11:30:26 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	ft_echo(char **args)
 	while (args[i])
 	{
 		printf("%s", args[i]);
+		if (args[i + 1])
+			printf(" ");
 		i++;
 	}
 	if (!has_option)
