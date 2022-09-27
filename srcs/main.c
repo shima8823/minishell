@@ -6,16 +6,18 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/09/26 17:00:36 by shima            ###   ########.fr       */
+/*   Updated: 2022/09/27 10:25:11 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 void		prompt(void);
-int			parse_command(char *line);
+int			parse_command(char **args);
 bool		is_command(char *input, char *command);
 static int	ft_isspace(int c);
+char		**split_line(char *line);
+void		free_args(char **args);
 
 int main(int argc, char *argv[])
 {
@@ -31,7 +33,9 @@ int main(int argc, char *argv[])
 void	prompt(void)
 {
 	char	*line;
-
+	char	**args;
+	int		status;
+	
 	while (true)
 	{
 		line = readline("> ");
@@ -40,23 +44,19 @@ void	prompt(void)
 			printf("exit\n");
 			exit(EXIT_SUCCESS);
 		}
-		printf("cmd_id: %d\n", parse_command(line));
+		args = split_line(line);
+		status = parse_command(args);
 		// printf("%s\n", line);
+		free_args(args);
 		free(line);
+		if (status == 4)
+			break ;
 	}
 }
 
-int	parse_command(char *line)
+int	parse_command(char **args)
 {
 	// return値 -1 = err, 0 = success 1以上はとりあえず
-	char	**args;
-
-	args = ft_split(line, ' ');
-	if (!args)
-	{
-		perror("ft_split");
-		return (-1);
-	}
 	if (!(args[0]))
 		return (0);
 	if (is_command(args[0], "cd"))
@@ -64,7 +64,7 @@ int	parse_command(char *line)
 	else if (is_command(args[0], "pwd"))
 		return (2);
 	else if (is_command(args[0], "echo"))
-		return (3);
+		return (ft_echo(args));
 	else if (is_command(args[0], "exit"))
 		return (4);
 	return (0);
@@ -82,6 +82,32 @@ bool	is_command(char *input, char *command)
 	if (ft_strncmp(&input[i], command, cmd_len + 1) == 0)
 		return (true);
 	return (false);
+}
+
+char	**split_line(char *line)
+{
+	char	**args;
+
+	args = ft_split(line, ' ');
+	if (!args)
+	{
+		perror("ft_split");
+		exit(EXIT_FAILURE);
+	}
+	return (args);
+}
+
+void	free_args(char **args)
+{
+	size_t	i;
+
+	i = 0;
+	while (args[i])
+	{
+		free(args[i]);
+		i++;
+	}
+	free(args);
 }
 
 static int	ft_isspace(int c)
