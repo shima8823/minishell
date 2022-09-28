@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 17:35:04 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/09/28 19:29:14 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/09/28 19:33:14 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ static int	add_vars(char *arg)
 	while (arg[i] != '\0')
 	{
 		if (ft_isspace(arg[i]))
-			reutrn (-1);
+			return (-1);
+		i ++;
 	}
 	name = return_name(arg);
 	if (search_var(name) == -1)

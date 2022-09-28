@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/09/28 19:27:05 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/09/28 19:30:26 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void		prompt(void);
 int			parse_command(char **args);
 bool		is_command(char *input, char *command);
-static int	ft_isspace(int c);
 char		**split_line(char *line);
 void		free_args(char **args);
 
