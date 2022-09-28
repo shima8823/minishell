@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 18:23:48 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/09/28 15:56:29 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/09/28 16:31:36 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,22 @@ void	error_in_export(char *arg, int err_type);
 static void	skip_doublequote(char **arg)
 {
 	size_t	len;
+	char	*equal_pnt;
 
 	len = ft_strlen(*arg);
 	if (arg[0][0] == '"' && arg[0][len - 1] == '"')
 	{
-		arg ++;
 		arg[0][len - 1] = '\0';
+		arg[0]++;
+	}
+	equal_pnt = ft_strchr(*arg, '=');
+	if (equal_pnt == NULL)
+		return ;
+	if (arg[0][0] == '"' && *(equal_pnt - 1) == '"')
+	{
+		*(equal_pnt - 1) = '\0';
+		arg[0]++;
+		ft_strlcat(arg[0], equal_pnt, ft_strlen(arg[0]) + ft_strlen(equal_pnt));
 	}
 }
 
@@ -86,7 +96,7 @@ char	*arrange_arg(char *arg)
 	skip_doublequote(&arg);
 	len = ft_strlen(arg);
 	if (ft_strchr(arg, '=') == NULL)
-		return (arg);
+		return (ft_strdup(arg));
 	res = malloc_arranged_arg(len);
 	cpy_arg_by_equal(arg, &res);
 	do_arrange(arg, &res, len);
