@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 18:23:48 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/09/28 13:49:41 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/09/28 14:06:52 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ char	*arrange_arg(char *arg)
 
 	is_add_doublequote = false;
 	len = ft_strlen(arg);
-	printf("%s\n", arg);
+	if (ft_strchr(arg, '=') == NULL)
+		return (arg);
 	if (arg[0] == '"' && arg[len - 1] == '"')
 	{
-		printf("testb\n");
 		arg ++;
-		arg[len] = '\0';
+		arg[len - 1] = '\0';
 	}
 	arranged_arg = ft_calloc(len + 3, sizeof(char));
 	if (arranged_arg == NULL)
@@ -35,21 +35,21 @@ char	*arrange_arg(char *arg)
 	i = 0;
 	while (arg[i] != '=' && arg[i] != '\0')
 	{
-		printf("%s\n", arranged_arg);
 		arranged_arg[i] = arg[i];
 		i ++;
 	}
-	printf("%s\n", arranged_arg);
 	if (arg[i] != '=')
 	{
+		printf("%zu\n",ft_strlen(arranged_arg));
+		printf("arranged_arg == %s\n", arranged_arg);
 		arranged_arg[i] = '\0';
 		return (arranged_arg);
 	}
-	printf("%s\n", arranged_arg);
+	// printf("%s\n", arranged_arg);
 	arranged_arg[i] = arg[i];
 	i ++;
-	printf("%s\n", arg);
-	printf("arg[i] == %c, arg[len - 1] == %c\n", arg[i], arg[len - 1]);
+	// printf("%s\n", arg);
+	// printf("arg[i] == %c, arg[len - 1] == %c\n", arg[i], arg[len - 1]);
 	if (arg[i] != '"' && arg[len - 1] != '"')
 	{
 		printf("add_double_quote...\n");
@@ -57,10 +57,10 @@ char	*arrange_arg(char *arg)
 		arranged_arg[i] = '"';
 		arranged_arg ++;
 	}
-	printf("%s\n", arg);
+	// printf("%s\n", arg);
 	while (arg[i] != '\0')
 	{
-		printf("arg[i] == %c, arranged_arg[i] == %c\n", arg[i], arranged_arg[i]);
+		// printf("arg[i] == %c, arranged_arg[i] == %c\n", arg[i], arranged_arg[i]);
 		arranged_arg[i] = arg[i];
 		i ++;
 	}
@@ -70,10 +70,10 @@ char	*arrange_arg(char *arg)
 		i ++;
 		arranged_arg[i] = '\0';
 		arranged_arg --;
-		printf("%s\n", arranged_arg);
+		printf("arranged_arg == %s\n", arranged_arg);
 		return (arranged_arg);
 	}
 	arranged_arg[i] = '\0';
-	printf("%s\n", arranged_arg);
+	printf("arranged_arg == %s\n", arranged_arg);
 	return (arranged_arg);
 }

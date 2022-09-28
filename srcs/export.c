@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 17:35:04 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/09/28 13:50:29 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/09/28 14:13:15 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ void	error_in_export(char *arg, int err_type)
 	exit(EXIT_FAILURE);
 }
 
-static void	export_vars()
+static void	export_vars(void)
 {
 	size_t	i;
 	
 	i = 0;
-	while (g_shell.vars[i] != NULL)
+	while (g_shell.vars_len > i)
 	{
 		printf("declare -x %s\n", g_shell.vars[i]);
 		i++;
@@ -62,13 +62,14 @@ static void	create_new_vars_and_free_vars(void)
 
 static int	add_vars(char *arg)
 {
+	char *arranged_arg;
 	if (arg[0] == '=')
 		return (-1);
 	create_new_vars_and_free_vars();
 	g_shell.vars_len ++;
-	arrange_arg(arg);
-	g_shell.vars[g_shell.vars_len - 1] = arrange_arg(arg);
-	g_shell.vars[g_shell.vars_len] = NULL;
+	arranged_arg = arrange_arg(arg);
+	g_shell.vars[g_shell.vars_len - 1] = arranged_arg;
+	export_vars();
 	return (0);
 }
 
