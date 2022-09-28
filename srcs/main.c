@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/09/28 16:06:08 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/09/28 19:27:05 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,4 @@ void	free_args(char **args)
 		i++;
 	}
 	free(args);
-}
-
-static int	ft_isspace(int c)
-{
-	if (('\t' <= c && c <= '\r') || c == ' ')
-		return (true);
-	return (false);
 }
