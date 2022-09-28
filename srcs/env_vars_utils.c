@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 16:39:38 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/09/28 17:17:32 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/09/28 17:19:09 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*search_var(char *name)
 // 	g_shell.vars = ft_calloc(3, sizeof(char **));
 // 	g_shell.vars[2] = "test33=test2";
 // 	g_shell.vars[0] = "test=test1";
-// 	g_shell.vars[1] = "test3=test2";
+// 	g_shell.vars[1] = "test3";
 // 	g_shell.vars_len = 3;
 // 	printf("%s\n",search_var("test3"));
 // 	printf("%s\n",search_var("test"));
