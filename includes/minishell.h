@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/09/28 13:33:29 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/09/28 16:00:25 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ typedef struct s_shell {
 	char	**vars;
 	int		vars_len;
 }				t_shell;
+
+t_shell	g_shell;
 
 void	signal_set(void);
 void	ft_export(char **args);

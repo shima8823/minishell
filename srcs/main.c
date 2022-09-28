@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/09/27 10:25:11 by shima            ###   ########.fr       */
+/*   Updated: 2022/09/28 16:06:08 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
 {
 	if (argc != 1)
 		return (EXIT_FAILURE);
+	g_shell.vars_len = 0;
 	printf("hello, minishell\n");
 	signal_set();
 	prompt();
@@ -67,6 +68,8 @@ int	parse_command(char **args)
 		return (ft_echo(args));
 	else if (is_command(args[0], "exit"))
 		return (4);
+	else if (is_command(args[0], "export"))
+		ft_export(args);
 	return (0);
 }
 

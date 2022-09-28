@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 17:35:04 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/09/28 15:56:48 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/09/28 16:13:52 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	create_new_vars_and_free_vars(void)
 	if (tmp == NULL)
 		error_in_export(NULL, 2);
 	i = 0;
-	while (g_shell.vars[i] != NULL)
+	while (g_shell.vars_len - 1 > i)
 	{
 		tmp[i] = g_shell.vars[i];
 		i ++;
@@ -64,8 +64,8 @@ static int	add_vars(char *arg)
 {
 	if (arg[0] == '=')
 		return (-1);
-	create_new_vars_and_free_vars();
 	g_shell.vars_len ++;
+	create_new_vars_and_free_vars();
 	g_shell.vars[g_shell.vars_len - 1] = arrange_arg(arg);
 	return (0);
 }
@@ -77,12 +77,12 @@ void	ft_export(char **args)
 	int		err_argc;
 
 	err_flg = 0;
-	if (args == NULL)
+	if (args[1] == NULL)
 	{
 		export_vars();
 		return ;
 	}
-	i = 0;
+	i = 1;
 	while (args[i] != NULL)
 	{
 		if (add_vars(args[i]) == -1)
@@ -101,7 +101,6 @@ void	ft_export(char **args)
 // 	g_shell.vars = ft_calloc(3, sizeof(char **));
 // 	g_shell.vars[0] = "test=test1";
 // 	g_shell.vars[1] = "test3=test2";
-// 	g_shell.vars[2] = NULL;
 // 	g_shell.vars_len = 2;
 // 	ft_export(NULL);
 // 	printf("\n");
