@@ -6,14 +6,74 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 18:23:48 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/09/26 18:24:34 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/09/28 13:49:41 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+void	error_in_export(char *arg, int err_type);
 
-void	error_in_export(char *arg)
+char	*arrange_arg(char *arg)
 {
-	perror("minishell: export: `=': not a valid identifier");
-	exit(EXIT_FAILURE);
+	size_t	i;
+	size_t	len;
+	bool	is_add_doublequote;
+	char	*arranged_arg;
+
+	is_add_doublequote = false;
+	len = ft_strlen(arg);
+	printf("%s\n", arg);
+	if (arg[0] == '"' && arg[len - 1] == '"')
+	{
+		printf("testb\n");
+		arg ++;
+		arg[len] = '\0';
+	}
+	arranged_arg = ft_calloc(len + 3, sizeof(char));
+	if (arranged_arg == NULL)
+		error_in_export(NULL, 2);
+	i = 0;
+	while (arg[i] != '=' && arg[i] != '\0')
+	{
+		printf("%s\n", arranged_arg);
+		arranged_arg[i] = arg[i];
+		i ++;
+	}
+	printf("%s\n", arranged_arg);
+	if (arg[i] != '=')
+	{
+		arranged_arg[i] = '\0';
+		return (arranged_arg);
+	}
+	printf("%s\n", arranged_arg);
+	arranged_arg[i] = arg[i];
+	i ++;
+	printf("%s\n", arg);
+	printf("arg[i] == %c, arg[len - 1] == %c\n", arg[i], arg[len - 1]);
+	if (arg[i] != '"' && arg[len - 1] != '"')
+	{
+		printf("add_double_quote...\n");
+		is_add_doublequote = true;
+		arranged_arg[i] = '"';
+		arranged_arg ++;
+	}
+	printf("%s\n", arg);
+	while (arg[i] != '\0')
+	{
+		printf("arg[i] == %c, arranged_arg[i] == %c\n", arg[i], arranged_arg[i]);
+		arranged_arg[i] = arg[i];
+		i ++;
+	}
+	if (is_add_doublequote)
+	{
+		arranged_arg[i] = '"';
+		i ++;
+		arranged_arg[i] = '\0';
+		arranged_arg --;
+		printf("%s\n", arranged_arg);
+		return (arranged_arg);
+	}
+	arranged_arg[i] = '\0';
+	printf("%s\n", arranged_arg);
+	return (arranged_arg);
 }
