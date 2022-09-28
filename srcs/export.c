@@ -6,13 +6,12 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 17:35:04 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/09/28 15:11:17 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/09/28 15:56:48 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_shell	g_shell;
 char	*arrange_arg(char *arg);
 
 void	error_in_export(char *arg, int err_type)
@@ -68,7 +67,6 @@ static int	add_vars(char *arg)
 	create_new_vars_and_free_vars();
 	g_shell.vars_len ++;
 	g_shell.vars[g_shell.vars_len - 1] = arrange_arg(arg);
-	export_vars();
 	return (0);
 }
 
@@ -98,7 +96,7 @@ void	ft_export(char **args)
 		error_in_export(args[err_argc], 1);
 }
 
-// int main(int ac, char *av[])
+// int	main(int ac, char *av[])
 // {
 // 	g_shell.vars = ft_calloc(3, sizeof(char **));
 // 	g_shell.vars[0] = "test=test1";

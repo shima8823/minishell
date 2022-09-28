@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 18:23:48 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/09/28 15:14:03 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/09/28 15:56:29 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,67 +14,81 @@
 
 void	error_in_export(char *arg, int err_type);
 
-char	*arrange_arg(char *arg)
+static void	skip_doublequote(char **arg)
+{
+	size_t	len;
+
+	len = ft_strlen(*arg);
+	if (arg[0][0] == '"' && arg[0][len - 1] == '"')
+	{
+		arg ++;
+		arg[0][len - 1] = '\0';
+	}
+}
+
+static char	*malloc_arranged_arg(size_t len)
+{
+	char	*res;
+
+	res = ft_calloc(len + 3, sizeof(char));
+	if (res == NULL)
+		error_in_export(NULL, 2);
+	return (res);
+}
+
+static void	cpy_arg_by_equal(char *arg, char **res)
 {
 	size_t	i;
-	size_t	len;
-	bool	is_add_doublequote;
-	char	*arranged_arg;
 
-	is_add_doublequote = false;
+	i = 0;
+	while (arg[i] != '=')
+	{
+		res[0][i] = arg[i];
+		i ++;
+	}
+	res[0][i] = arg[i];
+}
+
+static void	do_arrange(char *arg, char **res, size_t len)
+{
+	size_t	i;
+	bool	is_dq;
+
+	is_dq = false;
+	i = ft_strlen(*res);
+	if (arg[i] != '"' && arg[len - 1] != '"')
+	{
+		is_dq = true;
+		res[0][i] = '"';
+		res[0]++;
+	}
+	while (arg[i] != '\0')
+	{
+		res[0][i] = arg[i];
+		i ++;
+	}
+	if (is_dq)
+	{
+		res[0][i] = '"';
+		i ++;
+		res[0][i] = '\0';
+		res[0]--;
+	}
+	else
+		res[0][i] = '\0';
+}
+
+char	*arrange_arg(char *arg)
+{
+	size_t	len;
+	char	*res;
+
+	skip_doublequote(&arg);
 	len = ft_strlen(arg);
 	if (ft_strchr(arg, '=') == NULL)
 		return (arg);
-	if (arg[0] == '"' && arg[len - 1] == '"')
-	{
-		arg ++;
-		arg[len - 1] = '\0';
-	}
-	arranged_arg = ft_calloc(len + 3, sizeof(char));
-	if (arranged_arg == NULL)
-		error_in_export(NULL, 2);
-	i = 0;
-	while (arg[i] != '=' && arg[i] != '\0')
-	{
-		arranged_arg[i] = arg[i];
-		i ++;
-	}
-	if (arg[i] != '=')
-	{
-		printf("%zu\n",ft_strlen(arranged_arg));
-		printf("arranged_arg == %s\n", arranged_arg);
-		arranged_arg[i] = '\0';
-		return (arranged_arg);
-	}
-	// printf("%s\n", arranged_arg);
-	arranged_arg[i] = arg[i];
-	i ++;
-	// printf("%s\n", arg);
-	// printf("arg[i] == %c, arg[len - 1] == %c\n", arg[i], arg[len - 1]);
-	if (arg[i] != '"' && arg[len - 1] != '"')
-	{
-		printf("add_double_quote...\n");
-		is_add_doublequote = true;
-		arranged_arg[i] = '"';
-		arranged_arg ++;
-	}
-	// printf("%s\n", arg);
-	while (arg[i] != '\0')
-	{
-		// printf("arg[i] == %c, arranged_arg[i] == %c\n", arg[i], arranged_arg[i]);
-		arranged_arg[i] = arg[i];
-		i ++;
-	}
-	if (is_add_doublequote)
-	{
-		arranged_arg[i] = '"';
-		i ++;
-		arranged_arg[i] = '\0';
-		arranged_arg --;
-		printf("arranged_arg == %s\n", arranged_arg);
-		return (arranged_arg);
-	}
-	arranged_arg[i] = '\0';
-	printf("arranged_arg == %s\n", arranged_arg);
-	return (arranged_arg);
+	res = malloc_arranged_arg(len);
+	cpy_arg_by_equal(arg, &res);
+	do_arrange(arg, &res, len);
+	return (res);
 }
