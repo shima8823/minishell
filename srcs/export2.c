@@ -6,11 +6,12 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 18:23:48 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/09/28 14:06:52 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/09/28 15:14:03 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
 void	error_in_export(char *arg, int err_type);
 
 char	*arrange_arg(char *arg)

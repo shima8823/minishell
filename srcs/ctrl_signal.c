@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 13:35:27 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/09/26 16:34:09 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/09/28 15:13:41 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void	signal_handler(int code)
 
 void	signal_set(void)
 {
-	if (signal(SIGINT, signal_handler) == SIG_ERR || signal(SIGQUIT, signal_handler))
+	if (signal(SIGINT, signal_handler) == SIG_ERR
+		|| signal(SIGQUIT, signal_handler))
 	{
 		printf("signal error\n");
 		exit(EXIT_FAILURE);
