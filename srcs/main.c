@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/09/27 10:25:11 by shima            ###   ########.fr       */
+/*   Updated: 2022/09/28 19:30:26 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void		prompt(void);
 int			parse_command(char **args);
 bool		is_command(char *input, char *command);
-static int	ft_isspace(int c);
 char		**split_line(char *line);
 void		free_args(char **args);
 
@@ -23,6 +22,7 @@ int main(int argc, char *argv[])
 {
 	if (argc != 1)
 		return (EXIT_FAILURE);
+	g_shell.vars_len = 0;
 	printf("hello, minishell\n");
 	signal_set();
 	prompt();
@@ -67,6 +67,8 @@ int	parse_command(char **args)
 		return (ft_echo(args));
 	else if (is_command(args[0], "exit"))
 		return (4);
+	else if (is_command(args[0], "export"))
+		ft_export(args);
 	return (0);
 }
 
@@ -108,11 +110,4 @@ void	free_args(char **args)
 		i++;
 	}
 	free(args);
-}
-
-static int	ft_isspace(int c)
-{
-	if (('\t' <= c && c <= '\r') || c == ' ')
-		return (true);
-	return (false);
 }

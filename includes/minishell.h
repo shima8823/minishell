@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/09/26 21:13:56 by shima            ###   ########.fr       */
+/*   Updated: 2022/09/29 10:58:19 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,18 @@
 # include <readline/history.h>
 # include "../libft/libft.h"
 
+typedef struct s_shell {
+	char	**vars;
+	int		vars_len;
+}				t_shell;
+
+t_shell	g_shell;
+
 void	signal_set(void);
+void	ft_export(char **args);
 int		ft_echo(char **args);
+int		ft_isspace(int c);
+int		search_var(char *name);
+char	*return_name(char *var);
 
 #endif
