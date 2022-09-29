@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 17:35:04 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/09/28 19:33:14 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/09/29 09:49:19 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ void	error_in_export(char *arg, int err_type)
 		write(STDERR_FILENO, str, ft_strlen(str));
 	}
 	else if (err_type == 2)
+	{
 		perror("minishell: export: malloc is failed");
-	exit(EXIT_FAILURE);
+		exit(EXIT_FAILURE);
+	}
 }
 
 static void	export_vars(void)
@@ -65,10 +67,10 @@ static int	add_vars(char *arg)
 	char	*name;
 	size_t	i;
 
-	if (arg[0] == '=')
+	if (arg[0] == '=' || arg == NULL) 
 		return (-1);
 	i = 0;
-	while (arg[i] != '\0')
+	while (arg[i] != '\0' && arg[i] != '=')
 	{
 		if (ft_isspace(arg[i]))
 			return (-1);
@@ -90,10 +92,7 @@ static int	add_vars(char *arg)
 void	ft_export(char **args)
 {
 	size_t	i;
-	int		err_flg;
-	int		err_argc;
 
-	err_flg = 0;
 	if (args[1] == NULL)
 	{
 		export_vars();
@@ -102,15 +101,16 @@ void	ft_export(char **args)
 	i = 1;
 	while (args[i] != NULL)
 	{
-		if (add_vars(args[i]) == -1)
+		if (args[i][0]=='"' && args[i][1]=='"')
 		{
-			err_flg = 1;
-			err_argc = i;
+			error_in_export("", 1);
+			i++;
+			continue ;
 		}
+		if (add_vars(args[i]) == -1)
+			error_in_export(args[i], 1);
 		i ++;
 	}
-	if (err_flg != 0)
-		error_in_export(args[err_argc], 1);
 }
 
 // int	main(int ac, char *av[])
