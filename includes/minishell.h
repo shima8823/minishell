@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/01 14:05:36 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/01 22:46:03 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@ typedef struct s_shell {
 	char	**vars;
 	int		vars_len;
 }				t_shell;
+
+typedef struct s_pipe {
+	char			*cmd;
+	char			**arg;
+	struct s_pipe	*next;
+}				t_pipe;
 
 t_shell	g_shell;
 
