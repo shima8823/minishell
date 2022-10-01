@@ -3,3 +3,5 @@ a.out
 *.o
 *.a
 minishell
+minishell_debug
+minishell-tester/
