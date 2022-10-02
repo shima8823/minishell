@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 20:29:55 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/01 22:58:16 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/02 10:52:34 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern char **environ;
 
-int ft_pipe(t_pipe *p_info)
+int ft_pipe(t_pipe *p_info, int fdd)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -30,8 +30,9 @@ int ft_pipe(t_pipe *p_info)
 	}
 	else if (pid == 0)
 	{
-		dup2(fd[0], 0);
 		close(fd[0]);
+		dup2(fdd, 0);
+		close(fdd);
 		if (p_info->next != NULL)
 		{
 			dup2(fd[1], 1);
@@ -40,8 +41,7 @@ int ft_pipe(t_pipe *p_info)
 		if (execve(p_info->cmd,p_info->arg,environ) == -1)
 			return (-1);
 	}
-	wait(&pid);
-	return (0);
+	return (fd[0]);
 }
 
 int main(void)
@@ -50,6 +50,7 @@ int main(void)
 	t_pipe p_info_2;
 	char *argv1[2];
 	char *argv2[3];
+	int fdd;
 
 	p_info_1.cmd = "/bin/ls";
 	argv1[0] = "ls";
@@ -58,12 +59,12 @@ int main(void)
 	p_info_1.next = &p_info_2;
 	p_info_2.cmd = "/usr/bin/grep";
 	argv2[0] = "grep";
-	argv2[1] = "lib";
+	argv2[1] = "mini";
 	argv2[2] = NULL;
 	p_info_2.arg = argv2;
 	p_info_2.next = NULL;
-	ft_pipe(&p_info_1);
-	ft_pipe(&p_info_2);
+	fdd = ft_pipe(&p_info_1, 0);
+	ft_pipe(&p_info_2, fdd);
 	return 0;
 }
 
