@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
+/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/09/28 19:30:26 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/01 13:12:35 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@ int			parse_command(char **args);
 bool		is_command(char *input, char *command);
 char		**split_line(char *line);
 void		free_args(char **args);
+
+// lexer
+void	print_lexer(t_lexer *lexer_buf);
+void	free_lexer(t_lexer *lexer_buf);
 
 int main(int argc, char *argv[])
 {
@@ -35,6 +39,7 @@ void	prompt(void)
 	char	*line;
 	char	**args;
 	int		status;
+	t_lexer	*lexer_buf;
 	
 	while (true)
 	{
@@ -45,8 +50,12 @@ void	prompt(void)
 			exit(EXIT_SUCCESS);
 		}
 		args = split_line(line);
+		lexer_buf = lexer(line);
+		if (DEBUG)
+			print_lexer(lexer_buf);
 		status = parse_command(args);
 		// printf("%s\n", line);
+		free_lexer(lexer_buf);
 		free_args(args);
 		free(line);
 		if (status == 4)
@@ -110,4 +119,33 @@ void	free_args(char **args)
 		i++;
 	}
 	free(args);
+}
+
+void	free_lexer(t_lexer *lexer_buf)
+{
+	t_token	*lst;
+	t_token	*tmp;
+
+	lst = lexer_buf->list_tokens;
+	while (lst)
+	{
+		tmp = lst->next;
+		free(lst->data);
+		free(lst);
+		lst = tmp;
+	}
+	free(lexer_buf);
+}
+
+void print_lexer(t_lexer *lexer_buf)
+{
+	t_token	*lst;
+
+	lst = lexer_buf->list_tokens;
+	while (lst)
+	{
+		printf("[%s]\n", lst->data);
+		// printf("[%s]\ntype=[%d]\n", lexer_test.llisttok->data, lexer_test.llisttok->type);
+		lst = lst->next;
+	}
 }
