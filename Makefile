@@ -9,7 +9,7 @@ SRCS =	main.c												\
 		ctrl_signal.c										\
 		echo.c env_vars_utils.c export.c export2.c utils.c	\
 		lexer.c												\
-		parser.c
+		parser.c print_ast.c
 
 OBJ = $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.o))
 OBJDIR = obj
