@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/01 13:12:35 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/03 13:07:51 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	prompt(void)
 	char	**args;
 	int		status;
 	t_lexer	*lexer_buf;
+	t_ast	*node;
 	
 	while (true)
 	{
@@ -53,6 +54,7 @@ void	prompt(void)
 		lexer_buf = lexer(line);
 		if (DEBUG)
 			print_lexer(lexer_buf);
+		parser(node);
 		status = parse_command(args);
 		// printf("%s\n", line);
 		free_lexer(lexer_buf);
