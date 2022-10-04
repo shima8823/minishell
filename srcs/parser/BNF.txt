@@ -1,0 +1,29 @@
+<command line>	::=  	'\n'
+					|	pipe_sequence
+
+<pipe_sequence>	::=  	command
+					|	pipe_sequence '|' command
+
+<command>		::=  	simple_command
+
+<simple_command>::=  	cmd_prefix WORD cmd_suffix
+					|	cmd_prefix WORD
+					|	cmd_prefix
+					|	WORD cmd_suffix
+					|	WORD
+
+<cmd_prefix>	::=  	io_redirect
+					|	cmd_prefix io_redirect
+
+<cmd_suffix>	::=  	io_redirect
+					|	cmd_suffix io_redirect
+					|	WORD
+					|	cmd_suffix WORD
+
+<redirect_list>	::=  	io_redirect
+					|	redirect_list io_redirect
+
+<io_redirect>	::=  	'<'  filename
+					|	'>'  filename
+					|	'>>' filename
+					|	'<<' here_end
