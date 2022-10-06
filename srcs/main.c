@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/04 19:45:21 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/06 10:54:48 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,8 @@ void	prompt(void)
 		}
 		args = split_line(line);
 		lexer_buf = lexer(line);
-		if (DEBUG)
-			print_lexer(lexer_buf);
-		parser(&node, &(lexer_buf->list_tokens));
+		if (!parser(&node, &(lexer_buf->list_tokens)))
+			ft_putendl_fd("syntax error", STDERR_FILENO);
 		status = parse_command(args);
 		// printf("%s\n", line);
 		free_lexer(lexer_buf);
@@ -137,18 +136,4 @@ void	free_lexer(t_lexer *lexer_buf)
 		lst = tmp;
 	}
 	free(lexer_buf);
-}
-
-void print_lexer(t_lexer *lexer_buf)
-{
-	t_token	*lst;
-
-	printf("===========lexer===========\n");
-	lst = lexer_buf->list_tokens;
-	while (lst)
-	{
-		printf("{[%s], %s}\n", lst->data, (lst->type == TOKEN)? "TOKEN" : "NOT_TOKEN");
-		lst = lst->next;
-	}
-	printf("===========================\n");
 }
