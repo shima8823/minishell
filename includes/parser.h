@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:32:42 by shima             #+#    #+#             */
-/*   Updated: 2022/10/04 14:54:56 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/06 13:04:58 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,25 @@
 typedef enum	e_node_type {
 	NODE_PIPE,
 	NODE_WORD,
+	NODE_REDIRECT,
 }	t_node_type;
+
+// typedef struct s_redirect
+// {
+	
+// };
+
+
+typedef struct s_command
+{
+	char			**args;
+	char			*io_redirect;
+	char			*filename;
+}	t_command;
 
 typedef struct s_ast
 {
-	char			*args;
+	t_command		command;
 	t_node_type		type;
 	struct s_ast	*left;
 	struct s_ast	*right;
