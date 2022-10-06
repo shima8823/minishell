@@ -12,6 +12,12 @@
 					|	WORD cmd_suffix
 					|	WORD
 
+#<simple_command>::=  	io_redirect WORD io_redirect
+#					|	io_redirect WORD
+#					|	io_redirect
+#					|	WORD io_redirect
+#					|	WORD
+
 <cmd_prefix>	::=  	io_redirect
 					|	cmd_prefix io_redirect
 

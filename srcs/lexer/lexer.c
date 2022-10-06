@@ -6,32 +6,43 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 11:50:14 by shima             #+#    #+#             */
-/*   Updated: 2022/10/02 13:16:26 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/05 18:01:33 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/lexer.h"
 
+static t_lexer	*lexer2(char *line);
 int	get_char_type(int c);
 
 t_token	*lstnew(size_t data_size, int type);
 
 t_lexer	*lexer(char *line)
 {
+	t_lexer	*lexer_buf;
+
+	lexer_buf = lexer2(line);
+	if (DEBUG)
+		print_lexer(lexer_buf);
+	return (lexer_buf);
+}
+
+static t_lexer	*lexer2(char *line)
+{
 	size_t	line_size;
-	t_lexer	*lexer;
+	t_lexer	*lexer_buf;
 	t_token	*lst;
 	size_t	i;
 	size_t	j;
 	int		state;
 	int		c_type;
 	
-	lexer = malloc(sizeof(t_lexer));
-	lexer->n_tokens = 0;
+	lexer_buf = malloc(sizeof(t_lexer));
+	lexer_buf->n_tokens = 0;
 	line_size = ft_strlen(line);
-	lexer->list_tokens = lstnew(line_size, 0);
-	lst = lexer->list_tokens;
+	lexer_buf->list_tokens = lstnew(line_size, 0);
+	lst = lexer_buf->list_tokens;
 	i = 0;
 	j = 0;
 	state = STATE_GENERAL;
@@ -65,7 +76,7 @@ t_lexer	*lexer(char *line)
 					while (line[i + 1] == ' ')
 						i++;
 					if (line[i + 1] == '\0')
-						return (lexer);
+						return (lexer_buf);
 					lst->next = lstnew(line_size - i, 0);
 					lst = lst->next;
 					j = 0;
@@ -78,7 +89,7 @@ t_lexer	*lexer(char *line)
 				{
 					lst->data[j] = '\0';
 					if (line[i + 1] == '\0')
-						return (lexer);
+						return (lexer_buf);
 					lst->next = lstnew(line_size - i, 0);
 					lst = lst->next;
 					j = 0;
@@ -88,6 +99,10 @@ t_lexer	*lexer(char *line)
 				lst->data[1] = '\0';
 				lst->type = c_type;
 				// 次
+				while (line[i + 1] == ' ')
+					i++;
+				if (line[i + 1] == '\0')
+					return (lexer_buf);
 				lst->next = lstnew(line_size - i, 0);
 				lst = lst->next;
 			}
@@ -98,22 +113,30 @@ t_lexer	*lexer(char *line)
 				{
 					lst->data[j] = '\0';
 					if (line[i + 1] == '\0')
-						return (lexer);
+						return (lexer_buf);
 					lst->next = lstnew(line_size - i, 0);
 					lst = lst->next;
 					j = 0;
 				}
 				// 代入
 				lst->data[j++] = c_type;
+				lst->type = c_type;
 				if (line[i + 1] == c_type)
 				{
 					lst->data[j++] = c_type;
+					if (c_type == CHAR_GREATER)
+						lst->type = D_GREATER;
+					else
+						lst->type = D_LESSER;
 					i++;
 				}
 				lst->data[j] = '\0';
-				lst->type = c_type;
 				j = 0;
 				// 次
+				while (line[i + 1] == ' ')
+					i++;
+				if (line[i + 1] == '\0')
+					return (lexer_buf);
 				lst->next = lstnew(line_size - i, 0);
 				lst = lst->next;
 			}
@@ -133,8 +156,7 @@ t_lexer	*lexer(char *line)
 		i++;
 	}
 	lst->data[j] = '\0';
-
-	return (lexer);
+	return (lexer_buf);
 }
 
 int	get_char_type(c)
