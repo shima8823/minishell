@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/01 22:46:03 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/07 10:43:44 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <readline/history.h>
 # include "../libft/libft.h"
 # include "lexer.h"
+# include "parser.h"
 
 #ifndef DEBUG
 # define DEBUG	0

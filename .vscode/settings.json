@@ -3,7 +3,14 @@
 		"readline.h": "c",
 		"history.h": "c",
 		"minishell.h": "c",
+<<<<<<< HEAD
 		"libft.h": "c"
 	},
 	"C_Cpp.errorSquiggles": "Disabled"
+=======
+		"libft.h": "c",
+		"stdbool.h": "c",
+		"lexer.h": "c"
+	}
+>>>>>>> 31fdf6d7af8dbefcbdd016552ec475b92604812e
 }
