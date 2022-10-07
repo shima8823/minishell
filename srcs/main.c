@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/07 19:49:27 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/08 07:07:24 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,13 @@ void	free_lexer(t_lexer *lexer_buf);
 
 int main(int argc, char *argv[])
 {
+	extern char **environ;
+
 	if (argc != 1)
 		return (EXIT_FAILURE);
-	g_shell.vars_len = 0;
+	g_shell.vars = environ;
+	while (g_shell.vars[g_shell.vars_len])
+		g_shell.vars_len++;
 	printf("hello, minishell\n");
 	signal_set();
 	prompt();
@@ -54,7 +58,7 @@ void	prompt(void)
 		lexer_buf = lexer(line);
 		if (!parser(&node, &(lexer_buf->list_tokens)))
 			ft_putendl_fd("syntax error", STDERR_FILENO);
-		status = execution(*node);
+		status = execution(node);
 		// printf("%s\n", line);
 		free_lexer(lexer_buf);
 		free_array(args);

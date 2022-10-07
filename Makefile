@@ -5,12 +5,13 @@ LDFLAGS = -L$(shell brew --prefix readline)/lib -L$(LIBFT_DIR)
 LDLIBS = -lreadline -lhistory -lft
 NAME = minishell
 NAME_DEBUG = minishell_debug
-SRCS =	main.c												\
-		ctrl_signal.c										\
-		echo.c env_vars_utils.c export.c export2.c utils.c	\
-		lexer.c	print_lexer.c								\
-		parser.c print_ast.c								\
-		execution.c files.c builtin.c bin.c
+SRCS =	main.c										\
+		ctrl_signal.c								\
+		echo.c env_vars_utils.c export.c export2.c	\
+		lexer.c	print_lexer.c						\
+		parser.c print_ast.c						\
+		execution.c files.c builtin.c bin.c			\
+		stat.c utils.c
 
 OBJ = $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.o))
 OBJDIR = obj

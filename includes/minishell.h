@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/07 19:49:12 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/08 06:49:04 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <stdbool.h>
 # include <limits.h>
+# include <sys/stat.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
@@ -43,7 +44,10 @@ int		ft_echo(char **args);
 int		ft_isspace(int c);
 int		search_var(char *name);
 char	*return_name(char *var);
-int		execution(t_ast node);
+int		execution(t_ast *node);
 void	free_array(char **array);
+bool	is_executable(const char *path);
+bool	is_command_exist(const char *path);
+bool	is_directory(const char *path);
 
 #endif

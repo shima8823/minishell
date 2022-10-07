@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:12:09 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/07 18:50:29 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/07 20:16:10 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	builtin_check_and_run(char **args)
 		return (4);
 	else if (is_command(args[0], "export"))
 		ft_export(args);
-	return (0);
+	return (EXIT_FAILURE);
 }
 
 static bool	is_command(char *input, char *command)
