@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/07 18:51:37 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/07 19:49:27 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	prompt(void)
 		status = execution(*node);
 		// printf("%s\n", line);
 		free_lexer(lexer_buf);
-		free_args(args);
+		free_array(args);
 		free(line);
 		if (status == 4)
 			break ;
@@ -75,19 +75,6 @@ char	**split_line(char *line)
 		exit(EXIT_FAILURE);
 	}
 	return (args);
-}
-
-void	free_args(char **args)
-{
-	size_t	i;
-
-	i = 0;
-	while (args[i])
-	{
-		free(args[i]);
-		i++;
-	}
-	free(args);
 }
 
 void	free_lexer(t_lexer *lexer_buf)

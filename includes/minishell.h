@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/07 18:45:51 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/07 19:49:12 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ int		ft_isspace(int c);
 int		search_var(char *name);
 char	*return_name(char *var);
 int		execution(t_ast node);
+void	free_array(char **array);
 
 #endif
