@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/03 13:01:28 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/07 18:29:20 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include "../libft/libft.h"
 # include "lexer.h"
 # include "parser.h"
+# include "execution.h"
 
 #ifndef DEBUG
 # define DEBUG	0
@@ -42,5 +43,6 @@ int		ft_echo(char **args);
 int		ft_isspace(int c);
 int		search_var(char *name);
 char	*return_name(char *var);
+int		execution(t_ast ast)
 
 #endif
