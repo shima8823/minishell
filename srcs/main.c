@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/06 10:54:48 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/07 18:45:36 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	prompt(void)
 		lexer_buf = lexer(line);
 		if (!parser(&node, &(lexer_buf->list_tokens)))
 			ft_putendl_fd("syntax error", STDERR_FILENO);
-		status = parse_command(args);
+		status = execution(*node);
 		// printf("%s\n", line);
 		free_lexer(lexer_buf);
 		free_args(args);
