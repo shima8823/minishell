@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/08 06:49:04 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/08 19:58:38 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdbool.h>
 # include <limits.h>
 # include <sys/stat.h>
+# include <sys/types.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"

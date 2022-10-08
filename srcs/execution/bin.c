@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:21:18 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/08 07:51:29 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/08 19:54:50 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ char	*search_bin(char *name)
 	char	**tmp;
 	char	*path;
 
+	if (is_command_exist(name) && !is_directory(name) &&
+		is_executable(name))
+			return (name);
 	i = search_var("PATH");
 	tmp = ft_split(g_shell.vars[i], '=');
 	splited_path = ft_split(tmp[1], ':');

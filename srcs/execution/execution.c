@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/07 20:30:53 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/08 20:05:33 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void	exec_in_child(char **args)
 		return ;
 	if (pid == 0)
 	{
-		if (bin_check_and_run(args) == 0)
-			return ;
-		else if (file_check_and_run(args) == 0)
-			return ;
+		bin_check_and_run(args);
+		return ;
 	}
+	if (pid > 0)
+		waitpid(pid, NULL, 0);
 }
 
 int	exec(char **args)
