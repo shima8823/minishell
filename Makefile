@@ -9,7 +9,7 @@ SRCS =	main.c												\
 		ctrl_signal.c										\
 		echo.c env_vars_utils.c export.c export2.c utils.c	\
 		lexer.c	print_lexer.c								\
-		parser.c print_ast.c
+		parser.c print_ast.c node.c
 
 OBJ = $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.o))
 OBJDIR = obj
@@ -47,6 +47,11 @@ fclean: clean
 
 debug: clean
 	@make DEBUGMODE=1
+	$(MAKE) clean
+
+leak: clean
+	$(MAKE) NAME="minishell_leak"
+	$(MAKE) CFLAGS="$(CFLAGS) -fsanitize=address"
 	$(MAKE) clean
 
 re: fclean all

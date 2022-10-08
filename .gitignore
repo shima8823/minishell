@@ -4,4 +4,5 @@ a.out
 *.a
 minishell
 minishell_debug
+minishell_leak
 minishell-tester/

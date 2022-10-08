@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 13:02:28 by shima             #+#    #+#             */
-/*   Updated: 2022/10/06 11:57:31 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/08 12:23:25 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,57 @@
 
 bool	parser_pipe(t_ast **node, t_token **token);
 bool	parser_command(t_ast **node, t_token **token);
-bool	parser_redirect(t_ast **node, t_token **token);
+bool	parser_redirect(t_ast **cmd_node, t_token **token);
 
 bool	is_redirect(t_token_type type);
-int	count_double_arr(char **args);
 
-// node
-t_ast	*node_new(const char *str, t_node_type type);
+void	token_data_to_node(t_ast **cmd_node, t_ast **last_cmd_node, t_token **token);
+int		count_args(char **args);
+void	add_token_to_args(t_ast **cmd_node, t_token **token);
 
-bool	parser(t_ast **node, t_token **token)
+
+void	free_ast(t_ast *node);
+
+// parser_test
+// ===============
+// echo
+// echo hello
+// echo hello > test
+// echo hello > test > test2
+// echo hello > test > test2 word
+// > test > test2 > test3
+// > test > test2 > test3 word
+// > test > test2 > test3 word hello
+// > test > test2 > test3 word > test4
+// > test > test2 > test3 word > test4 echo
+// > test > test2 > test3 word > test4 echo  | > test > test2 > test3
+// ===============
+// echo hello > test
+//		>
+//		cmd
+// ===============
+// echo hello > test > test2
+//		>
+//		>
+//		cmd
+// ===============
+// echo hello| grep h > test
+// 		pipe
+// 	   /	>
+// 	eh	       gh
+// ===============
+// < ca ac < a
+// 			<a
+// 		ac
+//	<ca
+
+
+bool	parser(t_ast **node, t_token *token)
 {
 	bool	ret;
 
 	*node = NULL;
-	ret = parser_pipe(node, token);
+	ret = parser_pipe(node, &token);
 	if (DEBUG)
 		print_ast(*node);
 	return (ret);
@@ -44,7 +81,6 @@ bool	parser_pipe(t_ast **node, t_token **token)
 		return (false);
 	while (*token && (*token)->type == CHAR_PIPE)
 	{
-		printf("%s, %d\n", __FILE__, __LINE__);
 		*token = (*token)->next;
 		if (!parser_command(&right, token))
 			return (false);
@@ -60,42 +96,16 @@ bool	parser_pipe(t_ast **node, t_token **token)
 bool	parser_command(t_ast **node, t_token **token)
 {
 	t_ast	*cmd_node;
-	char	**tmp;
-	int		double_arr_count;
-	int		i;
+	t_ast	*last_cmd_node;
 
-	// pipeの後に何もないなら
 	if (!(*token) || (*token)->type == CHAR_PIPE)
 		return (false);
 	cmd_node = NULL;
+	last_cmd_node = NULL;
 	while (*token)
 	{
 		if ((*token)->type == TOKEN)
-		{
-			if (!cmd_node)
-			{
-				printf("%s, %d\n", __FILE__, __LINE__);
-				cmd_node = node_new((*token)->data, NODE_WORD);
-			}
-			else
-			{
-				printf("%s, %d\n", __FILE__, __LINE__);
-				tmp = cmd_node->command.args;
-				double_arr_count = count_double_arr(cmd_node->command.args);
-				printf("double_arr_count: %d\n", double_arr_count);
-				cmd_node->command.args = malloc(sizeof(char *) * (double_arr_count + 2));
-				i = 0;
-				while (i < double_arr_count)
-				{
-					(cmd_node->command.args)[i] = ft_strdup(tmp[i]);
-					free(tmp[i]);
-					i++;
-				}
-				(cmd_node->command.args)[i] = ft_strdup((*token)->data);
-				(cmd_node->command.args)[i + 1] = NULL;
-				free(tmp);
-			}
-		}
+			token_data_to_node(&cmd_node, &last_cmd_node, token);
 		else if (is_redirect((*token)->type))
 		{
 			if (!parser_redirect(&cmd_node, token))
@@ -106,45 +116,82 @@ bool	parser_command(t_ast **node, t_token **token)
 		(*token) = (*token)->next;
 	}
 	*node = cmd_node;
-	printf("%s, %d\n", __FILE__, __LINE__);
 	return (true);
 }
 
-// echo hello > test
-//		>
-//		cmd
+void	token_data_to_node(t_ast **cmd_node, t_ast **last_cmd_node, t_token **token)
+{
+	t_ast	*left;
 
-// echo hello > test > test2
-//		>
-//		>
-//		cmd
+	if (!(*cmd_node))
+	{
+		*cmd_node = node_new((*token)->data, NODE_WORD);
+		*last_cmd_node = *cmd_node;
+		return ;
+	}
+	// example, > test echo hello
+	if ((*cmd_node)->type == NODE_REDIRECT && !(*last_cmd_node))
+	{
+		left = *cmd_node;
+		*cmd_node = node_new((*token)->data, NODE_WORD);
+		*last_cmd_node = *cmd_node;
+		(*cmd_node)->left = left;
+		return ;
+	}
+	if (*last_cmd_node)
+		add_token_to_args(last_cmd_node, token);
+	else
+		add_token_to_args(cmd_node, token);
+}
 
-// echo hello| grep h > test
-// 		pipe
-// 	   /	gh
-// 	eh	       >
+void	add_token_to_args(t_ast **cmd_node, t_token **token)
+{
+	char	***args;
+	char	**tmp;
+	int		num_args;
+	int		i;
 
-bool	parser_redirect(t_ast **node, t_token **token)
+	args = &((*cmd_node)->command.args);
+	tmp = (*cmd_node)->command.args;
+	num_args = count_args(*args);
+	*args = malloc(sizeof(char *) * (num_args + 2));
+	if (!(*args))
+		error_exit("malloc");
+	i = -1;
+	while (++i < num_args)
+		(*args)[i] = tmp[i];
+	(*args)[i] = ft_strdup((*token)->data);
+	if (!(*args)[i])
+		error_exit("ft_strdup");
+	(*args)[i + 1] = NULL;
+	free(tmp);
+}
+
+bool	parser_redirect(t_ast **cmd_node, t_token **token)
 {
 	t_ast	*redirect_node;
 
 	redirect_node = node_new((*token)->data, NODE_REDIRECT);
 	(*token) = (*token)->next;
+	if (!(*token) || (*token)->type != TOKEN)
+		return (false);
 	redirect_node->command.filename = ft_strdup((*token)->data);
-	redirect_node->left = *node;
-	*node = redirect_node;
+	if (!(redirect_node->command.filename))
+		error_exit("ft_strdup");
+	redirect_node->left = *cmd_node;
+	*cmd_node = redirect_node;
 	return (true);
 }
 
 bool	is_redirect(t_token_type type)
 {
 	return (type == CHAR_GREATER
-			|| type == CHAR_LESSER
-			|| type == D_GREATER
-			|| type == D_LESSER);
+		|| type == CHAR_LESSER
+		|| type == D_GREATER
+		|| type == D_LESSER);
 }
 
-int	count_double_arr(char **args)
+int	count_args(char **args)
 {
 	int	i;
 
@@ -154,34 +201,29 @@ int	count_double_arr(char **args)
 	return (i);
 }
 
-t_ast	*node_new(const char *str, t_node_type type)
+void	free_ast(t_ast *node)
 {
-	t_ast	*new;
+	t_ast	*left;
+	t_ast	*right;
+	int		i;
 
-	new = malloc(sizeof(t_ast));
-	if (!new)
+	if (!node)
+		return ;
+	free(node->command.filename);
+	free(node->command.io_redirect);
+	if (node->type == NODE_WORD)
 	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
-	ft_bzero(new, sizeof(t_ast));
-	new->type = type;
-	new->left = NULL;
-	new->right = NULL;
-	if (!str)
-		return (new);
-	if (type == NODE_REDIRECT)
-		new->command.io_redirect = ft_strdup(str);
-	else if (type == NODE_WORD)
-	{
-		new->command.args = malloc(sizeof(char *) * 2);
-		if (!(new->command.args))
+		i = 0;
+		while (node->command.args[i])
 		{
-			perror("malloc");
-			exit(EXIT_FAILURE);
+			free(node->command.args[i]);
+			i++;
 		}
-		new->command.args[0] = ft_strdup(str);
-		new->command.args[1] = NULL;
 	}
-	return (new);
+	free(node->command.args);
+	left = node->left;
+	right = node->right;
+	free(node);
+	free_ast(left);
+	free_ast(right);
 }

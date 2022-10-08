@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:32:42 by shima             #+#    #+#             */
-/*   Updated: 2022/10/06 13:22:02 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/08 12:45:10 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,13 @@ typedef struct s_ast
 }	t_ast;
 
 // parser.c
-bool	parser(t_ast **node, t_token **token);
+bool	parser(t_ast **node, t_token *token);
+void	free_ast(t_ast *node);
 
 // print_ast.c
 void	print_ast(t_ast *node);
+
+// node.c
+t_ast	*node_new(const char *str, t_node_type type);
 
 #endif
