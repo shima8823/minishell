@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/03 13:01:28 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/08 12:29:59 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,7 @@ int		ft_echo(char **args);
 int		ft_isspace(int c);
 int		search_var(char *name);
 char	*return_name(char *var);
+
+void	error_exit(const char *s);
 
 #endif
