@@ -10,12 +10,12 @@ SRCS =	main.c										\
 		echo.c env_vars_utils.c export.c export2.c	\
 		lexer.c	print_lexer.c						\
 		parser.c print_ast.c node.c					\
-		execution.c files.c builtin.c bin.c			\
+		execution.c builtin.c bin.c					\
 		stat.c utils.c
 
 OBJ = $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.o))
 OBJDIR = obj
-VPATH = srcs srcs/lexer srcs/parser srcs/execution srcs/builtin
+VPATH = srcs srcs/lexer srcs/parser srcs/execution srcs/builtin srcs/utils
 
 ## libft ##
 LIBFT_DIR = libft
