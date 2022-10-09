@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 11:50:14 by shima             #+#    #+#             */
-/*   Updated: 2022/10/05 18:01:33 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/08 12:46:42 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ static t_lexer	*lexer2(char *line)
 				if (j > 0)
 				{
 					lst->data[j] = '\0';
-					if (line[i + 1] == '\0')
-						return (lexer_buf);
+					// if (line[i + 1] == '\0')
+					// 	return (lexer_buf);
 					lst->next = lstnew(line_size - i, 0);
 					lst = lst->next;
 					j = 0;
@@ -112,8 +112,8 @@ static t_lexer	*lexer2(char *line)
 				if (j > 0)
 				{
 					lst->data[j] = '\0';
-					if (line[i + 1] == '\0')
-						return (lexer_buf);
+					// if (line[i + 1] == '\0')
+					// 	return (lexer_buf);
 					lst->next = lstnew(line_size - i, 0);
 					lst = lst->next;
 					j = 0;
