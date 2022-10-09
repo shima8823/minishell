@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/08 12:29:59 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/08 20:21:53 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,14 @@
 # include <unistd.h>
 # include <stdbool.h>
 # include <limits.h>
+# include <sys/stat.h>
+# include <sys/types.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
 # include "lexer.h"
 # include "parser.h"
+# include "execution.h"
 
 #ifndef DEBUG
 # define DEBUG	0
@@ -42,7 +45,12 @@ int		ft_echo(char **args);
 int		ft_isspace(int c);
 int		search_var(char *name);
 char	*return_name(char *var);
-
+int		execution(t_ast *node);
 void	error_exit(const char *s);
+void	free_array(char **array);
+bool	is_directory(const char *path);
+bool	is_command_exist(const char *path);
+bool	is_directory(const char *path);
+bool	is_executable(const char *path);
 
 #endif
