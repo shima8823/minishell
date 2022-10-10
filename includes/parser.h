@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:32:42 by shima             #+#    #+#             */
-/*   Updated: 2022/10/08 12:45:10 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/09 22:16:51 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <stdbool.h>
 # include "lexer.h"
+
+# define SYNTAX_ERROR_MSG "minishell: syntax error"
 
 typedef enum	e_node_type {
 	NODE_PIPE,
