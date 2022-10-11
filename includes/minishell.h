@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/08 20:21:53 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/11 13:19:42 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,19 @@ typedef struct s_shell {
 	int		vars_len;
 }				t_shell;
 
+typedef struct s_pipe {
+	char			*cmd;
+	char			**arg;
+	struct s_pipe	*next;
+}				t_pipe;
+
 t_shell	g_shell;
 
 void	signal_set(void);
 void	ft_export(char **args);
 int		ft_echo(char **args);
 int		ft_isspace(int c);
-int		search_var(char *name);
+ssize_t	search_var(char *name);
 char	*return_name(char *var);
 int		execution(t_ast *node);
 void	error_exit(const char *s);
