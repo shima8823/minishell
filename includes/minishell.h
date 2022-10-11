@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/11 13:19:42 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/11 13:30:58 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ bool	is_directory(const char *path);
 bool	is_command_exist(const char *path);
 bool	is_directory(const char *path);
 bool	is_executable(const char *path);
+void	put_error(char *msg, char *cmd);
 
 #endif
