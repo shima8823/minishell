@@ -6,16 +6,16 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 16:39:38 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/09/28 17:27:17 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/10 15:54:00 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	search_var(char *name)
+ssize_t	search_var(char *name)
 {
 	char	*res;
-	size_t	i;
+	ssize_t	i;
 	size_t	name_len;
 
 	i = 0;
