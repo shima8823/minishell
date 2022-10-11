@@ -11,6 +11,11 @@
 		"libft.h": "c",
 		"stdbool.h": "c",
 		"lexer.h": "c"
+<<<<<<< HEAD
 	}
 >>>>>>> 31fdf6d7af8dbefcbdd016552ec475b92604812e
+=======
+	},
+	"C_Cpp.errorSquiggles": "Disabled"
+>>>>>>> 39d3851651072890ff9924959d81bcc75072a553
 }
