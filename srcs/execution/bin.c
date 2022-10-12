@@ -6,12 +6,14 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:21:18 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/12 11:04:57 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/12 11:46:35 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 char	*search_bin(char *name);
+int		judge_path(char *name);
+char	**get_splited_path(void);
 void	put_exec_error(char *path);
 
 int	bin_check_and_run(char **args)
@@ -33,19 +35,14 @@ char	*search_bin(char *name)
 {
 	int		i;
 	char	**splited_path;
-	char	**tmp;
 	char	*path;
 
-	if (is_command_exist(name) && !is_directory(name) &&
-		is_executable(name))
-			return (name);
-	i = search_var("PATH");
-	if (i == -1)
+	if (judge_path(name) == 0)
+		return (name);
+	splited_path = get_splited_path();
+	if (splited_path == NULL)
 		return (NULL);
-	tmp = ft_split(g_shell.vars[i], '=');
-	splited_path = ft_split(tmp[1], ':');
 	name = ft_strjoin("/", name);
-	free_array(tmp);
 	i = 0;
 	while (splited_path[i])
 	{
@@ -62,12 +59,40 @@ char	*search_bin(char *name)
 	return (path);
 }
 
+int	judge_path(char *path)
+{
+	if (path[0] == '.' || path[0] == '/')
+		return (0);
+	else
+		return (-1);
+}
+
+char	**get_splited_path(void)
+{
+	char	**tmp;
+	char	**splited_path;
+	int		i;
+
+	i = search_var("PATH");
+	if (i == -1)
+		return (NULL);
+	tmp = ft_split(g_shell.vars[i], '=');
+	splited_path = ft_split(tmp[1], ':');
+	free_array(tmp);
+	return (splited_path);
+}
+
 void	put_exec_error(char *path)
 {
 	if (is_directory(path))
 		errno = EISDIR;
-	if (!is_executable(path))
+	if (is_command_exist(path) && !is_executable(path))
 		errno = EACCES;
+	if (path[0] != '.' && path[0] != '/')
+	{
+		put_error(" command not found", path);
+		return ;
+	}	
 	put_error(strerror(errno), path);
 	return ;
 }
