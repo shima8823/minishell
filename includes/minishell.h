@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/12 12:10:21 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/12 14:39:22 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <unistd.h>
 # include <stdbool.h>
 # include <limits.h>
+# include <fcntl.h>
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <readline/readline.h>

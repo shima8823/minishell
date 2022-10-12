@@ -6,12 +6,11 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 20:29:55 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/12 12:32:05 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/12 14:41:42 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 static void	link_pipe(int fd[2], int read_fd, t_pipe *p_info);
 extern char **environ;
 
