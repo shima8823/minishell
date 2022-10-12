@@ -6,12 +6,12 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:12:09 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/07 20:16:10 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/12 12:14:00 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-static bool	is_command(char *input, char *command);
+bool	is_command(char *input, char *command);
 
 int	builtin_check_and_run(char **args)
 {
@@ -28,7 +28,7 @@ int	builtin_check_and_run(char **args)
 	return (EXIT_FAILURE);
 }
 
-static bool	is_command(char *input, char *command)
+bool	is_command(char *input, char *command)
 {
 	size_t	i;
 	size_t	cmd_len;

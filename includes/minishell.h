@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/11 13:38:27 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/12 12:10:21 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,6 @@ typedef struct s_shell {
 	char	**vars;
 	int		vars_len;
 }				t_shell;
-
-typedef struct s_pipe {
-	char			*cmd;
-	char			**arg;
-	struct s_pipe	*next;
-}				t_pipe;
 
 t_shell	g_shell;
 

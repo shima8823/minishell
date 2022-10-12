@@ -6,13 +6,13 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/12 10:54:54 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/12 12:15:06 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-int	exec(char **args);
-void	exec_in_child(char **args);
+static int	exec(char **args);
+static void	exec_in_child(char **args);
 
 int	execution(t_ast *node)
 {
@@ -27,7 +27,7 @@ int	execution(t_ast *node)
 	return (EXIT_SUCCESS);
 }
 
-void	exec_in_child(char **args)
+static void	exec_in_child(char **args)
 {
 	pid_t	pid;
 
@@ -42,7 +42,7 @@ void	exec_in_child(char **args)
 		waitpid(pid, NULL, 0);
 }
 
-int	exec(char **args)
+static int	exec(char **args)
 {
 	if (!args || !args[0] || args[0][0] == '\0')
 		return (EXIT_FAILURE);

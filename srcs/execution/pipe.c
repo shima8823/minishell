@@ -6,16 +6,14 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 20:29:55 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/12 11:21:34 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/12 12:13:06 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-void	link_pipe(int fd[2], int read_fd, t_pipe *p_info);
+static void	link_pipe(int fd[2], int read_fd, t_pipe *p_info);
 extern char **environ;
-#define PIPE_READ 0
-#define PIPE_WRITE 1
 
 int ft_pipe(t_pipe *p_info, int read_fd)
 {
@@ -40,16 +38,14 @@ int ft_pipe(t_pipe *p_info, int read_fd)
 	return (fd[PIPE_READ]);
 }
 
-void	link_pipe(int fd[2], int read_fd, t_pipe *p_info)
+static void	link_pipe(int fd[2], int read_fd, t_pipe *p_info)
 {
 	close(fd[PIPE_READ]);
 	dup2(read_fd, STDIN_FILENO);
 	close(read_fd);
 	if (p_info->next != NULL)
-	{
 		dup2(fd[PIPE_WRITE], STDOUT_FILENO);
-		close(fd[PIPE_WRITE]);
-	}
+	close(fd[PIPE_WRITE]);
 }
 
 int main(void)
@@ -75,6 +71,8 @@ int main(void)
 	fdd = ft_pipe(&p_info_1, 0);
 	fdd = ft_pipe(&p_info_2, fdd);
 	argv2[1] = "o";
+	fdd = ft_pipe(&p_info_2, fdd);
+	argv2[1] = "f";
 	p_info_2.next = NULL;
 	fdd = ft_pipe(&p_info_2, fdd);
 	return 0;

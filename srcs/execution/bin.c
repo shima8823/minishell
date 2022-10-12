@@ -6,14 +6,14 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:21:18 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/12 11:46:35 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/12 12:14:36 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-char	*search_bin(char *name);
-int		judge_path(char *name);
-char	**get_splited_path(void);
+static char	*search_bin(char *name);
+static int		judge_path(char *name);
+static char	**get_splited_path(void);
 void	put_exec_error(char *path);
 
 int	bin_check_and_run(char **args)
@@ -31,7 +31,7 @@ int	bin_check_and_run(char **args)
 	return (0);
 }
 
-char	*search_bin(char *name)
+static char	*search_bin(char *name)
 {
 	int		i;
 	char	**splited_path;
@@ -59,7 +59,7 @@ char	*search_bin(char *name)
 	return (path);
 }
 
-int	judge_path(char *path)
+static int	judge_path(char *path)
 {
 	if (path[0] == '.' || path[0] == '/')
 		return (0);
@@ -67,7 +67,7 @@ int	judge_path(char *path)
 		return (-1);
 }
 
-char	**get_splited_path(void)
+static char	**get_splited_path(void)
 {
 	char	**tmp;
 	char	**splited_path;
