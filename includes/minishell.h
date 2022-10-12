@@ -6,14 +6,16 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/11 13:30:58 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/11 13:38:27 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <errno.h>  
 # include <stdio.h>
+# include <string.h>
 # include <signal.h>
 # include <stdlib.h>
 # include <unistd.h>
