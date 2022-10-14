@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/14 13:22:58 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/14 13:40:55 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,13 @@
 typedef struct s_shell {
 	char	**vars;
 	int		vars_len;
+	pid_t	pid;
 }				t_shell;
 
 t_shell	g_shell;
 
-void	signal_set(void (*func)(int));
-void	signal_handler(int code);
+void	set_signal(void (*func)(int));
+void	set_signal_init(void);
 void	ft_export(char **args);
 int		ft_echo(char **args);
 int		ft_isspace(int c);

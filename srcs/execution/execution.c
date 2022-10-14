@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/14 13:14:33 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/14 13:30:38 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,18 @@ int	execution(t_ast *node)
 
 static void	exec_in_child(char **args)
 {
-	pid_t	pid;
-
-	if ((pid = fork()) < 0)
+	if ((g_shell.pid = fork()) < 0)
 	{
 		put_error(strerror(errno), NULL);
 		return ;
 	}
-	if (pid == 0)
+	if (g_shell.pid == 0)
 	{
+		set_signal(SIG_DFL);
 		bin_check_and_run(args);
 	}
-	if (pid > 0)
-		waitpid(pid, NULL, 0);
+	if (g_shell.pid  > 0)
+		waitpid(g_shell.pid, NULL, 0);
 }
 
 static int	exec(char **args)

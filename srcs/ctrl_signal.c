@@ -6,13 +6,13 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 13:35:27 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/14 13:22:07 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/14 13:40:06 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	display_new_line(void)
+static void	signal_handler(int code)
 {
 	rl_on_new_line();
 	write(STDOUT_FILENO, "\n", 1);
@@ -20,29 +20,16 @@ static void	display_new_line(void)
 	rl_redisplay();
 }
 
-void	signal_handler(int code)
+void	set_signal_init(void)
 {
-	if (code == SIGINT)
+	if (signal(SIGINT, signal_handler) == SIG_ERR
+		|| signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 	{
-		display_new_line();
-		if (signal(SIGINT, signal_handler) == SIG_ERR)
-		{
-			ft_putstr_fd("signal error\n", STDERR_FILENO);
-			exit(EXIT_FAILURE);
-		}
-	}
-	else if (code == SIGQUIT)
-	{
-		ft_putstr_fd("\033[12C", STDERR_FILENO);
-		if (signal(SIGQUIT, signal_handler) == SIG_ERR)
-		{
-			ft_putstr_fd("signal error\n", STDERR_FILENO);
-			exit(EXIT_FAILURE);
-		}
+		ft_putstr_fd("signal error\n", STDERR_FILENO);
+		exit(EXIT_FAILURE);
 	}
 }
-
-void	signal_set(void (*func)(int))
+void	set_signal(void (*func)(int))
 {
 	if (signal(SIGINT, func) == SIG_ERR
 		|| signal(SIGQUIT, func) == SIG_ERR)
