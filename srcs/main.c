@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/14 13:48:16 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/14 14:09:35 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ void	prompt(void)
 	int		status;
 	t_lexer	*lexer_buf;
 	t_ast	*node;
-	
-	while (true)
+
+	while (line)
 	{
 		line = readline("minishell > ");
 		if (!line)
