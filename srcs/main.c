@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/14 13:40:24 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/14 13:48:16 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	prompt(void)
 			ft_putendl_fd("exit", STDERR_FILENO);
 			exit(EXIT_SUCCESS);
 		}
+		if (*line)
+			add_history(line);
 		args = split_line(line);
 		lexer_buf = lexer(line);
 		if (!parser(&node, lexer_buf->list_tokens))

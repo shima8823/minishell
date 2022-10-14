@@ -6,13 +6,14 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/14 13:30:38 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/14 14:01:51 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 static int	exec(char **args);
 static void	exec_in_child(char **args);
+static void wait_child(void);
 
 int	execution(t_ast *node)
 {
@@ -24,6 +25,15 @@ int	execution(t_ast *node)
 		return (1);
 	else if (node->type == NODE_WORD)
 		return exec(node->command.args);
+	return (EXIT_SUCCESS);
+}
+
+static int	exec(char **args)
+{
+	if (!args || !args[0] || args[0][0] == '\0')
+		return (EXIT_FAILURE);
+	if (builtin_check_and_run(args) == EXIT_FAILURE)
+		exec_in_child(args);
 	return (EXIT_SUCCESS);
 }
 
@@ -40,14 +50,19 @@ static void	exec_in_child(char **args)
 		bin_check_and_run(args);
 	}
 	if (g_shell.pid  > 0)
-		waitpid(g_shell.pid, NULL, 0);
+		wait_child();
 }
 
-static int	exec(char **args)
+static void wait_child(void)
 {
-	if (!args || !args[0] || args[0][0] == '\0')
-		return (EXIT_FAILURE);
-	if (builtin_check_and_run(args) == EXIT_FAILURE)
-		exec_in_child(args);
-	return (EXIT_SUCCESS);
+	int	status;
+	int	signal;
+
+	waitpid(g_shell.pid, &status, 0);
+	if (WIFSIGNALED(status))
+	{
+		signal = WTERMSIG(status);
+		if (signal == SIGQUIT)
+			ft_putendl_fd("Quit: 3", STDERR_FILENO);
+	}
 }
