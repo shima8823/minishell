@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/08 20:18:19 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/14 12:47:34 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ void	prompt(void)
 	
 	while (true)
 	{
-		line = readline("> ");
+		line = readline("minishell > ");
 		if (!line)
 		{
-			printf("exit\n");
+			ft_putendl_fd("exit", STDERR_FILENO);
 			exit(EXIT_SUCCESS);
 		}
 		args = split_line(line);

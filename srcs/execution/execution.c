@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/12 12:15:06 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/14 13:14:33 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ static void	exec_in_child(char **args)
 		return ;
 	}
 	if (pid == 0)
+	{
 		bin_check_and_run(args);
+	}
 	if (pid > 0)
 		waitpid(pid, NULL, 0);
 }

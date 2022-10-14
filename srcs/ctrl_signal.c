@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 13:35:27 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/09/28 15:13:41 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/14 13:17:20 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,23 @@ static void	display_new_line(void)
 	rl_redisplay();
 }
 
-void	signal_handler(int code)
+static void	signal_handler(int code)
 {
 	if (code == SIGINT)
 	{
 		display_new_line();
 		if (signal(SIGINT, signal_handler) == SIG_ERR)
 		{
-			printf("signal error\n");
+			ft_putstr_fd("signal error\n", STDERR_FILENO);
 			exit(EXIT_FAILURE);
 		}
 	}
 	else if (code == SIGQUIT)
 	{
+		ft_putstr_fd("\033[12C", STDERR_FILENO);
 		if (signal(SIGQUIT, signal_handler) == SIG_ERR)
 		{
-			printf("signal error\n");
+			ft_putstr_fd("signal error\n", STDERR_FILENO);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -44,9 +45,9 @@ void	signal_handler(int code)
 void	signal_set(void)
 {
 	if (signal(SIGINT, signal_handler) == SIG_ERR
-		|| signal(SIGQUIT, signal_handler))
+		|| signal(SIGQUIT, signal_handler) == SIG_ERR)
 	{
-		printf("signal error\n");
+		ft_putstr_fd("signal error\n", STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
 }
