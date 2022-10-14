@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 13:35:27 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/14 13:17:20 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/14 13:22:07 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	display_new_line(void)
 	rl_redisplay();
 }
 
-static void	signal_handler(int code)
+void	signal_handler(int code)
 {
 	if (code == SIGINT)
 	{
@@ -42,10 +42,10 @@ static void	signal_handler(int code)
 	}
 }
 
-void	signal_set(void)
+void	signal_set(void (*func)(int))
 {
-	if (signal(SIGINT, signal_handler) == SIG_ERR
-		|| signal(SIGQUIT, signal_handler) == SIG_ERR)
+	if (signal(SIGINT, func) == SIG_ERR
+		|| signal(SIGQUIT, func) == SIG_ERR)
 	{
 		ft_putstr_fd("signal error\n", STDERR_FILENO);
 		exit(EXIT_FAILURE);

@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/14 13:18:42 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/14 13:22:34 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 	while (g_shell.vars[g_shell.vars_len])
 		g_shell.vars_len++;
 	printf("hello, minishell\n");
-	signal_set();
+	signal_set(signal_handler);
 	prompt();
 	
 	return (EXIT_SUCCESS);
