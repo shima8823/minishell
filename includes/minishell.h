@@ -6,19 +6,22 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/11 13:19:42 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/14 13:40:55 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <errno.h>  
 # include <stdio.h>
+# include <string.h>
 # include <signal.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdbool.h>
 # include <limits.h>
+# include <fcntl.h>
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <readline/readline.h>
@@ -35,17 +38,13 @@
 typedef struct s_shell {
 	char	**vars;
 	int		vars_len;
+	pid_t	pid;
 }				t_shell;
-
-typedef struct s_pipe {
-	char			*cmd;
-	char			**arg;
-	struct s_pipe	*next;
-}				t_pipe;
 
 t_shell	g_shell;
 
-void	signal_set(void);
+void	set_signal(void (*func)(int));
+void	set_signal_init(void);
 void	ft_export(char **args);
 int		ft_echo(char **args);
 int		ft_isspace(int c);
@@ -58,5 +57,6 @@ bool	is_directory(const char *path);
 bool	is_command_exist(const char *path);
 bool	is_directory(const char *path);
 bool	is_executable(const char *path);
+void	put_error(char *msg, char *cmd);
 
 #endif

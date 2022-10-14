@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/08 20:18:19 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/14 14:09:35 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 	while (g_shell.vars[g_shell.vars_len])
 		g_shell.vars_len++;
 	printf("hello, minishell\n");
-	signal_set();
+	set_signal_init();
 	prompt();
 	
 	return (EXIT_SUCCESS);
@@ -44,15 +44,19 @@ void	prompt(void)
 	int		status;
 	t_lexer	*lexer_buf;
 	t_ast	*node;
-	
-	while (true)
+
+	while (line)
 	{
-		line = readline("> ");
+		line = readline("minishell > ");
 		if (!line)
 		{
-			printf("exit\n");
+			ft_putstr_fd("\033[1A", STDERR_FILENO);
+			ft_putstr_fd("\033[12C", STDERR_FILENO);
+			ft_putendl_fd("exit", STDERR_FILENO);
 			exit(EXIT_SUCCESS);
 		}
+		if (*line)
+			add_history(line);
 		args = split_line(line);
 		lexer_buf = lexer(line);
 		if (!parser(&node, lexer_buf->list_tokens))

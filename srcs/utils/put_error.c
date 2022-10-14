@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.h                                        :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/07 18:27:12 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/14 16:17:53 by takanoraika      ###   ########.fr       */
+/*   Created: 2022/10/11 13:27:55 by takanoraika       #+#    #+#             */
+/*   Updated: 2022/10/11 13:29:06 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTION_H
-# define EXECUTION_H
+#include "../includes/minishell.h"
 
-# define PIPE_READ 0
-# define PIPE_WRITE 1
-
-typedef struct s_pipe {
-	char			*cmd;
-	char			**arg;
-	struct s_pipe	*next;
-}				t_pipe;
-
-int		builtin_check_and_run(char **args);
-int		bin_check_and_run(char **args);
-void	exec_signal_set(void);
-void	ft_pipe(int read_fd, int fd[2], bool is_next);
-
-#endif
+void	put_error(char *msg, char *cmd)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	if (cmd)
+	{
+		ft_putstr_fd(cmd, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+	}
+	ft_putendl_fd(msg, STDERR_FILENO);
+}
