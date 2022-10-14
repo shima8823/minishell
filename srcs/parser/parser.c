@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 13:02:28 by shima             #+#    #+#             */
-/*   Updated: 2022/10/09 22:19:20 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/14 11:23:42 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ bool	parser_redirect(t_ast **cmd_node, t_token **token);
 bool	is_redirect(t_token_type type);
 
 void	token_data_to_node(t_ast **cmd_node, t_ast **last_cmd_node, t_token **token);
-int		count_args(char **args);
 void	add_token_to_args(t_ast **cmd_node, t_token **token);
 
 
