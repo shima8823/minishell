@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 11:32:42 by shima             #+#    #+#             */
-/*   Updated: 2022/10/09 22:16:51 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/14 20:42:20 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_ast
 
 // parser.c
 bool	parser(t_ast **node, t_token *token);
+int		count_args(char **args);
 void	free_ast(t_ast *node);
 
 // print_ast.c
