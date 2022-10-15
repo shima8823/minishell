@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/15 15:16:56 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/15 15:33:59 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 	while (g_shell.vars[g_shell.vars_len])
 		g_shell.vars_len++;
 	printf("hello, minishell\n");
-	signal_set();
+	set_signal_init();
 	prompt();
 	
 	return (EXIT_SUCCESS);
@@ -41,20 +41,28 @@ void	prompt(void)
 	int		status;
 	t_token	*token;
 	t_ast	*node;
-	
-	while (true)
+
+	while (line)
 	{
 		node = NULL;
-		line = readline("> ");
+		line = readline("minishell > ");
 		if (!line)
-			error_exit("readline");
+		{
+			ft_putstr_fd("\033[1A", STDERR_FILENO);
+			ft_putstr_fd("\033[12C", STDERR_FILENO);
+			ft_putendl_fd("exit", STDERR_FILENO);
+			exit(EXIT_SUCCESS);
+		}
+		if (*line)
+			add_history(line);
 		args = split_line(line);
 		if (!lexer(&token, line))
 		{
 			free_tokens(token);
 			continue ;
 		}
-		parser(&node, token);
+		if (!parser(&node, lexer_buf->list_tokens))
+			ft_putendl_fd("minishell: syntax error", STDERR_FILENO);
 		// expansion(&node);
 		status = execution(node);
 		// printf("%s\n", line);

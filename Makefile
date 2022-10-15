@@ -12,7 +12,7 @@ SRCS =	main.c										\
 		parser.c print_ast.c node.c					\
 		execution.c builtin.c bin.c					\
 		expansion.c	\
-		stat.c utils.c
+		stat.c utils.c put_error.c
 
 OBJ = $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.o))
 OBJDIR = obj
