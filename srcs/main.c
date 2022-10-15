@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/14 20:44:59 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/15 15:16:56 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,7 @@ void	prompt(void)
 			continue ;
 		}
 		parser(&node, token);
-		expansion(&node);
-		if (DEBUG)
-			print_ast(node);
+		// expansion(&node);
 		status = execution(node);
 		// printf("%s\n", line);
 		free_tokens(token);
