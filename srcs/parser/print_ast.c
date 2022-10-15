@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:49:08 by shima             #+#    #+#             */
-/*   Updated: 2022/10/06 13:09:34 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/15 14:41:16 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,40 @@ static void	print_recursive(t_ast *node)
 {
 	int	i;
 
-	i = 0;
 	if (node == NULL)
 	{
 		printf("NULL\n");
 		return ;
 	}
 	if (node->type == NODE_PIPE)
-		printf("PIPE\n");
-	else if (node->type == NODE_REDIRECT)
+		printf("PIPE %d\n", node->pipe_index);
+	else if (node->type == NODE_COMMAND)
 	{
-		printf("REDIRECT: ");
-		printf("[%s] [%s]\n", node->command.io_redirect, node->command.filename);
-	}
-	else if (node->type == NODE_WORD)
-	{
-		printf("WORD: ");
-		while (node->command.args[i])
+		printf("ARGS: {");
+		if (node->command.args)
 		{
-			printf("[%s] ", node->command.args[i]);
-			i++;
+			i = 0;
+			while (node->command.args[i])
+			{
+				printf("[%s] ", node->command.args[i]);
+				i++;
+			}
 		}
-		printf("\n");
+		else
+			printf("NULL");
+		printf("} ");
+		printf("REDIRECTS: {");
+		if (node->command.redirects)
+		{
+			while (node->command.redirects)
+			{
+				printf("['%s', '%s'] ", node->command.redirects->io_redirect, node->command.redirects->filename);
+				node->command.redirects = node->command.redirects->next;
+			}
+		}
+		else
+			printf("NULL");
+		printf("}\n");
 	}
 	print_recursive(node->left);
 	print_recursive(node->right);

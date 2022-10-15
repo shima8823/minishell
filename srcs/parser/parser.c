@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 13:02:28 by shima             #+#    #+#             */
-/*   Updated: 2022/10/14 11:23:42 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/15 15:09:40 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 bool	parser_pipe(t_ast **node, t_token **token);
 bool	parser_command(t_ast **node, t_token **token);
-bool	parser_redirect(t_ast **cmd_node, t_token **token);
+bool	parser_redirect(t_ast **cmd_node, t_redirect **last_redirect, t_token **token);
+void	add_pipe_index_to_node(t_ast **node);
 
 bool	is_redirect(t_token_type type);
 
 void	token_data_to_node(t_ast **cmd_node, t_ast **last_cmd_node, t_token **token);
 void	add_token_to_args(t_ast **cmd_node, t_token **token);
-
 
 void	free_ast(t_ast *node);
 
@@ -57,6 +57,7 @@ void	free_ast(t_ast *node);
 // 			<a
 // 		ac
 //	<ca
+// < test echo hello > test2 > test3
 
 
 bool	parser(t_ast **node, t_token *token)
@@ -67,6 +68,7 @@ bool	parser(t_ast **node, t_token *token)
 	if (!ret)
 		if (ft_putendl_fd(SYNTAX_ERROR_MSG, STDERR_FILENO) == -1)
 			error_exit("ft_putendl_fd");
+	add_pipe_index_to_node(node);
 	if (DEBUG)
 		print_ast(*node);
 	return (ret);
@@ -77,19 +79,18 @@ bool	parser_pipe(t_ast **node, t_token **token)
 	t_ast	*left;
 	t_ast	*right;
 
-	right = NULL;
 	if (!parser_command(node, token))
 		return (false);
 	while (*token && (*token)->type == CHAR_PIPE)
 	{
 		*token = (*token)->next;
+		right = NULL;
 		if (!parser_command(&right, token))
 			return (false);
 		left = *node;
-		*node = node_new(NULL, NODE_PIPE);
+		*node = node_new(NODE_PIPE);
 		(*node)->right = right;
 		(*node)->left = left;
-		right = NULL;
 	}
 	return (true);
 }
@@ -98,10 +99,11 @@ bool	parser_command(t_ast **node, t_token **token)
 {
 	t_ast	*cmd_node;
 	t_ast	*last_cmd_node;
+	t_redirect	*last_redirect;
 
 	if (!(*token) || (*token)->type == CHAR_PIPE)
 		return (false);
-	cmd_node = NULL;
+	cmd_node = node_new(NODE_COMMAND);
 	last_cmd_node = NULL;
 	while (*token)
 	{
@@ -109,7 +111,7 @@ bool	parser_command(t_ast **node, t_token **token)
 			token_data_to_node(&cmd_node, &last_cmd_node, token);
 		else if (is_redirect((*token)->type))
 		{
-			if (!parser_redirect(&cmd_node, token))
+			if (!parser_redirect(&cmd_node, &last_redirect, token))
 				return (false);
 		}
 		else
@@ -124,25 +126,13 @@ void	token_data_to_node(t_ast **cmd_node, t_ast **last_cmd_node, t_token **token
 {
 	t_ast	*left;
 
-	if (!(*cmd_node))
+	if (!(*cmd_node)->command.args)
 	{
-		*cmd_node = node_new((*token)->data, NODE_WORD);
+		str_to_new_args(cmd_node, (*token)->data);
 		*last_cmd_node = *cmd_node;
 		return ;
 	}
-	// example, > test echo hello
-	if ((*cmd_node)->type == NODE_REDIRECT && !(*last_cmd_node))
-	{
-		left = *cmd_node;
-		*cmd_node = node_new((*token)->data, NODE_WORD);
-		*last_cmd_node = *cmd_node;
-		(*cmd_node)->left = left;
-		return ;
-	}
-	if (*last_cmd_node)
-		add_token_to_args(last_cmd_node, token);
-	else
-		add_token_to_args(cmd_node, token);
+	add_token_to_args(last_cmd_node, token);
 }
 
 void	add_token_to_args(t_ast **cmd_node, t_token **token)
@@ -168,19 +158,28 @@ void	add_token_to_args(t_ast **cmd_node, t_token **token)
 	free(tmp);
 }
 
-bool	parser_redirect(t_ast **cmd_node, t_token **token)
+bool	parser_redirect(t_ast **cmd_node, t_redirect **last_redirect, t_token **token)
 {
-	t_ast	*redirect_node;
+	t_redirect	*redirect;
 
-	redirect_node = node_new((*token)->data, NODE_REDIRECT);
+	redirect = redirect_new();
+	if (!((*cmd_node)->command.redirects))
+		(*cmd_node)->command.redirects = redirect;
+	else
+	{
+		(*last_redirect)->next = redirect;
+		redirect->prev = *last_redirect;
+	}
+	redirect->io_redirect = ft_strdup((*token)->data);
+	if (!(redirect->io_redirect))
+		error_exit("ft_strdup");
+	*last_redirect = redirect;
 	(*token) = (*token)->next;
 	if (!(*token) || (*token)->type != TOKEN)
 		return (false);
-	redirect_node->command.filename = ft_strdup((*token)->data);
-	if (!(redirect_node->command.filename))
+	redirect->filename = ft_strdup((*token)->data);
+	if (!(redirect->filename))
 		error_exit("ft_strdup");
-	redirect_node->left = *cmd_node;
-	*cmd_node = redirect_node;
 	return (true);
 }
 
@@ -202,26 +201,50 @@ int	count_args(char **args)
 	return (i);
 }
 
+void	add_pipe_index_to_node(t_ast **node)
+{
+	t_ast	*pipe_node;
+	int		pipe_index;
+
+	pipe_index = 0;
+	pipe_node = *node;
+	while (pipe_node && pipe_node->type == NODE_PIPE)
+	{
+		pipe_node->pipe_index = ++pipe_index;
+		pipe_node = pipe_node->left;
+	}
+}
+
 void	free_ast(t_ast *node)
 {
-	t_ast	*left;
-	t_ast	*right;
-	int		i;
+	t_ast		*left;
+	t_ast		*right;
+	t_redirect	*tmp;
+	int			i;
 
 	if (!node)
 		return ;
-	free(node->command.filename);
-	free(node->command.io_redirect);
-	if (node->type == NODE_WORD)
+	if (node->type == NODE_COMMAND)
 	{
-		i = 0;
-		while (node->command.args[i])
+		if (node->command.args)
 		{
-			free(node->command.args[i]);
-			i++;
+			i = 0;
+			while (node->command.args[i])
+			{
+				free(node->command.args[i]);
+				i++;
+			}
+			free(node->command.args);
+		}
+		while (node->command.redirects)
+		{
+			free(node->command.redirects->io_redirect);
+			free(node->command.redirects->filename);
+			tmp = node->command.redirects;
+			node->command.redirects = node->command.redirects->next;
+			free(tmp);
 		}
 	}
-	free(node->command.args);
 	left = node->left;
 	right = node->right;
 	free(node);
