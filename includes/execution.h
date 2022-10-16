@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:27:12 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/14 16:17:53 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/14 20:52:44 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 
 # define PIPE_READ 0
 # define PIPE_WRITE 1
-
-typedef struct s_pipe {
-	char			*cmd;
-	char			**arg;
-	struct s_pipe	*next;
-}				t_pipe;
 
 int		builtin_check_and_run(char **args);
 int		bin_check_and_run(char **args);

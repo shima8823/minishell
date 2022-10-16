@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/14 14:09:35 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/14 20:54:06 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	prompt(void)
 		lexer_buf = lexer(line);
 		if (!parser(&node, lexer_buf->list_tokens))
 			ft_putendl_fd("minishell: syntax error", STDERR_FILENO);
-		status = execution(node);
+		status = execution(node, 0);
 		// printf("%s\n", line);
 		free_lexer(lexer_buf);
 		free_ast(node);
