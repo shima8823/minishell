@@ -6,13 +6,13 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 12:32:58 by shima             #+#    #+#             */
-/*   Updated: 2022/09/27 09:56:01 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/15 19:13:06 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static bool is_option(char *s);
+static bool is_option(const char *s);
 
 int	ft_echo(char **args)
 {
@@ -25,15 +25,17 @@ int	ft_echo(char **args)
 		i++;
 	while (args[i])
 	{
-		printf("%s", args[i]);
+		ft_putstr_fd(args[i], STDOUT_FILENO);
+		if (args[i + 1])
+			ft_putchar_fd(' ', STDOUT_FILENO);
 		i++;
 	}
 	if (!has_option)
-		printf("\n");
+		ft_putchar_fd('\n', STDOUT_FILENO);
 	return (0);
 }
 
-static bool is_option(char *s)
+static bool is_option(const char *s)
 {
 	if (!s)
 		return (false);

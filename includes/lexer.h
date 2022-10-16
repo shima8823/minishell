@@ -6,12 +6,16 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 11:57:28 by shima             #+#    #+#             */
-/*   Updated: 2022/10/06 10:15:12 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/13 15:14:46 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
+
+#include <stdlib.h>
+
+#define QUOTE_ERROR_MSG "minishell: double quote or quote is expected"
 
 typedef enum	e_token_type {
 	CHAR_GENERAL = -1,
@@ -27,11 +31,21 @@ typedef enum	e_token_type {
 	TOKEN = -1,
 }	t_token_type;
 
-enum	e_token_state {
-	STATE_IN_DQUOTE,
-	STATE_IN_QUOTE,
+typedef enum	e_token_state {
 	STATE_GENERAL,
-};
+	STATE_IN_QUOTE,
+	STATE_IN_DQUOTE,
+}	t_token_state;
+
+typedef struct s_tokenizer_info
+{
+	size_t			line_size;
+	size_t			line_i;
+	size_t			data_i;
+	t_token_state	state;
+	bool			is_missing_quote;
+}	t_tokenizer_info;
+
 
 typedef struct s_token {
 	char*			data;
@@ -39,16 +53,19 @@ typedef struct s_token {
 	struct s_token*	next;
 }	t_token;
 
-typedef struct s_lexer
-{
-	t_token*	list_tokens;
-	int			n_tokens;
-}	t_lexer;
-
 // lexer.c
-t_lexer	*lexer(char *line);
+bool	lexer(t_token **token, char *line);
+t_token	*token_new(size_t data_size, t_token_type type);
+t_token	*tokenizer(char *line, bool *is_missing_quote);
+void	free_tokens(t_token *token);
+
+// state_general.c
+void	state_general(char *line, t_tokenizer_info *info, t_token **lst);
+
+// state_quote.c
+void	state_quote(char c, t_tokenizer_info *info, t_token **lst);
 
 // print_lexer.c
-void print_lexer(t_lexer *lexer_buf);
+void	print_tokens(t_token *token);
 
 #endif

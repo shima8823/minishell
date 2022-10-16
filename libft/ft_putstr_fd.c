@@ -6,24 +6,25 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 16:34:24 by shima             #+#    #+#             */
-/*   Updated: 2022/05/02 10:43:35 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/09 21:48:42 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+int	ft_putstr_fd(char *s, int fd)
 {
 	size_t	len;
 
 	if (!s)
-		return ;
+		return (-1);
 	len = ft_strlen(s);
 	while (len > INT_MAX)
 	{
-		write(fd, s, INT_MAX);
+		if (write(fd, s, INT_MAX) == -1)
+			return (-1);
 		s += INT_MAX;
 		len -= INT_MAX;
 	}
-	write(fd, s, len);
+	return (write(fd, s, len));
 }
