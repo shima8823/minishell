@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/16 13:13:10 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/16 13:14:51 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int	execution(t_ast *node, size_t pipe_len)
 	if (!node)
 		return (EXIT_FAILURE);
 	if (node->left != NULL)
-		execution(node->left, pipe_len);
+		execution(node->left);
 	if (node->right != NULL)
-		execution(node->right, pipe_len);
+		execution(node->right);
 	if (node->type == NODE_WORD)
 	{
 		if (node->command.filename)

@@ -6,190 +6,78 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 11:50:14 by shima             #+#    #+#             */
-/*   Updated: 2022/10/08 12:46:42 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/13 15:16:33 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/lexer.h"
 
-static t_lexer	*lexer2(char *line);
-int	get_char_type(int c);
-
-t_token	*lstnew(size_t data_size, int type);
-
-t_lexer	*lexer(char *line)
+bool	lexer(t_token **token, char *line)
 {
-	t_lexer	*lexer_buf;
+	bool	is_missing_quote;
+	bool				ret;
 
-	lexer_buf = lexer2(line);
+	*token = tokenizer(line, &is_missing_quote);
 	if (DEBUG)
-		print_lexer(lexer_buf);
-	return (lexer_buf);
-}
-
-static t_lexer	*lexer2(char *line)
-{
-	size_t	line_size;
-	t_lexer	*lexer_buf;
-	t_token	*lst;
-	size_t	i;
-	size_t	j;
-	int		state;
-	int		c_type;
-	
-	lexer_buf = malloc(sizeof(t_lexer));
-	lexer_buf->n_tokens = 0;
-	line_size = ft_strlen(line);
-	lexer_buf->list_tokens = lstnew(line_size, 0);
-	lst = lexer_buf->list_tokens;
-	i = 0;
-	j = 0;
-	state = STATE_GENERAL;
-	while (line[i])
+		print_tokens(*token);
+	if (is_missing_quote)
 	{
-		c_type = get_char_type(line[i]);
-		if (state == STATE_GENERAL)
-		{
-			if (c_type == CHAR_QUOTE)
-			{
-				state = STATE_IN_QUOTE;
-				lst->data[j++] = CHAR_QUOTE;
-				lst->type = TOKEN;
-			}
-			else if (c_type == CHAR_DQUOTE)
-			{
-				state = STATE_IN_DQUOTE;
-				lst->data[j++] = CHAR_DQUOTE;
-				lst->type = TOKEN;
-			}
-			else if (c_type == CHAR_GENERAL)
-			{
-				lst->data[j++] = line[i];
-				lst->type = TOKEN;
-			}
-			else if (c_type == CHAR_WHITESPACE)
-			{
-				if (j > 0)
-				{
-					lst->data[j] = '\0';
-					while (line[i + 1] == ' ')
-						i++;
-					if (line[i + 1] == '\0')
-						return (lexer_buf);
-					lst->next = lstnew(line_size - i, 0);
-					lst = lst->next;
-					j = 0;
-				}
-			}
-			else if (c_type == CHAR_PIPE)
-			{
-				// 現在のdataを終わらせる
-				if (j > 0)
-				{
-					lst->data[j] = '\0';
-					// if (line[i + 1] == '\0')
-					// 	return (lexer_buf);
-					lst->next = lstnew(line_size - i, 0);
-					lst = lst->next;
-					j = 0;
-				}
-				// 代入
-				lst->data[0] = c_type;
-				lst->data[1] = '\0';
-				lst->type = c_type;
-				// 次
-				while (line[i + 1] == ' ')
-					i++;
-				if (line[i + 1] == '\0')
-					return (lexer_buf);
-				lst->next = lstnew(line_size - i, 0);
-				lst = lst->next;
-			}
-			else if (c_type == CHAR_GREATER || c_type == CHAR_LESSER)
-			{
-				// 現在のdataを終わらせる
-				if (j > 0)
-				{
-					lst->data[j] = '\0';
-					// if (line[i + 1] == '\0')
-					// 	return (lexer_buf);
-					lst->next = lstnew(line_size - i, 0);
-					lst = lst->next;
-					j = 0;
-				}
-				// 代入
-				lst->data[j++] = c_type;
-				lst->type = c_type;
-				if (line[i + 1] == c_type)
-				{
-					lst->data[j++] = c_type;
-					if (c_type == CHAR_GREATER)
-						lst->type = D_GREATER;
-					else
-						lst->type = D_LESSER;
-					i++;
-				}
-				lst->data[j] = '\0';
-				j = 0;
-				// 次
-				while (line[i + 1] == ' ')
-					i++;
-				if (line[i + 1] == '\0')
-					return (lexer_buf);
-				lst->next = lstnew(line_size - i, 0);
-				lst = lst->next;
-			}
-		}
-		else if (state == STATE_IN_DQUOTE)
-		{
-			lst->data[j++] = line[i];
-			if (c_type == CHAR_DQUOTE)
-				state = STATE_GENERAL;
-		}
-		else if (state == STATE_IN_QUOTE)
-		{
-			lst->data[j++] = line[i];
-			if (c_type == CHAR_QUOTE)
-				state = STATE_GENERAL;
-		}
-		i++;
+		if (ft_putendl_fd(QUOTE_ERROR_MSG, STDERR_FILENO) == -1)
+			error_exit("ft_putendl_fd");
+		return (false);
 	}
-	lst->data[j] = '\0';
-	return (lexer_buf);
+	return (true);
 }
 
-int	get_char_type(c)
+t_token	*tokenizer(char *line, bool *is_missing_quote)
 {
-	if (c == CHAR_PIPE
-		|| c == CHAR_QUOTE
-		|| c == CHAR_DQUOTE
-		|| c == CHAR_WHITESPACE
-		|| c == CHAR_GREATER
-		|| c == CHAR_LESSER
-		|| c == CHAR_NULL)
-		return (c);
-	else
-		return (CHAR_GENERAL);
+	t_tokenizer_info	info;
+	t_token				*start;
+	t_token				*lst;
+
+	ft_bzero(&info, sizeof(t_tokenizer_info));
+	info.line_size = ft_strlen(line);
+	start = token_new(info.line_size, 0);
+	lst = start;
+	while (line[info.line_i])
+	{
+		if (info.state == STATE_GENERAL)
+			state_general(line, &info, &lst);
+		else if (info.state == STATE_IN_DQUOTE || info.state == STATE_IN_QUOTE)
+			state_quote(line[info.line_i], &info, &lst);
+		(info.line_i)++;
+	}
+	lst->data[info.data_i] = '\0';
+	if (is_missing_quote && info.state != STATE_GENERAL)
+		*is_missing_quote = true;
+	return (start);
 }
 
-t_token	*lstnew(size_t data_size, int type)
+t_token	*token_new(size_t data_size, t_token_type type)
 {
 	t_token	*new;
 
 	new = malloc(sizeof(t_token));
 	if (!new)
-	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
-	new->data = malloc(data_size);
+		error_exit("malloc");
+	new->data = malloc(data_size + 1);
 	if (!new->data)
-	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
+		error_exit("malloc");
 	new->type = type;
 	new->next = NULL;
 	return (new);
+}
+
+void	free_tokens(t_token *token)
+{
+	t_token	*tmp;
+
+	while (token)
+	{
+		tmp = token->next;
+		free(token->data);
+		free(token);
+		token = tmp;
+	}
 }

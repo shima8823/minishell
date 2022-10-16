@@ -6,20 +6,17 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/14 20:54:06 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/16 13:15:31 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include "../includes/expansion.h"
 
 void		prompt(void);
 int			parse_command(char **args);
 bool		is_command(char *input, char *command);
 char		**split_line(char *line);
-
-// lexer
-void	print_lexer(t_lexer *lexer_buf);
-void	free_lexer(t_lexer *lexer_buf);
 
 int main(int argc, char *argv[])
 {
@@ -42,11 +39,12 @@ void	prompt(void)
 	char	*line;
 	char	**args;
 	int		status;
-	t_lexer	*lexer_buf;
+	t_token	*token;
 	t_ast	*node;
 
 	while (line)
 	{
+		node = NULL;
 		line = readline("minishell > ");
 		if (!line)
 		{
@@ -58,12 +56,17 @@ void	prompt(void)
 		if (*line)
 			add_history(line);
 		args = split_line(line);
-		lexer_buf = lexer(line);
+		if (!lexer(&token, line))
+		{
+			free_tokens(token);
+			continue ;
+		}
 		if (!parser(&node, lexer_buf->list_tokens))
 			ft_putendl_fd("minishell: syntax error", STDERR_FILENO);
-		status = execution(node, 0);
+		// expansion(&node);
+		status = execution(node);
 		// printf("%s\n", line);
-		free_lexer(lexer_buf);
+		free_tokens(token);
 		free_ast(node);
 		free_array(args);
 		free(line);
@@ -83,22 +86,6 @@ char	**split_line(char *line)
 		exit(EXIT_FAILURE);
 	}
 	return (args);
-}
-
-void	free_lexer(t_lexer *lexer_buf)
-{
-	t_token	*lst;
-	t_token	*tmp;
-
-	lst = lexer_buf->list_tokens;
-	while (lst)
-	{
-		tmp = lst->next;
-		free(lst->data);
-		free(lst);
-		lst = tmp;
-	}
-	free(lexer_buf);
 }
 
 void	error_exit(const char *s)

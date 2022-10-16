@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/14 20:53:52 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/16 13:15:52 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		ft_echo(char **args);
 int		ft_isspace(int c);
 ssize_t	search_var(char *name);
 char	*return_name(char *var);
-int		execution(t_ast *node, size_t pipe_len);
+int		execution(t_ast *node);
 void	error_exit(const char *s);
 void	free_array(char **array);
 bool	is_directory(const char *path);
