@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/16 13:14:51 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/17 12:16:48 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@ static int	exec(char **args);
 static void	exec_in_child(char **args);
 static void wait_child(void);
 
-int	execution(t_ast *node, size_t pipe_len)
+int	execution(t_ast *node)
 {
 	if (!node)
 		return (EXIT_FAILURE);
@@ -23,10 +23,9 @@ int	execution(t_ast *node, size_t pipe_len)
 		execution(node->left);
 	if (node->right != NULL)
 		execution(node->right);
-	if (node->type == NODE_WORD)
+	if (node->type == NODE_COMMAND)
 	{
-		if (node->command.filename)
-			printf("%s\n",node->command.filename);
+		printf("%d\n", node->pipe_index);
 		return exec(node->command.args);
 	}
 	return (EXIT_SUCCESS);

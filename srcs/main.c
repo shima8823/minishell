@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/16 13:15:31 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/17 12:15:32 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	prompt(void)
 			free_tokens(token);
 			continue ;
 		}
-		if (!parser(&node, lexer_buf->list_tokens))
+		if (!parser(&node, token))
 			ft_putendl_fd("minishell: syntax error", STDERR_FILENO);
 		// expansion(&node);
 		status = execution(node);
