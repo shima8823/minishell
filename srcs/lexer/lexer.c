@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 11:50:14 by shima             #+#    #+#             */
-/*   Updated: 2022/10/13 15:16:33 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/18 19:47:53 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 bool	lexer(t_token **token, char *line)
 {
 	bool	is_missing_quote;
-	bool				ret;
+	bool	ret;
 
-	*token = tokenizer(line, &is_missing_quote);
+	*token = tokenizer(line, &is_missing_quote, false);
 	if (DEBUG)
 		print_tokens(*token);
 	if (is_missing_quote)
@@ -30,14 +30,17 @@ bool	lexer(t_token **token, char *line)
 	return (true);
 }
 
-t_token	*tokenizer(char *line, bool *is_missing_quote)
+t_token	*tokenizer(char *line, bool *is_missing_quote, bool do_skip_quote)
 {
 	t_tokenizer_info	info;
 	t_token				*start;
 	t_token				*lst;
 
+	if (!line)
+		return (NULL);
 	ft_bzero(&info, sizeof(t_tokenizer_info));
 	info.line_size = ft_strlen(line);
+	info.do_skip_quote = do_skip_quote;
 	start = token_new(info.line_size, 0);
 	lst = start;
 	while (line[info.line_i])
@@ -67,6 +70,19 @@ t_token	*token_new(size_t data_size, t_token_type type)
 	new->type = type;
 	new->next = NULL;
 	return (new);
+}
+
+int	count_tokens(t_token *token)
+{
+	int	i;
+
+	i = 0;
+	while (token)
+	{
+		token = token->next;
+		i++;
+	}
+	return (i);
 }
 
 void	free_tokens(t_token *token)
