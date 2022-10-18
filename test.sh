@@ -6,29 +6,40 @@
 RED="\033[31m"
 GREEN="\033[32m"
 WHITE="\033[37m"
+MAGENTA="\033[35m" 
+# bash
+CYAN="\033[36m"
+# minishell
 
 function env_var_test()
 {
-	echo -e $@ | ./minishell > minishell.txt 2> /dev/null
-	echo 'hello, minishell' > bash.txt
-	echo '> '$@ >> bash.txt
-	echo -e $@ | bash >> bash.txt
-	echo -n '> ' >> bash.txt
-	diff -q minishell.txt bash.txt &> /dev/null
-	if [ $? -eq 0 ]; then
+	echo -e "$@" | ./minishell > minishell.txt 2> /dev/null
+	MYRET=`awk 'NR==3' minishell.txt | awk '{printf $0}'`
+	BASHRET=`echo -e "$@" | bash`
+
+	if [ "$MYRET" == "$BASHRET" ]; then
 		printf "$GREEN[$@]\n"
-	elif [ $? -eq 1 ]; then
+	else
 		printf "$RED[$@]\n"
-		printf "$WHITE""minishell.txt\n"
-		printf '['
-		awk 'NR==3' minishell.txt | awk '{printf $0}'
-		echo ']'
-		printf "bash.txt\n"
-		printf '['
-		awk 'NR==3' bash.txt | awk '{printf $0}'
-		echo ']'
+		printf "$WHITE""minishell\n[$MYRET]\n"
+		printf "bash\n[$BASHRET]\n"
 	fi
 }
+
+# function env_var_create_file_test()
+# {
+# 	echo -e "$@" | ./minishell > minishell.txt 2> /dev/null
+# 	MYRET=`awk 'NR==3' minishell.txt | awk '{printf $0}'`
+# 	BASHRET=`echo -e "$@" | bash`
+
+# 	if [ "$MYRET" == "$BASHRET" ]; then
+# 		printf "$GREEN[$@]\n"
+# 	else
+# 		printf "$RED[$@]\n"
+# 		printf "$WHITE""minishell\n[$MYRET]\n"
+# 		printf "bash\n[$BASHRET]\n"
+# 	fi
+# }
 
 # basic
 printf "$WHITE===== basic test =====\n"
@@ -64,13 +75,7 @@ echo
 # mix
 printf "$WHITE===== mix =====\n"
 env_var_test 'echo "l"s$USER'\''ushiro'\'
-env_var_test 'echo "$"$'\''$USER'\'
 env_var_test 'echo "$USER '\''$PATH'\''"'
-echo
-
-# shell変数は当然間違い
-printf "$WHITE===== shell variable =====\n"
-env_var_test 'echo $USER=hell'
 echo
 
 # NOTHING
@@ -81,11 +86,43 @@ env_var_test 'echo a$NOTHING$PATH'
 env_var_test 'echo "$NOTHING"'
 env_var_test 'echo "$NOTHING ushiro"'
 env_var_test 'echo mae"ho$NOTHING ge $PATH"ushiro'
+env_var_test 'echo echo $NOTHING'
+env_var_test 'echo echo $NOTHING echo'
+# echo echo $NOTHING echo
+# 環境変数がなかったらparserは[echo] [echo] [echo]?
 
 # 分割
-# export TEST="cho hello"
-# e{cho hello} 2
-# e{ cho hello} 3
-# {cho hello} 2
-# nasi
-# e {cho hello} 3
+printf "$WHITE===== command & env var =====\n"
+printf "$MAGENTA""export TEST=\"cho   hello\"\n"
+export TEST="cho   hello"
+env_var_test 'e$TEST'
+printf "$MAGENTA""export TEST=\"echo   hello\"\n"
+export TEST="echo   hello"
+env_var_test '$TEST'
+printf "$MAGENTA""export TEST=\" hello   world\"\n"
+export TEST=" hello   world"
+env_var_test 'echo$TEST'
+printf "$MAGENTA""export TEST=\"apple   banana\"\n"
+export TEST="apple   banana"
+env_var_test 'echo grape $TEST orange'
+env_var_test 'echo grape $TEST$TEST'
+printf "$MAGENTA""export TEST=\"  apple  dog banana\"\n"
+export TEST="  apple  dog banana"
+env_var_test 'echo grape $TEST $TEST$TEST'
+printf "$MAGENTA""export TEST=\"  apple  dog banana  \"\n"
+export TEST="  apple  dog banana  "
+env_var_test 'echo grape $TEST$TEST$TEST'
+
+# create file リダイレクトができた時に。
+# printf "$WHITE===== file =====\n"
+# printf "$MAGENTA""export TEST=\"ambiguous redirect\"\n"
+# export TEST="ambiguous redirect"
+# env_var_test 'e$TEST'
+
+# 未対応
+printf "$WHITE===== 未対応 =====\n"
+# shell変数は実装しないため
+env_var_test 'echo $USER=hell'
+# zsh bash では echo $"echo" または echo $'echo' の挙動が違うため
+env_var_test 'echo "$"$'\''$USER'\'
+echo
