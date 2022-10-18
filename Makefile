@@ -11,7 +11,7 @@ SRCS =	main.c										\
 		lexer.c	state_general.c print_lexer.c state_quote.c	\
 		parser.c print_ast.c node.c					\
 		execution.c builtin.c bin.c					\
-		expansion.c	\
+		expansion.c expand.c expand_str.c\
 		stat.c utils.c put_error.c
 
 OBJ = $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.o))
