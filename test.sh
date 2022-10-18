@@ -88,8 +88,7 @@ env_var_test 'echo "$NOTHING ushiro"'
 env_var_test 'echo mae"ho$NOTHING ge $PATH"ushiro'
 env_var_test 'echo echo $NOTHING'
 env_var_test 'echo echo $NOTHING echo'
-# echo echo $NOTHING echo
-# 環境変数がなかったらparserは[echo] [echo] [echo]?
+env_var_test 'echo echo $NOTHING echo echo echo'
 
 # 分割
 printf "$WHITE===== command & env var =====\n"
