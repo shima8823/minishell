@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 11:57:28 by shima             #+#    #+#             */
-/*   Updated: 2022/10/13 15:14:46 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/17 22:28:07 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_tokenizer_info
 	size_t			line_i;
 	size_t			data_i;
 	t_token_state	state;
-	bool			is_missing_quote;
+	bool			do_skip_quote;
 }	t_tokenizer_info;
 
 
@@ -56,8 +56,9 @@ typedef struct s_token {
 // lexer.c
 bool	lexer(t_token **token, char *line);
 t_token	*token_new(size_t data_size, t_token_type type);
-t_token	*tokenizer(char *line, bool *is_missing_quote);
+t_token	*tokenizer(char *line, bool *is_missing_quote, bool do_skip_quote);
 void	free_tokens(t_token *token);
+int		count_tokens(t_token *token);
 
 // state_general.c
 void	state_general(char *line, t_tokenizer_info *info, t_token **lst);
