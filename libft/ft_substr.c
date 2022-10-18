@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 22:07:47 by shima             #+#    #+#             */
-/*   Updated: 2022/05/04 06:32:36 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/18 15:18:55 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (len_s - start < len)
 		len = len_s - start;
 	ret = malloc(len + 1 * sizeof(char));
-	if (ret)
-		ft_strlcpy(ret, &s[start], len + 1);
+	if (!ret)
+		exit(EXIT_FAILURE);
+	ft_strlcpy(ret, &s[start], len + 1);
 	return (ret);
 }

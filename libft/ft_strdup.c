@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 16:49:04 by shima             #+#    #+#             */
-/*   Updated: 2022/05/04 06:31:45 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/18 15:19:48 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ char	*ft_strdup(const char *s1)
 	char	*dst;
 
 	dst = malloc(ft_strlen(s1) + 1 * sizeof(char));
-	if (dst)
-		ft_strcpy(dst, s1);
+	if (!dst)
+		exit(EXIT_FAILURE);
+	ft_strcpy(dst, s1);
 	return (dst);
 }
 
