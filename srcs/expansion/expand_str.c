@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 22:23:57 by shima             #+#    #+#             */
-/*   Updated: 2022/10/18 14:54:46 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/18 15:30:16 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ char	*expand_str(char *s)
 static void substr_to_new(char **new, const char *s, const char *delimiter, size_t *i)
 {
 	char	*substr;
+	char	*tmp;
 	size_t	start;
 
 	start = (*i)++;
@@ -60,7 +61,12 @@ static void substr_to_new(char **new, const char *s, const char *delimiter, size
 	if (!(*new))
 		*new = substr;
 	else
+	{
+		tmp = *new;
 		*new = ft_strjoin(*new, substr);
+		free(tmp);
+		free(substr);
+	}
 }
 
 static char	*create_env_var_name(const char *s, size_t *i)
@@ -88,6 +94,7 @@ static void	expand_env_var(char **new, const char *s, size_t *i)
 {
 	char	*env_var_name;
 	char	*env_var_value;
+	char	*tmp;
 
 	env_var_name = create_env_var_name(s, i);
 	// printf("env_var_name: %s\n", env_var_name);
@@ -96,7 +103,11 @@ static void	expand_env_var(char **new, const char *s, size_t *i)
 		if (!(*new))
 			*new = ft_strdup("$");
 		else
+		{
+			tmp = *new;
 			*new = ft_strjoin(*new, "$");
+			free(tmp);
+		}
 		free(env_var_name);
 		return ;
 	}
@@ -106,5 +117,7 @@ static void	expand_env_var(char **new, const char *s, size_t *i)
 		return ;
 	if (!(*new))
 		*new = ft_strdup("");
+	tmp = *new;
 	*new = ft_strjoin(*new, env_var_value);
+	free(tmp);
 }
