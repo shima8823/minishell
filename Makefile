@@ -10,7 +10,7 @@ SRCS =	main.c																		\
 		echo.c env_vars_utils.c export.c export2.c									\
 		lexer.c	state_general.c print_lexer.c state_quote.c							\
 		parser.c print_ast.c node.c													\
-		expansion.c	expansion.c expand.c expand_str.c								\
+		expansion.c expand.c expand_str.c								\
 		execution.c builtin.c bin.c	pipe.c	redirect.c	redirect_here.c	backup_fd.c	\
 		stat.c utils.c put_error.c													\
 
