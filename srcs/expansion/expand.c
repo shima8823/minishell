@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 19:34:07 by shima             #+#    #+#             */
-/*   Updated: 2022/10/18 19:35:57 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/19 20:17:15 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	expand_filename(t_redirect **cmd_redirect, bool *is_ambiguous_redirect)
 	t_token		*token;
 	char		*new;
 	char		*tmp;
-	int			num_tokens;
 
 	redirect = *cmd_redirect;
 	while (redirect)
@@ -34,15 +33,15 @@ void	expand_filename(t_redirect **cmd_redirect, bool *is_ambiguous_redirect)
 		tmp = redirect->filename;
 		new = expand_str(redirect->filename);
 		token = tokenizer(new, NULL, true);
-		free(tmp);
 		free(new);
-		if (count_tokens(token) > 1)
+		if (count_tokens(token) != 1)
 		{
 			*is_ambiguous_redirect = true;
 			free_tokens(token);
 			return ;
 		}
 		redirect->filename = ft_strdup(token->data);
+		free(tmp);
 		free_tokens(token);
 		redirect = redirect->next;
 	}
