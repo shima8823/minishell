@@ -46,6 +46,7 @@ printf "$WHITE===== basic test =====\n"
 env_var_test 'echo $USER'
 env_var_test 'echo a$USER'
 env_var_test 'echo $USER$PATH'
+env_var_test 'echo $USER=hell'
 echo
 # double quote
 printf "$WHITE===== double quote =====\n"
@@ -120,8 +121,6 @@ env_var_test 'echo grape $TEST$TEST$TEST'
 
 # 未対応
 printf "$WHITE===== 未対応 =====\n"
-# shell変数は実装しないため
-env_var_test 'echo $USER=hell'
 # zsh bash では echo $"echo" または echo $'echo' の挙動が違うため
 env_var_test 'echo "$"$'\''$USER'\'
 echo
