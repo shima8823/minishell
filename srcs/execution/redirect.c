@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:20:46 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/19 12:03:44 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/19 12:33:45 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	output_redirect(t_command cmd);
 void	output_redirect_append(t_command cmd);
 void	input_redirect(t_command cmd);
 
-void	do_redirectt(t_command cmd)
+void	do_redirect(t_command cmd)
 {
 	// printf("judge redirect...\n");
 	if (ft_strncmp(cmd.redirects->io_redirect, "<", 2) == 0)

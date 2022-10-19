@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/19 12:06:28 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/19 12:38:41 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,22 @@ static int	exec(t_ast *node,char **args)
 		return (EXIT_FAILURE);
 	if (g_shell.pipe_len > 0)
 	{
-		if (pipe(g_shell.fd) == -1)
+		if (pipe(g_shell.pipe_fd) == -1)
 			put_error("PIPE error", NULL);
 	}
 	if (g_shell.pipe_len > 0)
 		exec_in_child(node->command, args);
-	else if (builtin_check_and_run(args) == EXIT_FAILURE)
+	else if (builtin_check_and_run(node->command, args) == EXIT_FAILURE)
 		exec_in_child(node->command, args);
+	if (g_shell.backup_fd[0] != 0)
+		restore_fd();
 	if (g_shell.pipe_len > 0)
 	{
 		g_shell.pipe_len --;
 		if (g_shell.read_fd != 0)
 			close(g_shell.read_fd);
-		g_shell.read_fd = g_shell.fd[PIPE_READ];
-		close(g_shell.fd[PIPE_WRITE]);
+		g_shell.read_fd = g_shell.pipe_fd[PIPE_READ];
+		close(g_shell.pipe_fd[PIPE_WRITE]);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -68,7 +70,7 @@ static void	exec_in_child(t_command cmd, char **args)
 	{
 		while (cmd.redirects)
 		{
-			do_redirectt(cmd);
+			do_redirect(cmd);
 			cmd.redirects = cmd.redirects->next;
 		}
 		set_signal(SIG_DFL);
