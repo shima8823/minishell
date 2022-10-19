@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 12:42:27 by shima             #+#    #+#             */
-/*   Updated: 2022/10/18 19:51:01 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/19 20:11:24 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void expansion_recursion(t_ast **node, bool *is_ambiguous_redirect);
 bool	expansion(t_ast **node)
 {
 	bool	is_ambiguous_redirect;
+	
 	is_ambiguous_redirect = false;
 	expansion_recursion(node, &is_ambiguous_redirect);
 	if (is_ambiguous_redirect)
