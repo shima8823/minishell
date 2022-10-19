@@ -6,41 +6,47 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/17 12:16:48 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/19 10:24:24 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-static int	exec(char **args);
-static void	exec_in_child(char **args);
+static int	exec(t_ast *node,char **args);
+static void	exec_in_child(t_ast *node, char **args);
 static void wait_child(void);
 
 int	execution(t_ast *node)
 {
 	if (!node)
 		return (EXIT_FAILURE);
+	if (node->type == NODE_PIPE)
+	{
+		g_shell.pipe_len = node->pipe_index + 1;
+	}
+	if (node->type == NODE_COMMAND)
+		exec(node, node->command.args);
 	if (node->left != NULL)
 		execution(node->left);
 	if (node->right != NULL)
 		execution(node->right);
-	if (node->type == NODE_COMMAND)
-	{
-		printf("%d\n", node->pipe_index);
-		return exec(node->command.args);
-	}
 	return (EXIT_SUCCESS);
 }
 
-static int	exec(char **args)
+static int	exec(t_ast *node,char **args)
 {
 	if (!args || !args[0] || args[0][0] == '\0')
 		return (EXIT_FAILURE);
+	if (g_shell.pipe_len > 0)
+	{
+		if (pipe(g_shell.fd) == -1)
+			put_error("PIPE error", NULL);
+	}
 	if (builtin_check_and_run(args) == EXIT_FAILURE)
-		exec_in_child(args);
+		exec_in_child(node, args);
 	return (EXIT_SUCCESS);
 }
 
-static void	exec_in_child(char **args)
+static void	exec_in_child(t_ast *node, char **args)
 {
 	if ((g_shell.pid = fork()) < 0)
 	{
@@ -50,7 +56,15 @@ static void	exec_in_child(char **args)
 	if (g_shell.pid == 0)
 	{
 		set_signal(SIG_DFL);
+		if (g_shell.pipe_len > 0)
+			run_pipe_in_child();
 		bin_check_and_run(args);
+	}
+	if (g_shell.pipe_len > 0)
+	{
+		g_shell.pipe_len --;
+		g_shell.read_fd = g_shell.fd[PIPE_READ];
+		close(g_shell.fd[PIPE_WRITE]);
 	}
 	if (g_shell.pid  > 0)
 		wait_child();

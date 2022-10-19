@@ -6,14 +6,43 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 20:29:55 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/14 16:17:38 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/19 10:27:34 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-static void	link_pipe(int fd[2], int read_fd, int is_next);
+static bool	is_next_pipe(void);
+void	ft_pipe(int read_fd, int fd[2], bool is_next);
 
-void ft_pipe(int read_fd, int fd[2], bool is_next)
+void	run_pipe_in_parent(void)
+{
+	bool	is_next;
+
+	is_next = is_next_pipe();
+	ft_pipe(g_shell.read_fd, g_shell.fd, is_next);
+	if (g_shell.read_fd != 0)
+		close(g_shell.read_fd);
+}
+
+void	run_pipe_in_child(void)
+{
+	bool	is_next;
+
+	is_next = is_next_pipe();
+	ft_pipe(g_shell.read_fd, g_shell.fd, is_next);
+	if (g_shell.read_fd != 0)
+		close(g_shell.read_fd);
+}
+
+static bool	is_next_pipe(void)
+{
+	if (g_shell.pipe_len > 1)
+		return (true);
+	else
+		return (false);
+}
+
+void	ft_pipe(int read_fd, int fd[2], bool is_next)
 {
 	close(fd[PIPE_READ]);
 	dup2(read_fd, STDIN_FILENO);
