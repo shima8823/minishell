@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 22:23:57 by shima             #+#    #+#             */
-/*   Updated: 2022/10/18 15:30:16 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/19 20:01:04 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ static char	*create_env_var_name(const char *s, size_t *i)
 	char	*env_var_name;
 
 	start = ++(*i);
-	while (!ft_strchr(" $\"\'", s[*i]))
+	if (ft_isdigit(s[*i]))
+		return (ft_strdup(""));
+	while (ft_isalnum(s[*i]) || s[*i] == '_')
 		(*i)++;
 	env_var_name = ft_substr(s, start, *i - start);
 	// printf("env_var_name: [%s]\n", env_var_name);
@@ -93,12 +95,14 @@ static void switch_state(t_token_state *state)
 static void	expand_env_var(char **new, const char *s, size_t *i)
 {
 	char	*env_var_name;
-	char	*env_var_value;
 	char	*tmp;
+	ssize_t	env_i;
+	size_t	env_var_name_len;
 
 	env_var_name = create_env_var_name(s, i);
 	// printf("env_var_name: %s\n", env_var_name);
-	if (ft_strlen(env_var_name) == 0)
+	env_var_name_len = ft_strlen(env_var_name);
+	if (env_var_name_len == 0)
 	{
 		if (!(*new))
 			*new = ft_strdup("$");
@@ -111,13 +115,13 @@ static void	expand_env_var(char **new, const char *s, size_t *i)
 		free(env_var_name);
 		return ;
 	}
-	env_var_value = getenv(env_var_name);
+	env_i = search_var(env_var_name);
 	free(env_var_name);
-	if (!env_var_value)
+	if (env_i == -1)
 		return ;
 	if (!(*new))
 		*new = ft_strdup("");
 	tmp = *new;
-	*new = ft_strjoin(*new, env_var_value);
+	*new = ft_strjoin(*new, &g_shell.vars[env_i][env_var_name_len + 1]);
 	free(tmp);
 }
