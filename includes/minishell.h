@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/16 13:15:52 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/19 17:08:44 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@
 typedef struct s_shell {
 	char	**vars;
 	int		vars_len;
+	int		read_fd;
+	int		pipe_fd[2];
+	int		pipe_len;
+	int		backup_fd[2];
+	int		status;
 	pid_t	pid;
 }				t_shell;
 
