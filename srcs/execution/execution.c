@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/19 12:38:41 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/19 17:12:49 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ int	execution(t_ast *node)
 	if (!node)
 		return (EXIT_FAILURE);
 	if (node->type == NODE_PIPE)
-	{
 		g_shell.pipe_len = node->pipe_index + 1;
-	}
 	if (node->type == NODE_COMMAND)
 		exec(node, node->command.args);
 	if (node->left != NULL)
@@ -40,7 +38,7 @@ static int	exec(t_ast *node,char **args)
 	if (g_shell.pipe_len > 0)
 	{
 		if (pipe(g_shell.pipe_fd) == -1)
-			put_error("PIPE error", NULL);
+			put_error("PIPE error",NULL);
 	}
 	if (g_shell.pipe_len > 0)
 		exec_in_child(node->command, args);

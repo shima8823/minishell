@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:21:18 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/19 17:03:24 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/19 17:16:35 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,18 @@ static char	**get_splited_path(void)
 void	put_exec_error(char *path)
 {
 	if (is_directory(path))
+	{
+		g_shell.status = 126;
 		errno = EISDIR;
+	}
 	if (is_command_exist(path) && !is_executable(path))
+	{
+		g_shell.status = 126;
 		errno = EACCES;
+	}
 	if (path[0] != '.' && path[0] != '/')
 	{
+		g_shell.status = 127;
 		put_error(" command not found", path);
 		return ;
 	}	
