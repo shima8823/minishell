@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/19 11:51:25 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/19 12:06:28 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,10 @@ static void	exec_in_child(t_command cmd, char **args)
 	}
 	if (g_shell.pid == 0)
 	{
-		if (cmd.redirects)
+		while (cmd.redirects)
 		{
 			do_redirectt(cmd);
+			cmd.redirects = cmd.redirects->next;
 		}
 		set_signal(SIG_DFL);
 		if (g_shell.pipe_len > 0)
