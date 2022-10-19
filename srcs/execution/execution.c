@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/19 10:24:24 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/19 11:22:19 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void wait_child(void);
 
 int	execution(t_ast *node)
 {
+	// printf("read_fd:%d\n", g_shell.read_fd);
 	if (!node)
 		return (EXIT_FAILURE);
 	if (node->type == NODE_PIPE)
@@ -41,8 +42,18 @@ static int	exec(t_ast *node,char **args)
 		if (pipe(g_shell.fd) == -1)
 			put_error("PIPE error", NULL);
 	}
-	if (builtin_check_and_run(args) == EXIT_FAILURE)
+	if (g_shell.pipe_len > 0)
 		exec_in_child(node, args);
+	else if (builtin_check_and_run(args) == EXIT_FAILURE)
+		exec_in_child(node, args);
+	if (g_shell.pipe_len > 0)
+	{
+		g_shell.pipe_len --;
+		if (g_shell.read_fd != 0)
+			close(g_shell.read_fd);
+		g_shell.read_fd = g_shell.fd[PIPE_READ];
+		close(g_shell.fd[PIPE_WRITE]);
+	}
 	return (EXIT_SUCCESS);
 }
 
@@ -59,12 +70,6 @@ static void	exec_in_child(t_ast *node, char **args)
 		if (g_shell.pipe_len > 0)
 			run_pipe_in_child();
 		bin_check_and_run(args);
-	}
-	if (g_shell.pipe_len > 0)
-	{
-		g_shell.pipe_len --;
-		g_shell.read_fd = g_shell.fd[PIPE_READ];
-		close(g_shell.fd[PIPE_WRITE]);
 	}
 	if (g_shell.pid  > 0)
 		wait_child();
