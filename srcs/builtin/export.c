@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 17:35:04 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/09/29 09:49:19 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/19 17:19:12 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,16 +113,3 @@ void	ft_export(char **args)
 	}
 }
 
-// int	main(int ac, char *av[])
-// {
-// 	g_shell.vars = ft_calloc(3, sizeof(char **));
-// 	g_shell.vars[0] = "test=test1";
-// 	g_shell.vars[1] = "test3=test2";
-// 	g_shell.vars_len = 2;
-// 	ft_export(NULL);
-// 	printf("\n");
-// 	ft_export(av);
-// 	printf("\n");
-// 	ft_export(NULL);
-// 	return (0);
-// }
