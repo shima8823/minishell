@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 12:17:55 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/14 12:18:05 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/19 12:01:49 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,15 @@ void	input_redirect_here(t_command cmd)
 		line = readline(">");
 		if (!line)
 			break;
-		if (ft_strncmp(cmd.filename, line, ft_strlen(cmd.filename)) == 0)
+		if (ft_strncmp(cmd.redirects->filename, line, ft_strlen(cmd.redirects->filename)) == 0)
 		{
 			free(line);
 			break; ;
 		}
+		tmp = line;
+		line = ft_strjoin(line, "\n");
+		if (tmp)
+			free(tmp);
 		tmp = res;
 		res = ft_strjoin(res, line);
 		if (!res)

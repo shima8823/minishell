@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.h                                        :+:      :+:    :+:   */
+/*   backup_fd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/07 18:27:12 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/19 12:33:49 by takanoraika      ###   ########.fr       */
+/*   Created: 2022/10/19 12:19:23 by takanoraika       #+#    #+#             */
+/*   Updated: 2022/10/19 12:39:26 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTION_H
-# define EXECUTION_H
+#include "../../includes/minishell.h"
 
-# define PIPE_READ 0
-# define PIPE_WRITE 1
+void	backup_fd(void)
+{
+	g_shell.backup_fd[0] = dup(STDIN_FILENO);
+	g_shell.backup_fd[1] = dup(STDOUT_FILENO);
+}
 
-int		builtin_check_and_run(t_command cmd, char **args);
-int		bin_check_and_run(char **args);
-void	exec_signal_set(void);
-void	run_pipe_in_child(void);
-void	do_redirect(t_command cmd);
-void	backup_fd(void);
-void	restore_fd(void);
-
-#endif
+void	restore_fd(void)
+{
+	dup2(g_shell.backup_fd[0], STDIN_FILENO);
+	dup2(g_shell.backup_fd[1], STDOUT_FILENO);
+	close(g_shell.backup_fd[0]);
+	close(g_shell.backup_fd[1]);
+	g_shell.backup_fd[0] = 0;
+	g_shell.backup_fd[1] = 0;
+}

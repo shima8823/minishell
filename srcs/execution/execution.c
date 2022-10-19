@@ -6,50 +6,83 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/17 12:16:48 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/19 17:30:50 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-static int	exec(char **args);
-static void	exec_in_child(char **args);
+static int	exec(t_ast *node,char **args);
+static void	exec_in_child(t_command cmd, char **args);
 static void wait_child(void);
 
 int	execution(t_ast *node)
 {
+	// printf("read_fd:%d\n", g_shell.read_fd);
 	if (!node)
 		return (EXIT_FAILURE);
+	if (node->type == NODE_PIPE)
+		g_shell.pipe_len = node->pipe_index + 1;
+	if (node->type == NODE_COMMAND)
+		exec(node, node->command.args);
 	if (node->left != NULL)
 		execution(node->left);
 	if (node->right != NULL)
 		execution(node->right);
-	if (node->type == NODE_COMMAND)
+	return (EXIT_SUCCESS);
+}
+
+static int	exec(t_ast *node,char **args)
+{
+	g_shell.status = 0;
+	if (!args || !args[0] || args[0][0] == '\0')
+		return (EXIT_FAILURE);
+	if (g_shell.pipe_len > 0)
 	{
-		printf("%d\n", node->pipe_index);
-		return exec(node->command.args);
+		if (pipe(g_shell.pipe_fd) == -1)
+		{
+			put_error(strerror(errno), NULL);
+			g_shell.status = -1;
+			return (EXIT_FAILURE);
+		}
+		exec_in_child(node->command, args);
+	}
+	else
+	{
+		g_shell.status = builtin_check_and_run(node->command, args);
+		if (g_shell.status == EXIT_FAILURE)
+		exec_in_child(node->command, args);
+	} 
+	if (g_shell.backup_fd[0] != 0)
+		restore_fd();
+	if (g_shell.pipe_len > 0)
+	{
+		g_shell.pipe_len --;
+		if (g_shell.read_fd != 0)
+			close(g_shell.read_fd);
+		g_shell.read_fd = g_shell.pipe_fd[PIPE_READ];
+		close(g_shell.pipe_fd[PIPE_WRITE]);
 	}
 	return (EXIT_SUCCESS);
 }
 
-static int	exec(char **args)
-{
-	if (!args || !args[0] || args[0][0] == '\0')
-		return (EXIT_FAILURE);
-	if (builtin_check_and_run(args) == EXIT_FAILURE)
-		exec_in_child(args);
-	return (EXIT_SUCCESS);
-}
-
-static void	exec_in_child(char **args)
+static void	exec_in_child(t_command cmd, char **args)
 {
 	if ((g_shell.pid = fork()) < 0)
 	{
 		put_error(strerror(errno), NULL);
+		g_shell.status = -1;
 		return ;
 	}
 	if (g_shell.pid == 0)
 	{
+		while (cmd.redirects)
+		{
+			do_redirect(cmd);
+			cmd.redirects = cmd.redirects->next;
+		}
 		set_signal(SIG_DFL);
+		if (g_shell.pipe_len > 0)
+			run_pipe_in_child();
 		bin_check_and_run(args);
 	}
 	if (g_shell.pid  > 0)

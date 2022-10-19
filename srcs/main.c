@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/17 12:15:32 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/19 17:08:56 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ int main(int argc, char *argv[])
 	if (argc != 1)
 		return (EXIT_FAILURE);
 	g_shell.vars = environ;
+	g_shell.status = 0;
 	while (g_shell.vars[g_shell.vars_len])
 		g_shell.vars_len++;
+	g_shell.backup_fd[0] = 0;
 	printf("hello, minishell\n");
 	set_signal_init();
 	prompt();
@@ -44,6 +46,7 @@ void	prompt(void)
 
 	while (line)
 	{
+		g_shell.read_fd = 0;
 		node = NULL;
 		line = readline("minishell > ");
 		if (!line)
