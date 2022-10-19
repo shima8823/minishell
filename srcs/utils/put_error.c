@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/14 16:32:42 by shima             #+#    #+#             */
-/*   Updated: 2022/10/09 21:44:02 by shima            ###   ########.fr       */
+/*   Created: 2022/10/11 13:27:55 by takanoraika       #+#    #+#             */
+/*   Updated: 2022/10/11 13:29:06 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/minishell.h"
 
-int	ft_putchar_fd(char c, int fd)
+void	put_error(char *msg, char *cmd)
 {
-	return (write(fd, &c, 1));
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	if (cmd)
+	{
+		ft_putstr_fd(cmd, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+	}
+	ft_putendl_fd(msg, STDERR_FILENO);
 }

@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/14 16:34:24 by shima             #+#    #+#             */
-/*   Updated: 2022/10/09 21:48:42 by shima            ###   ########.fr       */
+/*   Created: 2022/09/28 19:26:15 by takanoraika       #+#    #+#             */
+/*   Updated: 2022/10/07 19:48:44 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/minishell.h"
 
-int	ft_putstr_fd(char *s, int fd)
+int	ft_isspace(int c)
 {
-	size_t	len;
+	if (('\t' <= c && c <= '\r') || c == ' ')
+		return (true);
+	return (false);
+}
 
-	if (!s)
-		return (-1);
-	len = ft_strlen(s);
-	while (len > INT_MAX)
+void	free_array(char **array)
+{
+	size_t	i;
+
+	i = 0;
+	while (array[i])
 	{
-		if (write(fd, s, INT_MAX) == -1)
-			return (-1);
-		s += INT_MAX;
-		len -= INT_MAX;
+		free(array[i]);
+		i++;
 	}
-	return (write(fd, s, len));
+	free(array);
 }

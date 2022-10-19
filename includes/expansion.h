@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
+/*   expansion.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/14 16:32:42 by shima             #+#    #+#             */
-/*   Updated: 2022/10/09 21:44:02 by shima            ###   ########.fr       */
+/*   Created: 2022/10/10 13:00:38 by shima             #+#    #+#             */
+/*   Updated: 2022/10/10 20:26:54 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef EXPANSION_H
+# define EXPANSION_H
 
-int	ft_putchar_fd(char c, int fd)
-{
-	return (write(fd, &c, 1));
-}
+#include <stdlib.h>
+
+void expansion(t_ast **node);
+
+#endif
