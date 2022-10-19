@@ -6,13 +6,13 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/19 11:22:19 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/19 11:51:25 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 static int	exec(t_ast *node,char **args);
-static void	exec_in_child(t_ast *node, char **args);
+static void	exec_in_child(t_command cmd, char **args);
 static void wait_child(void);
 
 int	execution(t_ast *node)
@@ -43,9 +43,9 @@ static int	exec(t_ast *node,char **args)
 			put_error("PIPE error", NULL);
 	}
 	if (g_shell.pipe_len > 0)
-		exec_in_child(node, args);
+		exec_in_child(node->command, args);
 	else if (builtin_check_and_run(args) == EXIT_FAILURE)
-		exec_in_child(node, args);
+		exec_in_child(node->command, args);
 	if (g_shell.pipe_len > 0)
 	{
 		g_shell.pipe_len --;
@@ -57,7 +57,7 @@ static int	exec(t_ast *node,char **args)
 	return (EXIT_SUCCESS);
 }
 
-static void	exec_in_child(t_ast *node, char **args)
+static void	exec_in_child(t_command cmd, char **args)
 {
 	if ((g_shell.pid = fork()) < 0)
 	{
@@ -66,6 +66,10 @@ static void	exec_in_child(t_ast *node, char **args)
 	}
 	if (g_shell.pid == 0)
 	{
+		if (cmd.redirects)
+		{
+			do_redirectt(cmd);
+		}
 		set_signal(SIG_DFL);
 		if (g_shell.pipe_len > 0)
 			run_pipe_in_child();
