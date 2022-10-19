@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/19 17:12:49 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/19 17:30:50 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,25 @@ int	execution(t_ast *node)
 
 static int	exec(t_ast *node,char **args)
 {
+	g_shell.status = 0;
 	if (!args || !args[0] || args[0][0] == '\0')
 		return (EXIT_FAILURE);
 	if (g_shell.pipe_len > 0)
 	{
 		if (pipe(g_shell.pipe_fd) == -1)
-			put_error("PIPE error",NULL);
+		{
+			put_error(strerror(errno), NULL);
+			g_shell.status = -1;
+			return (EXIT_FAILURE);
+		}
+		exec_in_child(node->command, args);
 	}
-	if (g_shell.pipe_len > 0)
+	else
+	{
+		g_shell.status = builtin_check_and_run(node->command, args);
+		if (g_shell.status == EXIT_FAILURE)
 		exec_in_child(node->command, args);
-	else if (builtin_check_and_run(node->command, args) == EXIT_FAILURE)
-		exec_in_child(node->command, args);
+	} 
 	if (g_shell.backup_fd[0] != 0)
 		restore_fd();
 	if (g_shell.pipe_len > 0)
@@ -62,6 +70,7 @@ static void	exec_in_child(t_command cmd, char **args)
 	if ((g_shell.pid = fork()) < 0)
 	{
 		put_error(strerror(errno), NULL);
+		g_shell.status = -1;
 		return ;
 	}
 	if (g_shell.pid == 0)
