@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
+/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/19 17:08:44 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/20 19:46:41 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,7 @@ bool	is_command_exist(const char *path);
 bool	is_directory(const char *path);
 bool	is_executable(const char *path);
 void	put_error(char *msg, char *cmd);
+int		ft_pwd(char **args);
+int		ft_cd(char **args);
 
 #endif
