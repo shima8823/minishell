@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
+/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:12:09 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/19 12:37:57 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/20 19:47:12 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	builtin_check_and_run(t_command cmd,char **args)
 	// if (!is_command_exist_builtin(args))
 	// 	return (EXIT_FAILURE);
 	if (is_command(args[0], "cd"))
-		return (1);
+		return (ft_cd(args));
 	else if (is_command(args[0], "pwd"))
-		return (2);
+		return (ft_pwd(args));
 	else if (is_command(args[0], "echo"))
 		return (ft_echo(args));
 	else if (is_command(args[0], "exit"))
