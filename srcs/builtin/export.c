@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 17:35:04 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/20 11:59:30 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/20 13:41:41 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	ft_export(char **args)
 		if (args[i][0] == '"' && args[i][1] == '"')
 		{
 			error_in_export("", 1);
-			g_shell.status = 1;
+			g_shell.status = EXIT_FAILURE;
 			i++;
 			continue ;
 		}

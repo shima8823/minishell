@@ -6,12 +6,12 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/20 13:21:20 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/20 13:51:38 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-static int	exec(t_ast *node,char **args);
+static void	exec(t_ast *node,char **args);
 static void	exec_in_child(t_command cmd, char **args);
 static void wait_child(void);
 
@@ -31,17 +31,15 @@ int	execution(t_ast *node)
 	return (EXIT_SUCCESS);
 }
 
-static int	exec(t_ast *node,char **args)
+static void	exec(t_ast *node,char **args)
 {
-	if (!args || !args[0] || args[0][0] == '\0')
-		return (EXIT_FAILURE);
 	if (g_shell.pipe_len > 0)
 	{
 		if (pipe(g_shell.pipe_fd) == -1)
 		{
 			put_error(strerror(errno), NULL);
 			g_shell.status = -1;
-			return (EXIT_FAILURE);
+			return ;
 		}
 		exec_in_child(node->command, args);
 	}
@@ -61,7 +59,6 @@ static int	exec(t_ast *node,char **args)
 		g_shell.read_fd = g_shell.pipe_fd[PIPE_READ];
 		close(g_shell.pipe_fd[PIPE_WRITE]);
 	}
-	return (EXIT_SUCCESS);
 }
 
 static void	exec_in_child(t_command cmd, char **args)
@@ -79,11 +76,12 @@ static void	exec_in_child(t_command cmd, char **args)
 			if (do_redirect(cmd) != 0)
 			{
 				put_error(strerror(errno), cmd.redirects->filename);
-				g_shell.status = 1;
-				return ;
+				exit(EXIT_FAILURE);
 			}
 			cmd.redirects = cmd.redirects->next;
 		}
+		if (!args || !args[0] || args[0][0] == '\0')
+			exit(EXIT_FAILURE);
 		set_signal(SIG_DFL);
 		if (g_shell.pipe_len > 0)
 			run_pipe_in_child();
