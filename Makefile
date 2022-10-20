@@ -7,7 +7,7 @@ NAME = minishell
 NAME_DEBUG = minishell_debug
 SRCS =	main.c																		\
 		ctrl_signal.c																\
-		echo.c env_vars_utils.c export.c export2.c									\
+		echo.c env_vars_utils.c export.c export2.c pwd.c cd.c								\
 		lexer.c	state_general.c print_lexer.c state_quote.c							\
 		parser.c print_ast.c node.c													\
 		expansion.c expand.c expand_str.c								\
