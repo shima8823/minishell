@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 13:35:27 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/14 13:50:35 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/19 17:19:01 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,3 @@ void	set_signal(void (*func)(int))
 		exit(EXIT_FAILURE);
 	}
 }
-
-// int main(int argc, char **argv)
-// {
-// 	signal_set();
-// 	while (1)
-// 	;
-// 	return 0;
-// }

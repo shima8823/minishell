@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 10:22:08 by shima             #+#    #+#             */
-/*   Updated: 2022/10/09 20:50:33 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/18 19:41:55 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,23 @@ void	state_general(char *line, t_tokenizer_info *info, t_token **lst)
 	{
 		info->state = STATE_IN_QUOTE;
 		(*lst)->data[(info->data_i)++] = CHAR_QUOTE;
+		if (info->do_skip_quote)
+			(info->data_i)--;
 		(*lst)->type = TOKEN;
 	}
 	else if (line[info->line_i] == CHAR_DQUOTE)
 	{
 		info->state = STATE_IN_DQUOTE;
 		(*lst)->data[(info->data_i)++] = CHAR_DQUOTE;
+		if (info->do_skip_quote)
+			(info->data_i)--;
 		(*lst)->type = TOKEN;
 	}
 	else if (line[info->line_i] == CHAR_WHITESPACE)
 	{
-		if (info->data_i > 0)
-		{
-			if (is_line_finished(line, &(info->line_i)))
-				return ;
-			add_new_token(info, lst);
-		}
+		if (info->data_i == 0 || is_line_finished(line, &(info->line_i)))
+			return ;
+		add_new_token(info, lst);
 	}
 	else
 		general_second_process(line, info, lst);

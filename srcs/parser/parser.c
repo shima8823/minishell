@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 13:02:28 by shima             #+#    #+#             */
-/*   Updated: 2022/10/15 15:09:40 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/18 19:44:35 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,8 +152,6 @@ void	add_token_to_args(t_ast **cmd_node, t_token **token)
 	while (++i < num_args)
 		(*args)[i] = tmp[i];
 	(*args)[i] = ft_strdup((*token)->data);
-	if (!(*args)[i])
-		error_exit("ft_strdup");
 	(*args)[i + 1] = NULL;
 	free(tmp);
 }
@@ -171,15 +169,11 @@ bool	parser_redirect(t_ast **cmd_node, t_redirect **last_redirect, t_token **tok
 		redirect->prev = *last_redirect;
 	}
 	redirect->io_redirect = ft_strdup((*token)->data);
-	if (!(redirect->io_redirect))
-		error_exit("ft_strdup");
 	*last_redirect = redirect;
 	(*token) = (*token)->next;
 	if (!(*token) || (*token)->type != TOKEN)
 		return (false);
 	redirect->filename = ft_strdup((*token)->data);
-	if (!(redirect->filename))
-		error_exit("ft_strdup");
 	return (true);
 }
 
