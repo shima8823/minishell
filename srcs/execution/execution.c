@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/19 17:30:50 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/20 12:02:26 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	exec(t_ast *node,char **args)
 	{
 		g_shell.status = builtin_check_and_run(node->command, args);
 		if (g_shell.status == EXIT_FAILURE)
-		exec_in_child(node->command, args);
+			exec_in_child(node->command, args);
 	} 
 	if (g_shell.backup_fd[0] != 0)
 		restore_fd();
@@ -99,6 +99,11 @@ static void wait_child(void)
 	{
 		signal = WTERMSIG(status);
 		if (signal == SIGQUIT)
+		{
 			ft_putendl_fd("Quit: 3", STDERR_FILENO);
+			g_shell.status = 131;
+		}
+		if (signal == SIGINT)
+			g_shell.status = 130;
 	}
 }

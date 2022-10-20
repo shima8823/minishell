@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 17:35:04 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/20 11:48:39 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/20 11:59:30 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,14 +95,14 @@ static int	add_vars(char *arg)
 	return (0);
 }
 
-void	ft_export(char **args)
+int	ft_export(char **args)
 {
 	size_t	i;
 
 	if (args[1] == NULL)
 	{
 		export_vars();
-		return ;
+		return (g_shell.status);
 	}
 	i = 1;
 	while (args[i] != NULL)
@@ -110,6 +110,7 @@ void	ft_export(char **args)
 		if (args[i][0] == '"' && args[i][1] == '"')
 		{
 			error_in_export("", 1);
+			g_shell.status = 1;
 			i++;
 			continue ;
 		}
@@ -117,5 +118,6 @@ void	ft_export(char **args)
 			error_in_export(args[i], 1);
 		i ++;
 	}
+	return (g_shell.status);
 }
 
