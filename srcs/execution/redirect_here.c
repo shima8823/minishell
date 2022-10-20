@@ -6,13 +6,13 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 12:17:55 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/19 12:01:49 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/20 13:04:01 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	input_redirect_here(t_command cmd)
+int	input_redirect_here(t_command cmd)
 {
 	char	*line;
 	char	*res;
@@ -22,13 +22,13 @@ void	input_redirect_here(t_command cmd)
 	if (pipe(fd) == -1)
 	{
 		perror("pipe");
-		return ;
+		return (EXIT_FAILURE);
 	}
 	res = malloc(1);
 	if (!res)
 	{
 		perror("malloc");
-		return ;
+		exit(EXIT_FAILURE);
 	}
 	while(1)
 	{
@@ -49,7 +49,7 @@ void	input_redirect_here(t_command cmd)
 		if (!res)
 		{
 			perror("malloc");
-			return ;
+			exit(EXIT_FAILURE);
 		}
 		if (tmp)
 			free(tmp);
@@ -60,4 +60,5 @@ void	input_redirect_here(t_command cmd)
 	close(fd[PIPE_READ]);
 	close(fd[PIPE_WRITE]);
 	free(res);
+	return (0);
 }

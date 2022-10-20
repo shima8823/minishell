@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/19 20:39:47 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/20 12:51:40 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	prompt(void)
 			ft_putstr_fd("\033[1A", STDERR_FILENO);
 			ft_putstr_fd("\033[12C", STDERR_FILENO);
 			ft_putendl_fd("exit", STDERR_FILENO);
-			exit(EXIT_SUCCESS);
+			exit(g_shell.status);
 		}
 		if (*line)
 			add_history(line);

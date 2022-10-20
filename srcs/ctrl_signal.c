@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 13:35:27 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/19 17:19:01 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/20 13:17:39 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	signal_handler(int code)
 {
+	g_shell.status = 1;
 	rl_on_new_line();
 	write(STDOUT_FILENO, "\n", 1);
 	rl_replace_line("", 0);

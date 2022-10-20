@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/20 12:02:26 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/20 13:21:20 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	execution(t_ast *node)
 
 static int	exec(t_ast *node,char **args)
 {
-	g_shell.status = 0;
 	if (!args || !args[0] || args[0][0] == '\0')
 		return (EXIT_FAILURE);
 	if (g_shell.pipe_len > 0)
@@ -77,7 +76,12 @@ static void	exec_in_child(t_command cmd, char **args)
 	{
 		while (cmd.redirects)
 		{
-			do_redirect(cmd);
+			if (do_redirect(cmd) != 0)
+			{
+				put_error(strerror(errno), cmd.redirects->filename);
+				g_shell.status = 1;
+				return ;
+			}
 			cmd.redirects = cmd.redirects->next;
 		}
 		set_signal(SIG_DFL);
@@ -95,15 +99,15 @@ static void wait_child(void)
 	int	signal;
 
 	waitpid(g_shell.pid, &status, 0);
+	if (WIFEXITED(status))
+		g_shell.status = WEXITSTATUS(status);
 	if (WIFSIGNALED(status))
 	{
 		signal = WTERMSIG(status);
 		if (signal == SIGQUIT)
-		{
 			ft_putendl_fd("Quit: 3", STDERR_FILENO);
-			g_shell.status = 131;
-		}
 		if (signal == SIGINT)
-			g_shell.status = 130;
+			ft_putendl_fd("", STDERR_FILENO);
+		g_shell.status = signal + 128;
 	}
 }
