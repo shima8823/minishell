@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 11:01:13 by shima             #+#    #+#             */
-/*   Updated: 2022/05/04 06:31:52 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/18 15:19:19 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	result = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
 	if (!result)
-		return (NULL);
+		exit(EXIT_FAILURE);
 	result[0] = '\0';
 	ft_strcat(result, s1);
 	ft_strcat(result, s2);

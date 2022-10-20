@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:47:53 by shima             #+#    #+#             */
-/*   Updated: 2022/10/15 14:22:39 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/18 19:44:55 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ void	str_to_new_args(t_ast **cmd_node, const char *str)
 	if (!((*cmd_node)->command.args))
 		error_exit("malloc");
 	(*cmd_node)->command.args[0] = ft_strdup(str);
-	if (!((*cmd_node)->command.args[0]))
-		error_exit("ft_strdup");
 	(*cmd_node)->command.args[1] = NULL;
 }
 
