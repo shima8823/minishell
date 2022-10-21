@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/20 13:51:38 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/21 23:13:30 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void wait_child(void);
 
 int	execution(t_ast *node)
 {
-	// printf("read_fd:%d\n", g_shell.read_fd);
 	if (!node)
 		return (EXIT_FAILURE);
 	if (node->type == NODE_PIPE)
@@ -49,15 +48,15 @@ static void	exec(t_ast *node,char **args)
 		if (g_shell.status == EXIT_FAILURE)
 			exec_in_child(node->command, args);
 	} 
-	if (g_shell.backup_fd[0] != 0)
+	if (g_shell.backup_fd[PIPE_READ] != 0)
 		restore_fd();
 	if (g_shell.pipe_len > 0)
 	{
 		g_shell.pipe_len --;
-		if (g_shell.read_fd != 0)
-			close(g_shell.read_fd);
-		g_shell.read_fd = g_shell.pipe_fd[PIPE_READ];
+		if (g_shell.old_read_pipe_fd != 0)
+			close(g_shell.old_read_pipe_fd);
 		close(g_shell.pipe_fd[PIPE_WRITE]);
+		g_shell.old_read_pipe_fd = g_shell.pipe_fd[PIPE_READ];
 	}
 }
 
@@ -71,6 +70,7 @@ static void	exec_in_child(t_command cmd, char **args)
 	}
 	if (g_shell.pid == 0)
 	{
+		set_signal(SIG_DFL);
 		while (cmd.redirects)
 		{
 			if (do_redirect(cmd) != 0)
@@ -82,12 +82,11 @@ static void	exec_in_child(t_command cmd, char **args)
 		}
 		if (!args || !args[0] || args[0][0] == '\0')
 			exit(EXIT_FAILURE);
-		set_signal(SIG_DFL);
 		if (g_shell.pipe_len > 0)
 			run_pipe_in_child();
 		bin_check_and_run(args);
 	}
-	if (g_shell.pid  > 0)
+	if (g_shell.pid > 0 && g_shell.pipe_len == 0)
 		wait_child();
 }
 
