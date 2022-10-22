@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/22 11:06:52 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/22 21:07:51 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void	ft_export(char **args);
 int		ft_pwd(char **args);
 int		ft_cd(char **args);
 int		ft_unset(char **args);
+int		ft_env(char **args);
+int		ft_exit(char **args);
 
 void	set_signal(void (*func)(int));
 void	set_signal_init(void);
