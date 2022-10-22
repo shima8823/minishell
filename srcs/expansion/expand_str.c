@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 22:23:57 by shima             #+#    #+#             */
-/*   Updated: 2022/10/19 20:01:04 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/21 16:08:54 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,11 @@ static char	*create_env_var_name(const char *s, size_t *i)
 	char	*env_var_name;
 
 	start = ++(*i);
+	if (s[*i] == '?')
+	{
+		(*i)++;
+		return (ft_strdup("?"));
+	}
 	if (ft_isdigit(s[*i]))
 		return (ft_strdup(""));
 	while (ft_isalnum(s[*i]) || s[*i] == '_')
@@ -110,6 +115,19 @@ static void	expand_env_var(char **new, const char *s, size_t *i)
 		{
 			tmp = *new;
 			*new = ft_strjoin(*new, "$");
+			free(tmp);
+		}
+		free(env_var_name);
+		return ;
+	}
+	else if (ft_strncmp(env_var_name, "?", 2) == 0)
+	{
+		if (!(*new))
+			*new = ft_strdup(ft_itoa(g_shell.status));
+		else
+		{
+			tmp = *new;
+			*new = ft_strjoin(*new, ft_itoa(g_shell.status));
 			free(tmp);
 		}
 		free(env_var_name);
