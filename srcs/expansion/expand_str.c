@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 22:23:57 by shima             #+#    #+#             */
-/*   Updated: 2022/10/21 16:08:54 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/22 21:19:00 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ static void	expand_env_var(char **new, const char *s, size_t *i)
 {
 	char	*env_var_name;
 	char	*tmp;
+	char	*status;
 	ssize_t	env_i;
 	size_t	env_var_name_len;
 
@@ -122,13 +123,15 @@ static void	expand_env_var(char **new, const char *s, size_t *i)
 	}
 	else if (ft_strncmp(env_var_name, "?", 2) == 0)
 	{
+		status = ft_itoa(g_shell.status);
 		if (!(*new))
-			*new = ft_strdup(ft_itoa(g_shell.status));
+			*new = status;
 		else
 		{
 			tmp = *new;
-			*new = ft_strjoin(*new, ft_itoa(g_shell.status));
+			*new = ft_strjoin(*new, status);
 			free(tmp);
+			free(status);
 		}
 		free(env_var_name);
 		return ;
