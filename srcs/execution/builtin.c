@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:12:09 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/20 19:47:12 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/22 11:02:38 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	builtin_check_and_run(t_command cmd,char **args)
 	else if (is_command(args[0], "export"))
 		ft_export(args);
 	else if (is_command(args[0], "unset"))
-		return (5);
+		return (ft_unset(args));
 	else if (is_command(args[0], "env"))
 		return (6);
 	return (EXIT_FAILURE);

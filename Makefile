@@ -7,12 +7,12 @@ NAME = minishell
 NAME_DEBUG = minishell_debug
 SRCS =	main.c																		\
 		ctrl_signal.c																\
-		echo.c env_vars_utils.c export.c export2.c pwd.c cd.c								\
+		echo.c env_vars_utils.c export.c export2.c unset.c pwd.c cd.c								\
 		lexer.c	state_general.c print_lexer.c state_quote.c							\
 		parser.c print_ast.c node.c													\
 		expansion.c expand.c expand_str.c								\
 		execution.c builtin.c bin.c	pipe.c	redirect.c	redirect_here.c	backup_fd.c	\
-		stat.c utils.c put_error.c													\
+		stat.c utils.c put_error.c arg.c												\
 
 OBJ = $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.o))
 OBJDIR = obj
@@ -56,5 +56,9 @@ leak: clean
 	$(MAKE) NAME="minishell_leak"
 	$(MAKE) CFLAGS="$(CFLAGS) -fsanitize=address"
 	$(MAKE) clean
+
+test:
+	bash tests/expansion.sh
+	bash tests/exec.sh
 
 re: fclean all

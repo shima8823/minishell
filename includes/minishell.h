@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/20 19:46:41 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/22 11:06:52 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,15 @@ typedef struct s_shell {
 
 t_shell	g_shell;
 
+// builtin
+int		ft_echo(char **args);
+void	ft_export(char **args);
+int		ft_pwd(char **args);
+int		ft_cd(char **args);
+int		ft_unset(char **args);
+
 void	set_signal(void (*func)(int));
 void	set_signal_init(void);
-void	ft_export(char **args);
-int		ft_echo(char **args);
 int		ft_isspace(int c);
 ssize_t	search_var(char *name);
 char	*return_name(char *var);
@@ -63,7 +68,6 @@ bool	is_command_exist(const char *path);
 bool	is_directory(const char *path);
 bool	is_executable(const char *path);
 void	put_error(char *msg, char *cmd);
-int		ft_pwd(char **args);
-int		ft_cd(char **args);
+void	left_shift_args(char ***args, size_t args_i);
 
 #endif
