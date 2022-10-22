@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 19:34:07 by shima             #+#    #+#             */
-/*   Updated: 2022/10/19 20:17:15 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/22 11:00:52 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "../../includes/lexer.h"
 #include "../../includes/parser.h"
 
-static void	shift_args(char ***args, size_t args_i);
 static void	add_increased_tokens_to_args(char ***args, int num_tokens, t_token **token, size_t args_i);
 
 void	expand_filename(t_redirect **cmd_redirect, bool *is_ambiguous_redirect)
@@ -64,7 +63,7 @@ void	expand_args(char ***args)
 		free(new);
 		num_tokens = count_tokens(token);
 		if (num_tokens == 0)
-			shift_args(args, i);
+			left_shift_args(args, i);
 		else if (num_tokens == 1)
 			(*args)[i] = ft_strdup(token->data);
 		else if (num_tokens > 1)
@@ -73,19 +72,6 @@ void	expand_args(char ***args)
 		free_tokens(token);
 		i++;
 	}
-}
-
-static void	shift_args(char ***args, size_t args_i)
-{
-	int	num_args;
-
-	num_args = count_args(*args);
-	while ((*args)[args_i + 1])
-	{
-		ft_memmove(&(*args)[args_i], &(*args)[args_i + 1], sizeof(char *));
-		args_i++;
-	}
-	(*args)[num_args - 1] = NULL;
 }
 
 static void	add_increased_tokens_to_args(char ***args, int num_tokens, t_token **token, size_t args_i)
