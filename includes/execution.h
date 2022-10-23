@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:27:12 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/20 12:55:20 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 12:09:01 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 int		builtin_check_and_run(t_command cmd, char **args);
 int		bin_check_and_run(char **args);
+void	set_signal_here(void);
 void	exec_signal_set(void);
 void	run_pipe_in_child(void);
 int		do_redirect(t_command cmd);
