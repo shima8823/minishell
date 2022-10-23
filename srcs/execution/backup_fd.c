@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 12:19:23 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 15:26:59 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 15:52:23 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	backup_fd(void)
 
 void	restore_fd(void)
 {
-	dup2(g_shell.backup_fd[0], STDIN_FILENO);
-	dup2(g_shell.backup_fd[1], STDOUT_FILENO);
+	wdup2(g_shell.backup_fd[0], STDIN_FILENO);
+	wdup2(g_shell.backup_fd[1], STDOUT_FILENO);
 	wclose(g_shell.backup_fd[0]);
 	wclose(g_shell.backup_fd[1]);
 	g_shell.backup_fd[0] = 0;

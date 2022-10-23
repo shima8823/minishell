@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 20:29:55 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 15:27:07 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 15:52:19 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ void	run_pipe_in_child(void)
 	wclose(g_shell.pipe_fd[PIPE_READ]);
 	if (g_shell.old_read_pipe_fd != 0)
 	{
-		dup2(g_shell.old_read_pipe_fd, STDIN_FILENO);
+		wdup2(g_shell.old_read_pipe_fd, STDIN_FILENO);
 		wclose(g_shell.old_read_pipe_fd);
 	}
 	if (is_next)
-		dup2(g_shell.pipe_fd[PIPE_WRITE], STDOUT_FILENO);
+		wdup2(g_shell.pipe_fd[PIPE_WRITE], STDOUT_FILENO);
 	wclose(g_shell.pipe_fd[PIPE_WRITE]);
 }
 

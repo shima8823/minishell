@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 12:17:55 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 15:33:45 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 15:52:28 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	input_redirect_here(t_command cmd)
 		free(line);
 	}
 	ft_putstr_fd(res, fd[PIPE_WRITE]);
-	dup2(fd[PIPE_READ], STDIN_FILENO);
+	wdup2(fd[PIPE_READ], STDIN_FILENO);
 	wclose(fd[PIPE_READ]);
 	wclose(fd[PIPE_WRITE]);
 	free(res);

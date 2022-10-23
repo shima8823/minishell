@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:20:46 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 15:27:19 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 15:52:15 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	output_redirect(t_command cmd)
 
 	fd = wopen(cmd.redirects->filename, O_CREAT | O_WRONLY | O_TRUNC,
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-	dup2(fd, STDOUT_FILENO);
+	wdup2(fd, STDOUT_FILENO);
 	wclose(fd);
 	return (0);
 }
@@ -47,7 +47,7 @@ int	output_redirect_append(t_command cmd)
 
 	fd = wopen(cmd.redirects->filename, O_WRONLY | O_CREAT | O_APPEND,
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-	dup2(fd, STDOUT_FILENO);
+	wdup2(fd, STDOUT_FILENO);
 	wclose(fd);
 	return (0);
 }
@@ -59,7 +59,7 @@ int	input_redirect(t_command cmd)
 	fd = wopen(cmd.redirects->filename, O_RDONLY, 0);
 	if (fd == -1)
 		return (1);
-	dup2(fd, STDIN_FILENO);
+	wdup2(fd, STDIN_FILENO);
 	wclose(fd);
 	return (0);
 }

@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wfuncs.h                                           :+:      :+:    :+:   */
+/*   wdup2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/23 15:12:27 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 15:50:03 by takanoraika      ###   ########.fr       */
+/*   Created: 2022/10/23 15:48:41 by takanoraika       #+#    #+#             */
+/*   Updated: 2022/10/23 16:02:36 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WFUNCS_H
-# define WFUNCS_H
+#include "../../includes/minishell.h"
 
-int	wopen(const char *path, int flag, int mode);
-int	wclose(int fd);
-int	wpipe(int fd[2]);
-int	wfork(void);
-int	wwaitpid(pid_t pid, int *status, int option);
-int	wdup2(int old_fd, int new_fd);
+int	wdup2(int old_fd, int new_fd)
+{
+	int	res;
 
-#endif
+	res = dup2(old_fd, new_fd);
+	if (res < 0)
+	{
+		g_shell.status = -1;
+		perror("dup2");
+		exit(EXIT_FAILURE);
+	}
+	return (res);
+}
