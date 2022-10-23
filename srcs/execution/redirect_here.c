@@ -6,12 +6,11 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 12:17:55 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 12:11:17 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 14:38:46 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 int	input_redirect_here(t_command cmd)
 {
@@ -29,15 +28,16 @@ int	input_redirect_here(t_command cmd)
 	res = malloc(1);
 	if (!res)
 		exit(EXIT_FAILURE);
-	while(1)
+	while (1)
 	{
 		line = readline(">");
 		if (!line)
-			break;
-		if (ft_strncmp(cmd.redirects->filename, line, ft_strlen(cmd.redirects->filename)) == 0)
+			break ;
+		if (ft_strncmp(cmd.redirects->filename, line, \
+		ft_strlen(cmd.redirects->filename)) == 0)
 		{
 			free(line);
-			break; ;
+			break ;
 		}
 		tmp = line;
 		line = ft_strjoin(line, "\n");
