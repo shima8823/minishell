@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:02:15 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/08 06:59:50 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 14:55:36 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ bool	is_command_exist(const char *path)
 
 bool	is_directory(const char *path)
 {
-	struct stat buf;
+	struct stat	buf;
 
 	if (stat(path, &buf) == -1)
 		return (false);
