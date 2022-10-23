@@ -6,11 +6,11 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 17:35:04 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 14:56:05 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 15:11:10 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 char	*arrange_vars(char *arg, size_t i);
 
