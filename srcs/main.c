@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/21 13:07:15 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/21 23:17:36 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int main(int argc, char *argv[])
 	printf("hello, minishell\n");
 	set_signal_init();
 	prompt();
-	
 	return (EXIT_SUCCESS);
 }
 
@@ -46,8 +45,7 @@ void	prompt(void)
 
 	while (line)
 	{
-		g_shell.old_pipe_fd[0] = 0;
-		g_shell.old_pipe_fd[1] = 0;
+		g_shell.old_read_pipe_fd = 0;
 		node = NULL;
 		line = readline("minishell > ");
 		if (!line)
@@ -55,7 +53,7 @@ void	prompt(void)
 			ft_putstr_fd("\033[1A", STDERR_FILENO);
 			ft_putstr_fd("\033[12C", STDERR_FILENO);
 			ft_putendl_fd("exit", STDERR_FILENO);
-			exit(EXIT_SUCCESS);
+			break ;
 		}
 		if (*line)
 			add_history(line);
