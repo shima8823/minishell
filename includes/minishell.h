@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/19 17:08:44 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 11:41:07 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@
 
 typedef struct s_shell {
 	char	**vars;
-	int		vars_len;
-	int		read_fd;
+	size_t	vars_len;
+	bool	is_malloc_vars;
+	int		old_read_pipe_fd;
 	int		pipe_fd[2];
 	int		pipe_len;
 	int		backup_fd[2];
@@ -50,10 +51,11 @@ t_shell	g_shell;
 
 void	set_signal(void (*func)(int));
 void	set_signal_init(void);
-void	ft_export(char **args);
+int		ft_export(char **args);
 int		ft_echo(char **args);
 int		ft_isspace(int c);
 ssize_t	search_var(char *name);
+void	set_var(char *arg, size_t i);
 char	*return_name(char *var);
 int		execution(t_ast *node);
 void	error_exit(const char *s);
