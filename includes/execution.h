@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:27:12 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 13:16:35 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 14:31:04 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define PIPE_READ 0
 # define PIPE_WRITE 1
 
-int		builtin_check_and_run(t_command cmd, char **args);
+int		builtin_run(t_command cmd, char **args);
 int		run_builtin(char **args);
 bool	is_command_exist_builtin(char **args);
 int		bin_check_and_run(char **args);

@@ -6,19 +6,17 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:12:09 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 13:18:40 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 14:30:56 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 bool	is_command(char *input, char *command);
 
-int	builtin_check_and_run(t_command cmd,char **args)
+int	builtin_run(t_command cmd,char **args)
 {
 	if (!args || !args[0] || args[0][0] == '\0')
 			return (EXIT_FAILURE);
-	if (!is_command_exist_builtin(args))
-		return (EXIT_FAILURE);
 	if (cmd.redirects)
 		backup_fd();
 	while (cmd.redirects)

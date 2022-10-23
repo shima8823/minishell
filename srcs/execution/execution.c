@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 14:26:36 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 14:30:24 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,9 @@ static void	exec(t_ast *node,char **args)
 	}
 	else
 	{
-		g_shell.status = builtin_check_and_run(node->command, args);
-		if (g_shell.status == EXIT_FAILURE)
+		if (is_command_exist_builtin(args))
+			g_shell.status = builtin_run(node->command, args);
+		else
 			exec_in_child(node->command, args);
 	} 
 	if (g_shell.backup_fd[PIPE_READ] != 0)
