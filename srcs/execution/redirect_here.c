@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 12:17:55 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 15:52:28 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 19:45:55 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ int	input_redirect_here(t_command cmd)
 
 	set_signal_here();
 	wpipe(fd);
-	res = malloc(1);
-	if (!res)
-		exit(EXIT_FAILURE);
+	res = ft_wcalloc(1, 1);
 	while (1)
 	{
 		line = readline(">");

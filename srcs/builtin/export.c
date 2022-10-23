@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 17:35:04 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 15:11:10 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 19:44:11 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,7 @@ static void	create_new_vars_and_free_vars(void)
 	size_t	i;
 
 	g_shell.vars_len ++;
-	tmp = ft_calloc(g_shell.vars_len, sizeof(char **));
-	if (tmp == NULL)
-		exit(EXIT_FAILURE);
+	tmp = ft_wcalloc(g_shell.vars_len, sizeof(char **));
 	i = 0;
 	while (g_shell.vars_len > i)
 	{
