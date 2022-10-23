@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:21:18 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/19 17:16:35 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 13:03:58 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	bin_check_and_run(char **args)
 	}
 	else
 		put_exec_error(args[0]);
-	return (0);
+	exit (EXIT_FAILURE);
 }
 
 static char	*search_bin(char *name)
