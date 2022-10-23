@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:27:12 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 14:31:04 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 23:39:35 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		bin_check_and_run(char **args);
 void	set_signal_here(void);
 void	exec_signal_set(void);
 void	run_pipe_in_child(void);
-int		do_redirect(t_command cmd);
+void	do_redirect(t_command cmd);
 void	backup_fd(void);
 void	restore_fd(void);
 

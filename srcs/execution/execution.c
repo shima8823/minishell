@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 15:46:02 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 23:40:07 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,7 @@ static void	exec_in_child(t_command cmd, char **args)
 	if (g_shell.pid[g_shell.cmd_len] == 0)
 	{
 		set_signal(SIG_DFL);
-		while (cmd.redirects)
-		{
-			if (do_redirect(cmd) != 0)
-			{
-				put_error(strerror(errno), cmd.redirects->filename);
-				exit(EXIT_FAILURE);
-			}
-			cmd.redirects = cmd.redirects->next;
-		}
+		do_redirect(cmd);
 		if (!args || !args[0] || args[0][0] == '\0')
 			exit(EXIT_FAILURE);
 		if (g_shell.pipe_len > 0)

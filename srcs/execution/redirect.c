@@ -6,18 +6,32 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:20:46 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 15:52:15 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 23:41:17 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+int	judge_redirect(t_command cmd);
 int	input_redirect_here(t_command cmd);
 int	output_redirect(t_command cmd);
 int	output_redirect_append(t_command cmd);
 int	input_redirect(t_command cmd);
 
-int	do_redirect(t_command cmd)
+void	do_redirect(t_command cmd)
+{
+	while (cmd.redirects)
+	{
+		if (judge_redirect(cmd) != 0)
+		{
+			put_error(strerror(errno), cmd.redirects->filename);
+			exit(EXIT_FAILURE);
+		}
+		cmd.redirects = cmd.redirects->next;
+	}
+}
+
+int	judge_redirect(t_command cmd)
 {
 	if (ft_strncmp(cmd.redirects->io_redirect, "<", 2) == 0)
 		return (input_redirect(cmd));
