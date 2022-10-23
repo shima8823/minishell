@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/23 12:50:44 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 13:49:19 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	prompt(void)
 	{
 		set_signal_init();
 		g_shell.old_read_pipe_fd = 0;
+		g_shell.cmd_len = 0;
 		node = NULL;
 		line = readline("minishell > ");
 		if (!line)

@@ -6,14 +6,14 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 12:51:31 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 14:30:24 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 static void	exec(t_ast *node,char **args);
 static void	exec_in_child(t_command cmd, char **args);
-static void wait_child(void);
+static void wait_child(size_t i);
 
 int	execution(t_ast *node)
 {
@@ -23,7 +23,10 @@ int	execution(t_ast *node)
 	if (node->type == NODE_PIPE)
 		g_shell.pipe_len = node->pipe_index + 1;
 	if (node->type == NODE_COMMAND)
+	{
 		exec(node, node->command.args);
+		g_shell.cmd_len ++;
+	}
 	if (node->left != NULL)
 		execution(node->left);
 	if (node->right != NULL)
@@ -33,6 +36,9 @@ int	execution(t_ast *node)
 
 static void	exec(t_ast *node,char **args)
 {
+	size_t	i;
+
+	i = 0;
 	if (g_shell.pipe_len > 0)
 	{
 		if (pipe(g_shell.pipe_fd) == -1)
@@ -45,8 +51,9 @@ static void	exec(t_ast *node,char **args)
 	}
 	else
 	{
-		g_shell.status = builtin_check_and_run(node->command, args);
-		if (g_shell.status == EXIT_FAILURE)
+		if (is_command_exist_builtin(args))
+			g_shell.status = builtin_run(node->command, args);
+		else
 			exec_in_child(node->command, args);
 	} 
 	if (g_shell.backup_fd[PIPE_READ] != 0)
@@ -63,13 +70,16 @@ static void	exec(t_ast *node,char **args)
 
 static void	exec_in_child(t_command cmd, char **args)
 {
-	if ((g_shell.pid = fork()) < 0)
+	size_t	i;
+
+	i = 0;
+	if ((g_shell.pid[g_shell.cmd_len] = fork()) < 0)
 	{
 		put_error(strerror(errno), NULL);
 		g_shell.status = -1;
 		return ;
 	}
-	if (g_shell.pid == 0)
+	if (g_shell.pid[g_shell.cmd_len] == 0)
 	{
 		set_signal(SIG_DFL);
 		while (cmd.redirects)
@@ -85,18 +95,27 @@ static void	exec_in_child(t_command cmd, char **args)
 			exit(EXIT_FAILURE);
 		if (g_shell.pipe_len > 0)
 			run_pipe_in_child();
+		if (is_command_exist_builtin(args))
+			exit(run_builtin(args));
 		bin_check_and_run(args);
 	}
-	if (g_shell.pid > 0 && g_shell.pipe_len == 0)
-		wait_child();
+	while (i <= g_shell.cmd_len && g_shell.pipe_len <= 1)
+	{
+		wait_child(i);
+		i ++;
+	}
 }
 
-static void wait_child(void)
+static void wait_child(size_t i)
 {
 	int	status;
 	int	signal;
 
-	waitpid(g_shell.pid, &status, 0);
+	if (waitpid(g_shell.pid[i], &status, 0) == -1)
+	{
+		perror("waitpid");
+		return ;
+	}
 	if (WIFEXITED(status))
 		g_shell.status = WEXITSTATUS(status);
 	if (WIFSIGNALED(status))
