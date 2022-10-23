@@ -13,10 +13,11 @@ SRCS =	main.c																		\
 		expansion.c expand.c expand_str.c											\
 		execution.c builtin.c bin.c	pipe.c	redirect.c	redirect_here.c	backup_fd.c	\
 		stat.c utils.c put_error.c	set_var.c										\
+		wopen.c																		\
 
 OBJ = $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.o))
 OBJDIR = obj
-VPATH = srcs srcs/lexer srcs/parser srcs/expansion srcs/execution srcs/builtin srcs/utils
+VPATH = srcs srcs/lexer srcs/parser srcs/expansion srcs/execution srcs/builtin srcs/utils srcs/wfuncs
 
 ## libft ##
 LIBFT_DIR = libft

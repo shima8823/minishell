@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 14:20:46 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 14:43:04 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 15:14:22 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,8 @@ int	output_redirect(t_command cmd)
 {
 	int	fd;
 
-	fd = open(cmd.redirects->filename, O_CREAT | O_WRONLY | O_TRUNC,
+	fd = wopen(cmd.redirects->filename, O_CREAT | O_WRONLY | O_TRUNC,
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-	if (fd == -1)
-		return (1);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 	return (0);
@@ -47,10 +45,8 @@ int	output_redirect_append(t_command cmd)
 {
 	int	fd;
 
-	fd = open(cmd.redirects->filename, O_WRONLY | O_CREAT | O_APPEND,
+	fd = wopen(cmd.redirects->filename, O_WRONLY | O_CREAT | O_APPEND,
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-	if (fd == -1)
-		return (1);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 	return (0);
@@ -60,7 +56,7 @@ int	input_redirect(t_command cmd)
 {
 	int	fd;
 
-	fd = open(cmd.redirects->filename, O_RDONLY);
+	fd = wopen(cmd.redirects->filename, O_RDONLY, 0);
 	if (fd == -1)
 		return (1);
 	dup2(fd, STDIN_FILENO);
