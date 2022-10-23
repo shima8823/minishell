@@ -6,18 +6,17 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/20 12:02:26 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/21 23:13:30 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-static int	exec(t_ast *node,char **args);
+static void	exec(t_ast *node,char **args);
 static void	exec_in_child(t_command cmd, char **args);
 static void wait_child(void);
 
 int	execution(t_ast *node)
 {
-	// printf("read_fd:%d\n", g_shell.read_fd);
 	if (!node)
 		return (EXIT_FAILURE);
 	if (node->type == NODE_PIPE)
@@ -31,18 +30,15 @@ int	execution(t_ast *node)
 	return (EXIT_SUCCESS);
 }
 
-static int	exec(t_ast *node,char **args)
+static void	exec(t_ast *node,char **args)
 {
-	g_shell.status = 0;
-	if (!args || !args[0] || args[0][0] == '\0')
-		return (EXIT_FAILURE);
 	if (g_shell.pipe_len > 0)
 	{
 		if (pipe(g_shell.pipe_fd) == -1)
 		{
 			put_error(strerror(errno), NULL);
 			g_shell.status = -1;
-			return (EXIT_FAILURE);
+			return ;
 		}
 		exec_in_child(node->command, args);
 	}
@@ -52,17 +48,16 @@ static int	exec(t_ast *node,char **args)
 		if (g_shell.status == EXIT_FAILURE)
 			exec_in_child(node->command, args);
 	} 
-	if (g_shell.backup_fd[0] != 0)
+	if (g_shell.backup_fd[PIPE_READ] != 0)
 		restore_fd();
 	if (g_shell.pipe_len > 0)
 	{
 		g_shell.pipe_len --;
-		if (g_shell.read_fd != 0)
-			close(g_shell.read_fd);
-		g_shell.read_fd = g_shell.pipe_fd[PIPE_READ];
+		if (g_shell.old_read_pipe_fd != 0)
+			close(g_shell.old_read_pipe_fd);
 		close(g_shell.pipe_fd[PIPE_WRITE]);
+		g_shell.old_read_pipe_fd = g_shell.pipe_fd[PIPE_READ];
 	}
-	return (EXIT_SUCCESS);
 }
 
 static void	exec_in_child(t_command cmd, char **args)
@@ -75,17 +70,23 @@ static void	exec_in_child(t_command cmd, char **args)
 	}
 	if (g_shell.pid == 0)
 	{
+		set_signal(SIG_DFL);
 		while (cmd.redirects)
 		{
-			do_redirect(cmd);
+			if (do_redirect(cmd) != 0)
+			{
+				put_error(strerror(errno), cmd.redirects->filename);
+				exit(EXIT_FAILURE);
+			}
 			cmd.redirects = cmd.redirects->next;
 		}
-		set_signal(SIG_DFL);
+		if (!args || !args[0] || args[0][0] == '\0')
+			exit(EXIT_FAILURE);
 		if (g_shell.pipe_len > 0)
 			run_pipe_in_child();
 		bin_check_and_run(args);
 	}
-	if (g_shell.pid  > 0)
+	if (g_shell.pid > 0 && g_shell.pipe_len == 0)
 		wait_child();
 }
 
@@ -95,15 +96,15 @@ static void wait_child(void)
 	int	signal;
 
 	waitpid(g_shell.pid, &status, 0);
+	if (WIFEXITED(status))
+		g_shell.status = WEXITSTATUS(status);
 	if (WIFSIGNALED(status))
 	{
 		signal = WTERMSIG(status);
 		if (signal == SIGQUIT)
-		{
 			ft_putendl_fd("Quit: 3", STDERR_FILENO);
-			g_shell.status = 131;
-		}
 		if (signal == SIGINT)
-			g_shell.status = 130;
+			ft_putendl_fd("", STDERR_FILENO);
+		g_shell.status = signal + 128;
 	}
 }
