@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/23 14:23:30 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/23 14:39:28 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,14 @@
 typedef struct s_shell {
 	char	**vars;
 	size_t	vars_len;
+	size_t	cmd_len;
+	ssize_t	pipe_len;
 	bool	is_malloc_vars;
 	int		old_read_pipe_fd;
 	int		pipe_fd[2];
-	int		pipe_len;
 	int		backup_fd[2];
 	int		status;
-	pid_t	pid;
+	pid_t	pid[4096];
 }				t_shell;
 
 t_shell	g_shell;

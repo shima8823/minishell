@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/23 14:27:28 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/23 14:40:07 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	prompt(void)
 	{
 		set_signal_init();
 		g_shell.old_read_pipe_fd = 0;
+		g_shell.cmd_len = 0;
 		node = NULL;
 		line = readline("minishell > ");
 		if (!line)
