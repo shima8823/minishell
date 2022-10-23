@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 17:35:04 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/20 13:41:41 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 11:05:34 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,11 @@
 
 char	*arrange_arg(char *arg);
 
-void	error_in_export(char *arg, int err_type)
+void	error_in_export(char *arg)
 {
-	char	*str;
-
-	if (err_type == 1)
-	{
-		str = ft_strdup("minishell: export: `");
-		ft_strlcat(str, arg, 21 + ft_strlen(arg));
-		ft_strlcat(str, "': not a valid identifier\n", ft_strlen(str) + 27);
-		write(STDERR_FILENO, str, ft_strlen(str));
-		return ;
-	}
-	else if (err_type == 2)
-	{
-		perror("minishell: export: malloc is failed");
-		return ;
-	}
+	write(STDERR_FILENO, "minishell: export: `", 21);
+	write(STDERR_FILENO, arg, ft_strlen(arg));
+	write(STDERR_FILENO, "': not a valid identifier\n", 27);
 }
 
 static void	export_vars(void)
@@ -43,29 +31,6 @@ static void	export_vars(void)
 		printf("declare -x %s\n", g_shell.vars[i]);
 		i++;
 	}
-}
-
-static int	create_new_vars_and_free_vars(void)
-{
-	char	**tmp;
-	size_t	i;
-
-	tmp = ft_calloc(g_shell.vars_len + 1, sizeof(char **));
-	if (tmp == NULL)
-	{
-		error_in_export(NULL, 2);
-		return (-1);
-	}
-	g_shell.vars_len ++;
-	i = 0;
-	while (g_shell.vars_len - 1 > i)
-	{
-		tmp[i] = g_shell.vars[i];
-		i ++;
-	}
-	free(g_shell.vars);
-	g_shell.vars = tmp;
-	return (0);
 }
 
 static int	add_vars(char *arg)
@@ -84,11 +49,7 @@ static int	add_vars(char *arg)
 	}
 	name = return_name(arg);
 	if (search_var(name) == -1)
-	{
-		if (create_new_vars_and_free_vars() == -1)
-			return (0);
 		g_shell.vars[g_shell.vars_len - 1] = arrange_arg(arg);
-	}
 	else
 		g_shell.vars[search_var(name)] = arrange_arg(arg);
 	free(name);
@@ -109,13 +70,13 @@ int	ft_export(char **args)
 	{
 		if (args[i][0] == '"' && args[i][1] == '"')
 		{
-			error_in_export("", 1);
+			error_in_export("");
 			g_shell.status = EXIT_FAILURE;
 			i++;
 			continue ;
 		}
 		if (add_vars(args[i]) == -1)
-			error_in_export(args[i], 1);
+			error_in_export(args[i]);
 		i ++;
 	}
 	return (g_shell.status);

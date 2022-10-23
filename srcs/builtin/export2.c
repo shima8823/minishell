@@ -6,13 +6,11 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 18:23:48 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/09/28 16:31:36 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 11:05:57 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	error_in_export(char *arg, int err_type);
 
 static void	skip_doublequote(char **arg)
 {
@@ -42,7 +40,7 @@ static char	*malloc_arranged_arg(size_t len)
 
 	res = ft_calloc(len + 3, sizeof(char));
 	if (res == NULL)
-		error_in_export(NULL, 2);
+		exit(EXIT_FAILURE)
 	return (res);
 }
 
