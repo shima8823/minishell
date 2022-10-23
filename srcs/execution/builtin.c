@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:12:09 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 13:17:50 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 13:18:40 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ int	run_builtin(char **args)
 		return (5);
 	else if (is_command(args[0], "env"))
 		return (6);
-	else if (is_command(args[0], "print"))
-		return (printf("%d\n", g_shell.status));
 	return (EXIT_FAILURE);
 }
 
@@ -69,8 +67,6 @@ bool is_command_exist_builtin(char **args)
 	else if (is_command(args[0], "unset"))
 		return (true);
 	else if (is_command(args[0], "env"))
-		return (true);
-	else if (is_command(args[0], "print"))
 		return (true);
 	return (false);
 }
