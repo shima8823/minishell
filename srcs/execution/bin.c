@@ -6,15 +6,16 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:21:18 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 13:03:58 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 14:41:15 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-static char	*search_bin(char *name);
+
+static char		*search_bin(char *name);
 static int		judge_path(char *name);
-static char	**get_splited_path(void);
-void	put_exec_error(char *path);
+static char		**get_splited_path(void);
+void			put_exec_error(char *path);
 
 int	bin_check_and_run(char **args)
 {
@@ -47,7 +48,7 @@ static char	*search_bin(char *name)
 	while (splited_path[i])
 	{
 		path = ft_strjoin(splited_path[i], name);
-		if (is_command_exist(path) && !is_directory(path) &&
+		if (is_command_exist(path) && !is_directory(path) && \
 			is_executable(path))
 			break ;
 		free(path);
