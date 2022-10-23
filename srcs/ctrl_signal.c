@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 13:35:27 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/20 13:41:11 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 12:08:29 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,16 @@ void	set_signal_init(void)
 		exit(EXIT_FAILURE);
 	}
 }
+
+void	set_signal_here(void)
+{
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+	{
+		ft_putstr_fd("signal error\n", STDERR_FILENO);
+		exit(EXIT_FAILURE);
+	}
+}
+
 void	set_signal(void (*func)(int))
 {
 	if (signal(SIGINT, func) == SIG_ERR

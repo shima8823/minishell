@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/21 23:13:30 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 12:51:31 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void wait_child(void);
 
 int	execution(t_ast *node)
 {
+	set_signal(SIG_IGN);
 	if (!node)
 		return (EXIT_FAILURE);
 	if (node->type == NODE_PIPE)
