@@ -6,14 +6,15 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 14:30:24 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 14:52:56 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-static void	exec(t_ast *node,char **args);
+
+static void	exec(t_ast *node, char **args);
 static void	exec_in_child(t_command cmd, char **args);
-static void wait_child(size_t i);
+static void	wait_child(size_t i);
 
 int	execution(t_ast *node)
 {
@@ -34,7 +35,7 @@ int	execution(t_ast *node)
 	return (EXIT_SUCCESS);
 }
 
-static void	exec(t_ast *node,char **args)
+static void	exec(t_ast *node, char **args)
 {
 	size_t	i;
 
@@ -55,7 +56,7 @@ static void	exec(t_ast *node,char **args)
 			g_shell.status = builtin_run(node->command, args);
 		else
 			exec_in_child(node->command, args);
-	} 
+	}
 	if (g_shell.backup_fd[PIPE_READ] != 0)
 		restore_fd();
 	if (g_shell.pipe_len > 0)
@@ -73,7 +74,8 @@ static void	exec_in_child(t_command cmd, char **args)
 	size_t	i;
 
 	i = 0;
-	if ((g_shell.pid[g_shell.cmd_len] = fork()) < 0)
+	g_shell.pid[g_shell.cmd_len] = fork();
+	if (g_shell.pid[g_shell.cmd_len] < 0)
 	{
 		put_error(strerror(errno), NULL);
 		g_shell.status = -1;
@@ -106,7 +108,7 @@ static void	exec_in_child(t_command cmd, char **args)
 	}
 }
 
-static void wait_child(size_t i)
+static void	wait_child(size_t i)
 {
 	int	status;
 	int	signal;
