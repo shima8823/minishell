@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 15:27:02 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 15:33:23 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,7 @@ static void	exec(t_ast *node, char **args)
 	i = 0;
 	if (g_shell.pipe_len > 0)
 	{
-		if (pipe(g_shell.pipe_fd) == -1)
-		{
-			put_error(strerror(errno), NULL);
-			g_shell.status = -1;
-			return ;
-		}
+		wpipe(g_shell.pipe_fd);
 		exec_in_child(node->command, args);
 	}
 	else

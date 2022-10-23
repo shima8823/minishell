@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wfuncs.h                                           :+:      :+:    :+:   */
+/*   wpipe.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/23 15:12:27 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 15:34:08 by takanoraika      ###   ########.fr       */
+/*   Created: 2022/10/23 15:30:41 by takanoraika       #+#    #+#             */
+/*   Updated: 2022/10/23 15:34:47 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WFUNCS_H
-# define WFUNCS_H
+#include "../../includes/minishell.h"
 
-int	wopen(const char *path, int flag, int mode);
-int	wclose(int fd);
-int	wpipe(int fd[2]);
+int	wpipe(int fd[2])
+{
+	int	res;
 
-#endif
+	res = pipe(fd);
+	if (res < 0)
+	{
+		g_shell.status = -1;
+		perror("pipe");
+		exit(EXIT_FAILURE);
+	}
+	return (res);
+}

@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 12:17:55 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 15:27:13 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 15:33:45 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,7 @@ int	input_redirect_here(t_command cmd)
 	int		fd[2];
 
 	set_signal_here();
-	if (pipe(fd) == -1)
-	{
-		perror("pipe");
-		return (EXIT_FAILURE);
-	}
+	wpipe(fd);
 	res = malloc(1);
 	if (!res)
 		exit(EXIT_FAILURE);
