@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 16:39:38 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 11:11:31 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 14:54:36 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ ssize_t	search_var(char *name)
 	name_len = ft_strlen(name);
 	while (g_shell.vars_len > i)
 	{
-		if (ft_strncmp(g_shell.vars[i], name, name_len) == 0
-		&& (g_shell.vars[i][name_len] == '\0' || g_shell.vars[i][name_len] == '='))
+		if (ft_strncmp(g_shell.vars[i], name, name_len) == 0 && \
+			(g_shell.vars[i][name_len] == '\0' || \
+			g_shell.vars[i][name_len] == '='))
 			return (i);
 		i ++;
 	}
@@ -34,7 +35,7 @@ char	*return_name(char *var)
 {
 	char	*res;
 	size_t	i;
-	
+
 	res = ft_strdup(var);
 	i = 0;
 	while (res[i] != '=' && res[i] != '\0')
