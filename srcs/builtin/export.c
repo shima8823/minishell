@@ -6,13 +6,13 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 17:35:04 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 11:05:34 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 11:59:22 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*arrange_arg(char *arg);
+char	*arrange_vars(char *arg, size_t i);
 
 void	error_in_export(char *arg)
 {
@@ -33,15 +33,37 @@ static void	export_vars(void)
 	}
 }
 
+static void	create_new_vars_and_free_vars(void)
+{
+	char	**tmp;
+	size_t	i;
+
+	g_shell.vars_len ++;
+	tmp = ft_calloc(g_shell.vars_len, sizeof(char **));
+	if (tmp == NULL)
+		exit(EXIT_FAILURE);
+	i = 0;
+	while (g_shell.vars_len > i)
+	{
+		tmp[i] = g_shell.vars[i];
+		i ++;
+	}
+	if (g_shell.is_malloc_vars)
+		free(g_shell.vars);
+	g_shell.vars = tmp;
+	g_shell.is_malloc_vars = true;
+	return ;
+}
+
 static int	add_vars(char *arg)
 {
 	char	*name;
 	size_t	i;
 
-	if (arg[0] == '=' || arg == NULL)
+	if (arg[0] == '=' || arg == NULL || arg[0] == '\0')
 		return (-1);
 	i = 0;
-	while (arg[i] != '\0' && arg[i] != '=')
+	while ((arg[i] != '\0' && arg[i] != '='))
 	{
 		if (ft_isspace(arg[i]))
 			return (-1);
@@ -49,9 +71,12 @@ static int	add_vars(char *arg)
 	}
 	name = return_name(arg);
 	if (search_var(name) == -1)
-		g_shell.vars[g_shell.vars_len - 1] = arrange_arg(arg);
+	{
+		create_new_vars_and_free_vars();
+		set_var(arg, g_shell.vars_len - 1);
+	}
 	else
-		g_shell.vars[search_var(name)] = arrange_arg(arg);
+		set_var(arg, search_var(name));
 	free(name);
 	return (0);
 }
@@ -59,11 +84,13 @@ static int	add_vars(char *arg)
 int	ft_export(char **args)
 {
 	size_t	i;
+	int		status;
 
+	status = 0;
 	if (args[1] == NULL)
 	{
 		export_vars();
-		return (g_shell.status);
+		return (status);
 	}
 	i = 1;
 	while (args[i] != NULL)
@@ -71,7 +98,7 @@ int	ft_export(char **args)
 		if (args[i][0] == '"' && args[i][1] == '"')
 		{
 			error_in_export("");
-			g_shell.status = EXIT_FAILURE;
+			status = EXIT_FAILURE;
 			i++;
 			continue ;
 		}
@@ -79,6 +106,6 @@ int	ft_export(char **args)
 			error_in_export(args[i]);
 		i ++;
 	}
-	return (g_shell.status);
+	return (status);
 }
 

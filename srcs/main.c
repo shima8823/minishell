@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/21 23:17:36 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 11:42:25 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
 	if (argc != 1)
 		return (EXIT_FAILURE);
 	g_shell.vars = environ;
+	g_shell.is_malloc_vars = false;
 	g_shell.status = 0;
 	while (g_shell.vars[g_shell.vars_len])
 		g_shell.vars_len++;

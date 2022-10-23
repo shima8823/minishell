@@ -1,16 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export2.c                                          :+:      :+:    :+:   */
+/*   set_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/26 18:23:48 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 11:05:57 by takanoraika      ###   ########.fr       */
+/*   Created: 2022/10/23 11:35:52 by takanoraika       #+#    #+#             */
+/*   Updated: 2022/10/23 11:54:40 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static void	cpy_arg_by_equal(char *arg, char **res)
+{
+	size_t	i;
+
+	i = 0;
+	while (arg[i] != '=')
+	{
+		res[0][i] = arg[i];
+		i ++;
+	}
+	res[0][i] = arg[i];
+}
 
 static void	skip_doublequote(char **arg)
 {
@@ -32,29 +45,6 @@ static void	skip_doublequote(char **arg)
 		arg[0]++;
 		ft_strlcat(arg[0], equal_pnt, ft_strlen(arg[0]) + ft_strlen(equal_pnt));
 	}
-}
-
-static char	*malloc_arranged_arg(size_t len)
-{
-	char	*res;
-
-	res = ft_calloc(len + 3, sizeof(char));
-	if (res == NULL)
-		exit(EXIT_FAILURE)
-	return (res);
-}
-
-static void	cpy_arg_by_equal(char *arg, char **res)
-{
-	size_t	i;
-
-	i = 0;
-	while (arg[i] != '=')
-	{
-		res[0][i] = arg[i];
-		i ++;
-	}
-	res[0][i] = arg[i];
 }
 
 static void	do_arrange(char *arg, char **res, size_t len)
@@ -86,7 +76,7 @@ static void	do_arrange(char *arg, char **res, size_t len)
 		res[0][i] = '\0';
 }
 
-char	*arrange_arg(char *arg)
+void	set_var(char *arg, size_t i)
 {
 	size_t	len;
 	char	*res;
@@ -94,9 +84,14 @@ char	*arrange_arg(char *arg)
 	skip_doublequote(&arg);
 	len = ft_strlen(arg);
 	if (ft_strchr(arg, '=') == NULL)
-		return (ft_strdup(arg));
-	res = malloc_arranged_arg(len);
+	{
+		g_shell.vars[i] = ft_strdup(arg);
+		return ;
+	}
+	res = ft_calloc(len + 3, sizeof(char));
+	if (res == NULL)
+		exit(EXIT_FAILURE);
 	cpy_arg_by_equal(arg, &res);
 	do_arrange(arg, &res, len);
-	return (res);
+	g_shell.vars[i] = res;
 }
