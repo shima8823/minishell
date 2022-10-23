@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wfuncs.h                                           :+:      :+:    :+:   */
+/*   wwaitpid.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/23 15:12:27 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 15:45:28 by takanoraika      ###   ########.fr       */
+/*   Created: 2022/10/23 15:43:21 by takanoraika       #+#    #+#             */
+/*   Updated: 2022/10/23 15:46:21 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WFUNCS_H
-# define WFUNCS_H
+#include "../../includes/minishell.h"
 
-int	wopen(const char *path, int flag, int mode);
-int	wclose(int fd);
-int	wpipe(int fd[2]);
-int	wfork(void);
-int	wwaitpid(pid_t pid, int *status, int option);
+int	wwaitpid(pid_t pid, int *status, int option)
+{
+	int	res;
 
-#endif
+	res = waitpid(pid, status, option);
+	if (res < 0)
+	{
+		g_shell.status = -1;
+		perror("waitpid");
+		exit(EXIT_FAILURE);
+	}
+	return (res);
+}

@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 15:41:55 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 15:46:02 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,7 @@ static void	wait_child(size_t i)
 	int	status;
 	int	signal;
 
-	if (waitpid(g_shell.pid[i], &status, 0) == -1)
-	{
-		perror("waitpid");
-		return ;
-	}
+	wwaitpid(g_shell.pid[i], &status, 0);
 	if (WIFEXITED(status))
 		g_shell.status = WEXITSTATUS(status);
 	if (WIFSIGNALED(status))
