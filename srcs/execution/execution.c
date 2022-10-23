@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 15:33:23 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 15:41:55 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,7 @@ static void	exec_in_child(t_command cmd, char **args)
 	size_t	i;
 
 	i = 0;
-	g_shell.pid[g_shell.cmd_len] = fork();
-	if (g_shell.pid[g_shell.cmd_len] < 0)
-	{
-		put_error(strerror(errno), NULL);
-		g_shell.status = -1;
-		return ;
-	}
+	g_shell.pid[g_shell.cmd_len] = wfork();
 	if (g_shell.pid[g_shell.cmd_len] == 0)
 	{
 		set_signal(SIG_DFL);
