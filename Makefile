@@ -33,6 +33,7 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
 	$(CC) $(LDFLAGS) -o $(NAME) $(OBJ) $(LDLIBS)
+	echo > ~/.inputrc set echo-control-characters off
 
 $(LIBFT):
 	make bonus -C $(LIBFT_DIR)
