@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 12:51:31 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 13:16:58 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,12 @@ static void	exec_in_child(t_command cmd, char **args)
 			exit(EXIT_FAILURE);
 		if (g_shell.pipe_len > 0)
 			run_pipe_in_child();
+		if (is_command_exist_builtin(args))
+			exit(run_builtin(args));
 		bin_check_and_run(args);
 	}
-	if (g_shell.pid > 0 && g_shell.pipe_len == 0)
+	// if (g_shell.pid > 0 && g_shell.pipe_len == 0)
+	if (g_shell.pid > 0)
 		wait_child();
 }
 

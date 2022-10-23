@@ -6,12 +6,11 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:12:09 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/20 13:42:10 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 13:17:50 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-static bool is_command_exist_builtin(char **args);
 bool	is_command(char *input, char *command);
 
 int	builtin_check_and_run(t_command cmd,char **args)
@@ -31,6 +30,11 @@ int	builtin_check_and_run(t_command cmd,char **args)
 		}
 		cmd.redirects = cmd.redirects->next;
 	}
+	return (run_builtin(args));
+}
+
+int	run_builtin(char **args)
+{
 	if (is_command(args[0], "cd"))
 		return (1);
 	else if (is_command(args[0], "pwd"))
@@ -50,7 +54,7 @@ int	builtin_check_and_run(t_command cmd,char **args)
 	return (EXIT_FAILURE);
 }
 
-static bool is_command_exist_builtin(char **args)
+bool is_command_exist_builtin(char **args)
 {
 	if (is_command(args[0], "cd"))
 		return (true);
