@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/24 13:34:04 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/24 15:18:10 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # include "parser.h"
 # include "execution.h"
 # include "wfuncs.h"
+
+# define MAX_LINE_LEN 4096
 
 # ifndef DEBUG
 #  define DEBUG 0

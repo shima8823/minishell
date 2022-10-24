@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 17:35:04 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/24 10:58:13 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/24 15:44:09 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static void	export_vars(void)
 		ft_putstr_fd("=\"", 1);
 		ft_putstr_fd(ptr, 1);
 		ft_putstr_fd("\"\n", 1);
+		if (str)
+			free(str);
 		i++;
 	}
 }

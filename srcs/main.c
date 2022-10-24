@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/24 13:39:22 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/24 15:17:50 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,11 @@ static void	prompt(void)
 		line = readline("minishell > ");
 		if (!line)
 			eof_handler();
+		if (ft_strlen(line) > MAX_LINE_LEN)
+		{
+			free(line);
+			continue ;
+		}
 		if (*line)
 			add_history(line);
 		if (!create_node(line, &token, &node))
