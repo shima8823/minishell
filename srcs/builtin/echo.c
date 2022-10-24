@@ -6,11 +6,11 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 12:32:58 by shima             #+#    #+#             */
-/*   Updated: 2022/10/19 13:17:01 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 15:11:14 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static bool is_option(const char *s);
 

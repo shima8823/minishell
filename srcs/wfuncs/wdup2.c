@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   put_error.c                                        :+:      :+:    :+:   */
+/*   wdup2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/11 13:27:55 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 14:55:07 by takanoraika      ###   ########.fr       */
+/*   Created: 2022/10/23 15:48:41 by takanoraika       #+#    #+#             */
+/*   Updated: 2022/10/23 16:02:36 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-void	put_error(char *msg, char *cmd)
+int	wdup2(int old_fd, int new_fd)
 {
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	if (cmd)
+	int	res;
+
+	res = dup2(old_fd, new_fd);
+	if (res < 0)
 	{
-		ft_putstr_fd(cmd, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
+		g_shell.status = -1;
+		perror("dup2");
+		exit(EXIT_FAILURE);
 	}
-	ft_putendl_fd(msg, STDERR_FILENO);
+	return (res);
 }

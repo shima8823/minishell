@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/23 13:57:20 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 15:15:24 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include "lexer.h"
 # include "parser.h"
 # include "execution.h"
+# include "wfuncs.h"
 
 #ifndef DEBUG
 # define DEBUG	0
