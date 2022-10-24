@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/24 10:57:31 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/24 13:12:05 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int		ft_exit(char **args);
 
 void	set_signal(void (*func)(int));
 void	set_signal_init(void);
+void	eof_handler(void);
 int		ft_isspace(int c);
 ssize_t	search_var(char *name);
 void	set_var(char *arg, size_t i);

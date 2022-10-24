@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 13:35:27 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 12:08:29 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/24 13:11:15 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@ static void	signal_handler(int code)
 	write(STDOUT_FILENO, "\n", 1);
 	rl_replace_line("", 0);
 	rl_redisplay();
+}
+
+void	eof_handler(void)
+{
+	ft_putstr_fd("\033[1A", STDERR_FILENO);
+	ft_putstr_fd("\033[12C", STDERR_FILENO);
+	ft_putendl_fd("exit", STDERR_FILENO);
+	exit(g_shell.status);
 }
 
 void	set_signal_init(void)
