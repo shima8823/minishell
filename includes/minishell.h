@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/24 11:49:39 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 13:11:16 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct s_shell {
 	size_t	vars_len;
 	size_t	cmd_len;
 	ssize_t	pipe_len;
-	bool	is_malloc_vars;
 	int		old_read_pipe_fd;
 	int		pipe_fd[2];
 	int		backup_fd[2];

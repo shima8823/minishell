@@ -3,39 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/23 14:40:07 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 11:03:15 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/expansion.h"
 
-void		prompt(void);
-int			parse_command(char **args);
-bool		is_command(char *input, char *command);
-char		**split_line(char *line);
+static void		init_shell(void);
+static void		prompt(void);
 
 int main(int argc, char *argv[])
 {
-	extern char **environ;
-
 	if (argc != 1)
 		return (EXIT_FAILURE);
-	g_shell.vars = environ;
-	g_shell.is_malloc_vars = false;
-	g_shell.status = 0;
-	while (g_shell.vars[g_shell.vars_len])
-		g_shell.vars_len++;
-	g_shell.backup_fd[0] = 0;
 	printf("hello, minishell\n");
+	init_shell();
 	prompt();
 	return (EXIT_SUCCESS);
 }
 
-void	prompt(void)
+static	void	init_shell(void)
+{
+	extern char	**environ;
+	size_t		i;
+
+	g_shell.status = 0;
+	while (environ[g_shell.vars_len])
+		g_shell.vars_len++;
+	g_shell.vars = ft_wcalloc(g_shell.vars_len + 1, sizeof(char*));
+	i = 0;
+	while (environ[i])
+	{
+		g_shell.vars[i] = ft_strdup(environ[i]);
+		i ++;
+	}
+	g_shell.vars[i] = NULL;
+	g_shell.backup_fd[0] = 0;
+}
+
+static void	prompt(void)
 {
 	char	*line;
 	char	**args;
