@@ -6,14 +6,14 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:05:46 by shima             #+#    #+#             */
-/*   Updated: 2022/10/13 14:53:06 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 10:52:55 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/lexer.h"
 
-void print_tokens(t_token *token)
+void	print_tokens(t_token *token)
 {
 	char	*type;
 
