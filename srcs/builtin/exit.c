@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 11:37:42 by shima             #+#    #+#             */
-/*   Updated: 2022/10/22 21:54:57 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 13:13:18 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static bool	is_status_numelic(char *argv);
 
 int	ft_exit(char **args)
 {
-	
 	ft_putendl_fd("exit", STDERR_FILENO);
 	if (!args[1])
 		exit(g_shell.status);

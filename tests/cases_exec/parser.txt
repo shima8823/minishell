@@ -1,0 +1,33 @@
+// parser_test
+// ===============
+// echo
+// echo hello
+// echo hello > test
+// echo hello > test > test2
+// echo hello > test > test2 word
+// > test > test2 > test3
+// > test > test2 > test3 word
+// > test > test2 > test3 word hello
+// > test > test2 > test3 word > test4
+// > test > test2 > test3 word > test4 echo
+// > test > test2 > test3 word > test4 echo  | > test > test2 > test3
+// ===============
+// echo hello > test
+//		>
+//		cmd
+// ===============
+// echo hello > test > test2
+//		>
+//		>
+//		cmd
+// ===============
+// echo hello| grep h > test
+// 		pipe
+// 	   /	>
+// 	eh	       gh
+// ===============
+// < ca ac < a
+// 			<a
+// 		ac
+//	<ca
+// < test echo hello > test2 > test3

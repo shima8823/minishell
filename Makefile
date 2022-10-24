@@ -1,5 +1,4 @@
-CFLAGS = 
-# CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror 
 CPPFLAGS = -I$(shell brew --prefix readline)/include -Iincludes
 LDFLAGS = -L$(shell brew --prefix readline)/lib -L$(LIBFT_DIR)
 LDLIBS = -lreadline -lhistory -lft
@@ -9,8 +8,8 @@ SRCS =	main.c																		\
 		ctrl_signal.c																\
 		echo.c env_vars_utils.c export.c unset.c pwd.c cd.c env.c exit.c			\
 		lexer.c	state_general.c print_lexer.c state_quote.c							\
-		parser.c print_ast.c node.c													\
-		expansion.c expand.c expand_str.c											\
+		parser.c parser_utils.c print_ast.c node.c									\
+		expansion.c expand.c expand_str.c expand_env.c								\
 		execution.c builtin.c bin.c	pipe.c	redirect.c	redirect_here.c	backup_fd.c	\
 		stat.c utils.c put_error.c arg.c set_var.c									\
 		wopen.c	wclose.c wpipe.c wfork.c wwaitpid.c wdup2.c	ft_wcalloc.c			\
@@ -33,7 +32,7 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
 	$(CC) $(LDFLAGS) -o $(NAME) $(OBJ) $(LDLIBS)
-	echo > ~/.inputrc set echo-control-characters off
+	@echo > ~/.inputrc set echo-control-characters off
 
 $(LIBFT):
 	make bonus -C $(LIBFT_DIR)

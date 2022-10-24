@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/24 13:12:05 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/24 13:28:19 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ bool	is_directory(const char *path);
 bool	is_executable(const char *path);
 void	put_error(char *msg, char *cmd);
 void	left_shift_args(char ***args, size_t args_i);
+int		count_args(char **args);
 char	*get_env(char *name);
 
 #endif
