@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:12:09 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/24 09:49:50 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 10:39:13 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@ int	builtin_run(t_command cmd, char **args)
 		backup_fd();
 	while (cmd.redirects)
 	{
-		if (do_redirect(cmd) != 0)
-		{
-			put_error(strerror(errno), cmd.redirects->filename);
-			return (1);
-		}
+		do_redirect(cmd);
+		// if (do_redirect(cmd) != 0)
+		// {
+		// 	put_error(strerror(errno), cmd.redirects->filename);
+		// 	return (1);
+		// }
 		cmd.redirects = cmd.redirects->next;
 	}
 	return (run_builtin(args));
