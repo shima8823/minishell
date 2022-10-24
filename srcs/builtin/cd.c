@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 19:10:54 by shima             #+#    #+#             */
-/*   Updated: 2022/10/20 19:55:02 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 09:43:58 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ int	ft_cd(char **args)
 
 static int	cd_home(void)
 {
-	ssize_t	env_i;
+	char	*value;
 
-	env_i = search_var("HOME");
-	if (env_i == -1)
+	value = get_env("HOME");
+	if (!value)
 	{
-		ft_putendl_fd("cd: HOME not set", STDERR_FILENO);
+		ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
-	if (chdir(&g_shell.vars[env_i][ft_strlen("HOME") + 1]) == -1)
+	if (chdir(value) == -1)
 	{
 		perror("cd");
 		return (EXIT_FAILURE);
