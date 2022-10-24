@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 17:35:04 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 19:44:11 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/24 10:55:54 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,28 @@ void	error_in_export(char *arg)
 static void	export_vars(void)
 {
 	size_t	i;
+	char	*ptr;
+	char	*str;
 
 	i = 0;
 	while (g_shell.vars_len > i)
 	{
-		printf("declare -x %s\n", g_shell.vars[i]);
+		str = ft_strdup(g_shell.vars[i]);
+		ptr = ft_strchr(str, '=');
+		ft_putstr_fd("declare -x ", 1);
+		if (ptr == NULL)
+		{
+			ft_putendl_fd(str, 1);
+			free(str);
+			i ++;
+			continue ;
+		}
+		*ptr = '\0';
+		ptr ++;
+		ft_putstr_fd(str, 1);
+		ft_putstr_fd("=\"", 1);
+		ft_putstr_fd(ptr, 1);
+		ft_putstr_fd("\"\n", 1);
 		i++;
 	}
 }
@@ -39,7 +56,8 @@ static void	create_new_vars_and_free_vars(void)
 	size_t	i;
 
 	g_shell.vars_len ++;
-	tmp = ft_wcalloc(g_shell.vars_len, sizeof(char **));
+	tmp = ft_wcalloc(g_shell.vars_len + 1, sizeof(char **));
+	g_shell.vars[g_shell.vars_len] = NULL;
 	i = 0;
 	while (g_shell.vars_len > i)
 	{
