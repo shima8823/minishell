@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 11:50:14 by shima             #+#    #+#             */
-/*   Updated: 2022/10/24 09:40:46 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 10:48:46 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ bool	lexer(t_token **token, char *line)
 	if (is_missing_quote)
 	{
 		ft_putendl_fd(QUOTE_ERROR_MSG, STDERR_FILENO);
+		g_shell.status = 258;
 		return (false);
 	}
 	return (true);

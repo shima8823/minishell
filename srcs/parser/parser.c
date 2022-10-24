@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 13:02:28 by shima             #+#    #+#             */
-/*   Updated: 2022/10/24 09:41:41 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 10:45:11 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ bool	parser(t_ast **node, t_token *token)
 
 	ret = parser_pipe(node, &token);
 	if (!ret)
+	{
+		g_shell.status = 258;
 		ft_putendl_fd(SYNTAX_ERROR_MSG, STDERR_FILENO);
+	}
 	add_pipe_index_to_node(node);
 	if (DEBUG)
 		print_ast(*node);
