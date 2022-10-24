@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 19:34:07 by shima             #+#    #+#             */
-/*   Updated: 2022/10/22 11:00:52 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 12:00:56 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,28 @@
 #include "../../includes/lexer.h"
 #include "../../includes/parser.h"
 
-static void	add_increased_tokens_to_args(char ***args, int num_tokens, t_token **token, size_t args_i);
+static bool	expand_filename(t_redirect *redirect, bool *is_ambiguous_redirect);
+static void	add_increased_tokens_to_args(char ***args,
+				int num_tokens, t_token **token, size_t args_i);
+static void	variables_init(char ***args, int *num_args,
+				char ***previous, int num_tokens);
 
-void	expand_filename(t_redirect **cmd_redirect, bool *is_ambiguous_redirect)
+void	expand_redirects(t_redirect **cmd_redirect, bool *is_ambiguous_redirect)
 {
 	t_redirect	*redirect;
-	t_token		*token;
-	char		*new;
-	char		*tmp;
 
 	redirect = *cmd_redirect;
 	while (redirect)
 	{
 		if (!redirect->filename)
 			return ;
-		tmp = redirect->filename;
-		new = expand_str(redirect->filename);
-		token = tokenizer(new, NULL, true);
-		free(new);
-		if (count_tokens(token) != 1)
+		if (ft_strncmp("<<", redirect->io_redirect, 3) == 0)
 		{
-			*is_ambiguous_redirect = true;
-			free_tokens(token);
-			return ;
+			redirect = redirect->next;
+			continue ;
 		}
-		redirect->filename = ft_strdup(token->data);
-		free(tmp);
-		free_tokens(token);
+		if (!expand_filename(redirect, is_ambiguous_redirect))
+			return ;
 		redirect = redirect->next;
 	}
 }
@@ -51,7 +46,7 @@ void	expand_args(char ***args)
 	size_t		i;
 	char		*new;
 	char		*tmp;
-	t_token*	token;
+	t_token		*token;
 	int			num_tokens;
 
 	i = 0;
@@ -74,24 +69,40 @@ void	expand_args(char ***args)
 	}
 }
 
-static void	add_increased_tokens_to_args(char ***args, int num_tokens, t_token **token, size_t args_i)
+static bool	expand_filename(t_redirect *redirect, bool *is_ambiguous_redirect)
 {
-	char	**tmp;
-	int		num_args;
-	size_t		i;
-	size_t		j;
+	t_token		*token;
+	char		*new;
+	char		*tmp;
 
-	num_args = count_args(*args);
-	tmp = *args;
-	*args = malloc(sizeof(char *) * (num_args - 1 + num_tokens + 1));
-	if (!(*args))
-		error_exit("malloc");
-	i = 0;
-	while (i < args_i)
+	tmp = redirect->filename;
+	new = expand_str(redirect->filename);
+	token = tokenizer(new, NULL, true);
+	free(new);
+	if (count_tokens(token) != 1)
 	{
-		(*args)[i] = tmp[i];
-		i++;
+		*is_ambiguous_redirect = true;
+		free_tokens(token);
+		return (false);
 	}
+	redirect->filename = ft_strdup(token->data);
+	free(tmp);
+	free_tokens(token);
+	return (true);
+}
+
+static void	add_increased_tokens_to_args(char ***args,
+				int num_tokens, t_token **token, size_t args_i)
+{
+	char	**previous;
+	int		num_args;
+	size_t	i;
+	size_t	j;
+
+	variables_init(args, &num_args, &previous, num_tokens);
+	i = -1;
+	while (++i < args_i)
+		(*args)[i] = previous[i];
 	j = i + 1;
 	while ((*token))
 	{
@@ -100,11 +111,20 @@ static void	add_increased_tokens_to_args(char ***args, int num_tokens, t_token *
 	}
 	while (i < num_args + num_tokens - 1)
 	{
-		(*args)[i] = tmp[j];
+		(*args)[i] = previous[j];
 		i++;
 		j++;
 	}
 	(*args)[i] = NULL;
-	free(tmp);
+	free(previous);
 }
 
+static void	variables_init(char ***args, int *num_args,
+				char ***previous, int num_tokens)
+{
+	*num_args = count_args(*args);
+	*previous = *args;
+	*args = malloc(sizeof(char *) * (*num_args - 1 + num_tokens + 1));
+	if (!(*args))
+		error_exit("malloc");
+}

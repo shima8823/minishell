@@ -6,12 +6,14 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:47:53 by shima             #+#    #+#             */
-/*   Updated: 2022/10/18 19:44:55 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 11:22:26 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/parser.h"
+
+static void	free_args(t_ast *node);
 
 t_ast	*node_new(t_node_type type)
 {
@@ -43,4 +45,47 @@ t_redirect	*redirect_new(void)
 		error_exit("malloc");
 	ft_bzero(new, sizeof(t_redirect));
 	return (new);
+}
+
+void	free_ast(t_ast *node)
+{
+	t_ast		*left;
+	t_ast		*right;
+	t_redirect	*tmp;
+
+	if (!node)
+		return ;
+	if (node->type == NODE_COMMAND)
+	{
+		free_args(node);
+		while (node->command.redirects)
+		{
+			free(node->command.redirects->io_redirect);
+			free(node->command.redirects->filename);
+			tmp = node->command.redirects;
+			node->command.redirects = node->command.redirects->next;
+			free(tmp);
+		}
+	}
+	left = node->left;
+	right = node->right;
+	free(node);
+	free_ast(left);
+	free_ast(right);
+}
+
+static void	free_args(t_ast *node)
+{
+	int	i;
+
+	if (node->command.args)
+	{
+		i = 0;
+		while (node->command.args[i])
+		{
+			free(node->command.args[i]);
+			i++;
+		}
+		free(node->command.args);
+	}
 }

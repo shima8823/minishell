@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:49:08 by shima             #+#    #+#             */
-/*   Updated: 2022/10/15 14:41:16 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 11:04:50 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "../../includes/parser.h"
 
 static void	print_recursive(t_ast *node);
+static void	print_args(t_ast *node);
+static void	print_redirects(t_ast *node);
 
 void	print_ast(t_ast *node)
 {
@@ -35,34 +37,47 @@ static void	print_recursive(t_ast *node)
 		printf("PIPE %d\n", node->pipe_index);
 	else if (node->type == NODE_COMMAND)
 	{
-		printf("ARGS: {");
-		if (node->command.args)
-		{
-			i = 0;
-			while (node->command.args[i])
-			{
-				printf("[%s] ", node->command.args[i]);
-				i++;
-			}
-		}
-		else
-			printf("NULL");
-		printf("} ");
-		printf("REDIRECTS: {");
-		if (node->command.redirects)
-		{
-			while (node->command.redirects)
-			{
-				printf("['%s', '%s'] ", node->command.redirects->io_redirect, node->command.redirects->filename);
-				node->command.redirects = node->command.redirects->next;
-			}
-		}
-		else
-			printf("NULL");
-		printf("}\n");
+		print_args(node);
+		print_redirects(node);
 	}
 	print_recursive(node->left);
 	print_recursive(node->right);
+}
+
+static void	print_args(t_ast *node)
+{
+	int	i;
+
+	printf("ARGS: {");
+	if (node->command.args)
+	{
+		i = 0;
+		while (node->command.args[i])
+		{
+			printf("[%s] ", node->command.args[i]);
+			i++;
+		}
+	}
+	else
+		printf("NULL");
+	printf("} ");
+}
+
+static void	print_redirects(t_ast *node)
+{
+	printf("REDIRECTS: {");
+	if (node->command.redirects)
+	{
+		while (node->command.redirects)
+		{
+			printf("['%s', '%s'] ", node->command.redirects->io_redirect,
+				node->command.redirects->filename);
+			node->command.redirects = node->command.redirects->next;
+		}
+	}
+	else
+		printf("NULL");
+	printf("}\n");
 }
 /*
 echo hello|grep h|less|echo
