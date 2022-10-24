@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 11:57:28 by shima             #+#    #+#             */
-/*   Updated: 2022/10/17 22:28:07 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 13:35:11 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
-#include <stdlib.h>
+# include <stdlib.h>
 
-#define QUOTE_ERROR_MSG "minishell: double quote or quote is expected"
+# define QUOTE_ERROR_MSG "minishell: double quote or quote is expected"
 
-typedef enum	e_token_type {
+typedef enum e_token_type {
 	CHAR_GENERAL = -1,
 	CHAR_PIPE = '|',
 	CHAR_QUOTE = '\'',
@@ -31,7 +31,7 @@ typedef enum	e_token_type {
 	TOKEN = -1,
 }	t_token_type;
 
-typedef enum	e_token_state {
+typedef enum e_token_state {
 	STATE_GENERAL,
 	STATE_IN_QUOTE,
 	STATE_IN_DQUOTE,
@@ -46,11 +46,10 @@ typedef struct s_tokenizer_info
 	bool			do_skip_quote;
 }	t_tokenizer_info;
 
-
 typedef struct s_token {
-	char*			data;
+	char			*data;
 	t_token_type	type;
-	struct s_token*	next;
+	struct s_token	*next;
 }	t_token;
 
 // lexer.c

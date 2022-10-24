@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/24 13:28:19 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/24 13:34:04 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@
 # include "execution.h"
 # include "wfuncs.h"
 
-#ifndef DEBUG
-# define DEBUG	0
-#endif
+# ifndef DEBUG
+#  define DEBUG 0
+# endif
 
 typedef struct s_shell {
 	char	**vars;
