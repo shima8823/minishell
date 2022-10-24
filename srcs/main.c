@@ -6,27 +6,29 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/24 11:03:15 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/24 13:26:40 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/expansion.h"
 
-static void		init_shell(void);
-static void		prompt(void);
+static void	init_shell(void);
+static void	prompt(void);
+static bool	create_node(char *line, t_token **token, t_ast **node);
+static void	free_structs(char *line, t_token *token, t_ast *node);
 
-int main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
 	if (argc != 1)
 		return (EXIT_FAILURE);
 	printf("hello, minishell\n");
 	init_shell();
 	prompt();
-	return (EXIT_SUCCESS);
+	return (g_shell.status);
 }
 
-static	void	init_shell(void)
+static void	init_shell(void)
 {
 	extern char	**environ;
 	size_t		i;
@@ -34,7 +36,7 @@ static	void	init_shell(void)
 	g_shell.status = 0;
 	while (environ[g_shell.vars_len])
 		g_shell.vars_len++;
-	g_shell.vars = ft_wcalloc(g_shell.vars_len + 1, sizeof(char*));
+	g_shell.vars = ft_wcalloc(g_shell.vars_len + 1, sizeof(char *));
 	i = 0;
 	while (environ[i])
 	{
@@ -49,7 +51,6 @@ static void	prompt(void)
 {
 	char	*line;
 	char	**args;
-	int		status;
 	t_token	*token;
 	t_ast	*node;
 
@@ -61,36 +62,37 @@ static void	prompt(void)
 		node = NULL;
 		line = readline("minishell > ");
 		if (!line)
-		{
-			ft_putstr_fd("\033[1A", STDERR_FILENO);
-			ft_putstr_fd("\033[12C", STDERR_FILENO);
-			ft_putendl_fd("exit", STDERR_FILENO);
-			break ;
-		}
+			eof_handler();
 		if (*line)
 			add_history(line);
-		if (!lexer(&token, line))
-		{
-			free_tokens(token);
-			free(line);
+		if (!create_node(line, &token, &node))
 			continue ;
-		}
-		if (!parser(&node, token) || !expansion(&node))
-		{
-			free_tokens(token);
-			free_ast(node);
-			free(line);
-			continue;
-		}
-		status = execution(node);
-		free_tokens(token);
-		free_ast(node);
-		free(line);
+		execution(node);
+		free_structs(line, token, node);
 	}
 }
 
-void	error_exit(const char *s)
+static bool	create_node(char *line, t_token **token, t_ast **node)
 {
-	perror(s);
-	exit(EXIT_FAILURE);
+	if (!lexer(token, line))
+	{
+		free_structs(line, *token, NULL);
+		return (false);
+	}
+	if (!parser(node, *token) || !expansion(node))
+	{
+		free_structs(line, *token, *node);
+		return (false);
+	}
+	return (true);
+}
+
+static void	free_structs(char *line, t_token *token, t_ast *node)
+{
+	if (line)
+		free(line);
+	if (token)
+		free_tokens(token);
+	if (node)
+		free_ast(node);
 }

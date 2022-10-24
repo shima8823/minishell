@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/24 13:11:16 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 13:28:19 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int		ft_exit(char **args);
 
 void	set_signal(void (*func)(int));
 void	set_signal_init(void);
+void	eof_handler(void);
 int		ft_isspace(int c);
 ssize_t	search_var(char *name);
 void	set_var(char *arg, size_t i);
