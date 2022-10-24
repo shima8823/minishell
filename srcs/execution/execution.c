@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
+/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:46:51 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/24 11:11:26 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/24 15:50:04 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,6 @@ int	execution(t_ast *node)
 
 static void	exec(t_ast *node, char **args)
 {
-	size_t	i;
-
-	i = 0;
 	if (g_shell.pipe_len > 0)
 	{
 		wpipe(g_shell.pipe_fd);
