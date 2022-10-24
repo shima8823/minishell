@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/24 13:26:40 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/24 13:39:22 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	free_structs(char *line, t_token *token, t_ast *node);
 
 int	main(int argc, char *argv[])
 {
+	(void) argv;
 	if (argc != 1)
 		return (EXIT_FAILURE);
 	printf("hello, minishell\n");
@@ -50,11 +51,10 @@ static void	init_shell(void)
 static void	prompt(void)
 {
 	char	*line;
-	char	**args;
 	t_token	*token;
 	t_ast	*node;
 
-	while (line)
+	while (1)
 	{
 		set_signal_init();
 		g_shell.old_read_pipe_fd = 0;

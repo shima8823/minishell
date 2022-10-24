@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 11:10:33 by shima             #+#    #+#             */
-/*   Updated: 2022/10/24 11:17:19 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 13:41:27 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 void	token_data_to_node(t_ast **cmd_node,
 			t_ast **last_cmd_node, t_token **token)
 {
-	t_ast	*left;
-
 	if (!(*cmd_node)->command.args)
 	{
 		str_to_new_args(cmd_node, (*token)->data);

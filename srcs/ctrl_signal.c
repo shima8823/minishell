@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 13:35:27 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/24 13:11:15 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/24 13:39:47 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	signal_handler(int code)
 {
+	(void) code;
 	g_shell.status = EXIT_FAILURE;
 	rl_on_new_line();
 	write(STDOUT_FILENO, "\n", 1);

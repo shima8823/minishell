@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 19:34:07 by shima             #+#    #+#             */
-/*   Updated: 2022/10/24 12:00:56 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 13:42:29 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ static void	add_increased_tokens_to_args(char ***args,
 		(*args)[i++] = ft_strdup((*token)->data);
 		*token = (*token)->next;
 	}
-	while (i < num_args + num_tokens - 1)
+	while (i < (size_t)num_args + num_tokens - 1)
 	{
 		(*args)[i] = previous[j];
 		i++;

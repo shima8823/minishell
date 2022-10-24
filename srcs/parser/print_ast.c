@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_ast.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 14:49:08 by shima             #+#    #+#             */
-/*   Updated: 2022/10/24 11:04:50 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 13:41:39 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ void	print_ast(t_ast *node)
 
 static void	print_recursive(t_ast *node)
 {
-	int	i;
-
 	if (node == NULL)
 	{
 		printf("NULL\n");

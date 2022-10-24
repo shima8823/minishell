@@ -6,13 +6,13 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 12:17:55 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 23:33:11 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/24 13:43:34 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	here_doc(char **res, int fd[2], t_command cmd);
+static void	here_doc(char **res, t_command cmd);
 
 int	input_redirect_here(t_command cmd)
 {
@@ -22,7 +22,7 @@ int	input_redirect_here(t_command cmd)
 	set_signal_here();
 	wpipe(fd);
 	res = ft_wcalloc(1, 1);
-	here_doc(&res, fd, cmd);
+	here_doc(&res, cmd);
 	ft_putstr_fd(res, fd[PIPE_WRITE]);
 	wdup2(fd[PIPE_READ], STDIN_FILENO);
 	wclose(fd[PIPE_READ]);
@@ -31,7 +31,7 @@ int	input_redirect_here(t_command cmd)
 	return (0);
 }
 
-static void	here_doc(char **res, int fd[2], t_command cmd)
+static void	here_doc(char **res, t_command cmd)
 {
 	char	*tmp;
 	char	*line;

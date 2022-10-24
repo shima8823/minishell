@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_vars_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 16:39:38 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/24 09:50:03 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 13:40:53 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 ssize_t	search_var(char *name)
 {
-	char	*res;
-	ssize_t	i;
+	size_t	i;
 	size_t	name_len;
 
 	i = 0;
@@ -33,8 +32,8 @@ ssize_t	search_var(char *name)
 
 char	*return_name(char *var)
 {
-	char	*res;
 	size_t	i;
+	char	*res;
 
 	res = ft_strdup(var);
 	i = 0;

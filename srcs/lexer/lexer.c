@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 11:50:14 by shima             #+#    #+#             */
-/*   Updated: 2022/10/24 10:48:46 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 13:41:07 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 bool	lexer(t_token **token, char *line)
 {
 	bool	is_missing_quote;
-	bool	ret;
 
 	*token = tokenizer(line, &is_missing_quote, false);
 	if (DEBUG)
