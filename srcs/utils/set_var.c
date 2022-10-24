@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 11:35:52 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 11:54:40 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 19:44:17 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,7 @@ void	set_var(char *arg, size_t i)
 		g_shell.vars[i] = ft_strdup(arg);
 		return ;
 	}
-	res = ft_calloc(len + 3, sizeof(char));
-	if (res == NULL)
-		exit(EXIT_FAILURE);
+	res = ft_wcalloc(len + 3, sizeof(char));
 	cpy_arg_by_equal(arg, &res);
 	do_arrange(arg, &res, len);
 	g_shell.vars[i] = res;

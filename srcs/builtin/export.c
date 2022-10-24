@@ -6,11 +6,11 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 17:35:04 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 11:59:22 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 19:44:11 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 char	*arrange_vars(char *arg, size_t i);
 
@@ -39,9 +39,7 @@ static void	create_new_vars_and_free_vars(void)
 	size_t	i;
 
 	g_shell.vars_len ++;
-	tmp = ft_calloc(g_shell.vars_len, sizeof(char **));
-	if (tmp == NULL)
-		exit(EXIT_FAILURE);
+	tmp = ft_wcalloc(g_shell.vars_len, sizeof(char **));
 	i = 0;
 	while (g_shell.vars_len > i)
 	{
@@ -108,4 +106,3 @@ int	ft_export(char **args)
 	}
 	return (status);
 }
-

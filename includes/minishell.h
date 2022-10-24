@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/23 16:11:10 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 09:48:20 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include "lexer.h"
 # include "parser.h"
 # include "execution.h"
+# include "wfuncs.h"
 
 #ifndef DEBUG
 # define DEBUG	0

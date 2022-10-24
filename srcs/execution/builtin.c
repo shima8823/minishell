@@ -6,22 +6,23 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:12:09 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 14:40:46 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 09:49:50 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 bool	is_command(char *input, char *command);
 
-int	builtin_run(t_command cmd,char **args)
+int	builtin_run(t_command cmd, char **args)
 {
 	if (!args || !args[0] || args[0][0] == '\0')
-			return (EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	if (cmd.redirects)
 		backup_fd();
 	while (cmd.redirects)
 	{
-		if(do_redirect(cmd) != 0)
+		if (do_redirect(cmd) != 0)
 		{
 			put_error(strerror(errno), cmd.redirects->filename);
 			return (1);
@@ -50,7 +51,7 @@ int	run_builtin(char **args)
 	return (EXIT_FAILURE);
 }
 
-bool is_command_exist_builtin(char **args)
+bool	is_command_exist_builtin(char **args)
 {
 	if (is_command(args[0], "cd"))
 		return (true);

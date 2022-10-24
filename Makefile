@@ -13,10 +13,11 @@ SRCS =	main.c																		\
 		expansion.c expand.c expand_str.c											\
 		execution.c builtin.c bin.c	pipe.c	redirect.c	redirect_here.c	backup_fd.c	\
 		stat.c utils.c put_error.c arg.c set_var.c									\
+		wopen.c	wclose.c wpipe.c wfork.c wwaitpid.c wdup2.c	ft_wcalloc.c			\
 
 OBJ = $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.o))
 OBJDIR = obj
-VPATH = srcs srcs/lexer srcs/parser srcs/expansion srcs/execution srcs/builtin srcs/utils
+VPATH = srcs srcs/lexer srcs/parser srcs/expansion srcs/execution srcs/builtin srcs/utils srcs/wfuncs
 
 ## libft ##
 LIBFT_DIR = libft
@@ -32,6 +33,7 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
 	$(CC) $(LDFLAGS) -o $(NAME) $(OBJ) $(LDLIBS)
+	echo > ~/.inputrc set echo-control-characters off
 
 $(LIBFT):
 	make bonus -C $(LIBFT_DIR)
