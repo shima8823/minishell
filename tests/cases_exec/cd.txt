@@ -1,1 +1,15 @@
-echo $PWD
+echo $?
+pwd
+ls
+cd ..
+echo $?
+pwd
+ls
+cd .
+echo $?
+pwd
+ls
+cd /Users/
+echo $?
+pwd
+ls
