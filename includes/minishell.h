@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/24 09:48:20 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 11:49:39 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ bool	is_directory(const char *path);
 bool	is_executable(const char *path);
 void	put_error(char *msg, char *cmd);
 void	left_shift_args(char ***args, size_t args_i);
+int		count_args(char **args);
 char	*get_env(char *name);
 
 #endif
