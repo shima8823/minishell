@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 11:35:52 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/24 10:56:39 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/24 11:04:46 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static char	*skip_quote(char *arg)
 	size_t	i;
 	size_t	j;
 	char	*res;
-	
-	res = ft_wcalloc(ft_strlen(arg) + 1,sizeof(char));
+
+	res = ft_wcalloc(ft_strlen(arg) + 1, sizeof(char));
 	i = 0;
 	j = 0;
 	while (arg[i] != '\0')
