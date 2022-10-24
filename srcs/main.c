@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
+/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:13 by shima             #+#    #+#             */
-/*   Updated: 2022/10/23 13:49:19 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/23 14:40:07 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ void	prompt(void)
 		free_tokens(token);
 		free_ast(node);
 		free(line);
-		if (status == 4)
-			break ;
 	}
 }
 

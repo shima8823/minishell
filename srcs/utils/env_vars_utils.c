@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_vars_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
+/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 16:39:38 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 14:54:36 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/24 09:50:03 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,16 @@ char	*return_name(char *var)
 		i++;
 	res[i] = '\0';
 	return (res);
+}
+
+char	*get_env(char *name)
+{
+	ssize_t	env_i;
+
+	env_i = search_var(name);
+	if (env_i == -1)
+		return (NULL);
+	if (!ft_strchr(g_shell.vars[env_i], '='))
+		return (NULL);
+	return (&g_shell.vars[env_i][ft_strlen(name) + 1]);
 }

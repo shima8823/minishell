@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 21:21:57 by shima             #+#    #+#             */
-/*   Updated: 2022/05/04 06:30:43 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/21 15:57:11 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_itoa(int n)
 	digit = cnt_digit(n);
 	result = malloc(sizeof(char) * (digit + 1));
 	if (!result)
-		return (NULL);
+		exit(EXIT_FAILURE);
 	return (tostring(n, result + digit, digit));
 }
 

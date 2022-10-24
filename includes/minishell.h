@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
+/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/23 15:15:24 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/24 09:48:20 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,17 @@ typedef struct s_shell {
 
 t_shell	g_shell;
 
+// builtin
+int		ft_echo(char **args);
+int		ft_export(char **args);
+int		ft_pwd(char **args);
+int		ft_cd(char **args);
+int		ft_unset(char **args);
+int		ft_env(char **args);
+int		ft_exit(char **args);
+
 void	set_signal(void (*func)(int));
 void	set_signal_init(void);
-int		ft_export(char **args);
-int		ft_echo(char **args);
 int		ft_isspace(int c);
 ssize_t	search_var(char *name);
 void	set_var(char *arg, size_t i);
@@ -67,5 +74,7 @@ bool	is_command_exist(const char *path);
 bool	is_directory(const char *path);
 bool	is_executable(const char *path);
 void	put_error(char *msg, char *cmd);
+void	left_shift_args(char ***args, size_t args_i);
+char	*get_env(char *name);
 
 #endif

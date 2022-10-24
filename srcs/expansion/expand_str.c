@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 22:23:57 by shima             #+#    #+#             */
-/*   Updated: 2022/10/19 20:01:04 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/22 21:19:00 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,11 @@ static char	*create_env_var_name(const char *s, size_t *i)
 	char	*env_var_name;
 
 	start = ++(*i);
+	if (s[*i] == '?')
+	{
+		(*i)++;
+		return (ft_strdup("?"));
+	}
 	if (ft_isdigit(s[*i]))
 		return (ft_strdup(""));
 	while (ft_isalnum(s[*i]) || s[*i] == '_')
@@ -96,6 +101,7 @@ static void	expand_env_var(char **new, const char *s, size_t *i)
 {
 	char	*env_var_name;
 	char	*tmp;
+	char	*status;
 	ssize_t	env_i;
 	size_t	env_var_name_len;
 
@@ -111,6 +117,21 @@ static void	expand_env_var(char **new, const char *s, size_t *i)
 			tmp = *new;
 			*new = ft_strjoin(*new, "$");
 			free(tmp);
+		}
+		free(env_var_name);
+		return ;
+	}
+	else if (ft_strncmp(env_var_name, "?", 2) == 0)
+	{
+		status = ft_itoa(g_shell.status);
+		if (!(*new))
+			*new = status;
+		else
+		{
+			tmp = *new;
+			*new = ft_strjoin(*new, status);
+			free(tmp);
+			free(status);
 		}
 		free(env_var_name);
 		return ;

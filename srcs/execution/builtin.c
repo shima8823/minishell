@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
+/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:12:09 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/23 14:47:29 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/24 09:49:50 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,19 @@ int	builtin_run(t_command cmd, char **args)
 int	run_builtin(char **args)
 {
 	if (is_command(args[0], "cd"))
-		return (1);
+		return (ft_cd(args));
 	else if (is_command(args[0], "pwd"))
-		return (2);
+		return (ft_pwd(args));
 	else if (is_command(args[0], "echo"))
 		return (ft_echo(args));
 	else if (is_command(args[0], "exit"))
-		return (4);
+		return (ft_exit(args));
 	else if (is_command(args[0], "export"))
 		return (ft_export(args));
 	else if (is_command(args[0], "unset"))
-		return (5);
+		return (ft_unset(args));
 	else if (is_command(args[0], "env"))
-		return (6);
+		return (ft_env(args));
 	return (EXIT_FAILURE);
 }
 

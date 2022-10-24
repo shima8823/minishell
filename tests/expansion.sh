@@ -13,8 +13,8 @@ CYAN="\033[36m"
 
 function env_var_test()
 {
-	echo -e "$@" | ./minishell > minishell.txt 2> /dev/null
-	MYRET=`awk 'NR==3' minishell.txt | awk '{printf $0}'`
+	echo -e "$@" | ./minishell > tests/minishell.txt 2> /dev/null
+	MYRET=`awk 'NR==3' tests/minishell.txt | awk '{printf $0}'`
 	BASHRET=`echo -e "$@" | bash`
 
 	if [ "$MYRET" == "$BASHRET" ]; then
@@ -26,7 +26,7 @@ function env_var_test()
 	fi
 }
 
-# function env_var_create_file_test()
+# function en_var_create_file_test()
 # {
 # 	echo -e "$@" | ./minishell > minishell.txt 2> /dev/null
 # 	MYRET=`awk 'NR==3' minishell.txt | awk '{printf $0}'`

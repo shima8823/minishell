@@ -6,7 +6,7 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 11:50:14 by shima             #+#    #+#             */
-/*   Updated: 2022/10/18 19:47:53 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 09:40:46 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ bool	lexer(t_token **token, char *line)
 	*token = tokenizer(line, &is_missing_quote, false);
 	if (DEBUG)
 		print_tokens(*token);
+	if (count_tokens(*token) == 1 && !((*token)->data)[0])
+		return (false);
 	if (is_missing_quote)
 	{
-		if (ft_putendl_fd(QUOTE_ERROR_MSG, STDERR_FILENO) == -1)
-			error_exit("ft_putendl_fd");
+		ft_putendl_fd(QUOTE_ERROR_MSG, STDERR_FILENO);
 		return (false);
 	}
 	return (true);
