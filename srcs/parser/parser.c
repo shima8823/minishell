@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 13:02:28 by shima             #+#    #+#             */
-/*   Updated: 2022/10/24 11:18:32 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 16:24:28 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ bool	parser(t_ast **node, t_token *token)
 {
 	bool	ret;
 
+	*node = NULL;
 	ret = parser_pipe(node, &token);
 	if (!ret)
 	{

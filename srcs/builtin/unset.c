@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 10:18:28 by shima             #+#    #+#             */
-/*   Updated: 2022/10/24 13:13:57 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 15:56:43 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ static void	delete_env(char *env_var_name)
 	env_i = search_var(env_var_name);
 	if (env_i == -1)
 		return ;
+	free(g_shell.vars[env_i]);
 	left_shift_args(&g_shell.vars, env_i);
 	g_shell.vars_len--;
 }
