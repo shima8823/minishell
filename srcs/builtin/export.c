@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 17:35:04 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/24 10:55:54 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/24 10:58:13 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,8 @@ static void	create_new_vars_and_free_vars(void)
 		tmp[i] = g_shell.vars[i];
 		i ++;
 	}
-	if (g_shell.is_malloc_vars)
-		free(g_shell.vars);
+	free(g_shell.vars);
 	g_shell.vars = tmp;
-	g_shell.is_malloc_vars = true;
 	return ;
 }
 

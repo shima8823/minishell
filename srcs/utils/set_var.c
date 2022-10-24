@@ -6,7 +6,7 @@
 /*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 11:35:52 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/24 10:52:00 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/24 10:56:39 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ static char	*skip_quote(char *arg)
 
 void	set_var(char *arg, size_t i)
 {
-	// free(g_shell.vars[i]);
+	free(g_shell.vars[i]);
 	g_shell.vars[i] = skip_quote(arg);
 }

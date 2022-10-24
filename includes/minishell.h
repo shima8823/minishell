@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 11:20:30 by shima             #+#    #+#             */
-/*   Updated: 2022/10/24 09:48:20 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 10:57:31 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct s_shell {
 	size_t	vars_len;
 	size_t	cmd_len;
 	ssize_t	pipe_len;
-	bool	is_malloc_vars;
 	int		old_read_pipe_fd;
 	int		pipe_fd[2];
 	int		backup_fd[2];
