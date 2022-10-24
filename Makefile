@@ -1,5 +1,4 @@
-CFLAGS = 
-# CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror 
 CPPFLAGS = -I$(shell brew --prefix readline)/include -Iincludes
 LDFLAGS = -L$(shell brew --prefix readline)/lib -L$(LIBFT_DIR)
 LDLIBS = -lreadline -lhistory -lft
