@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
+/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 12:32:58 by shima             #+#    #+#             */
-/*   Updated: 2022/10/23 15:11:14 by takanoraika      ###   ########.fr       */
+/*   Updated: 2022/10/24 13:14:24 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static bool is_option(const char *s);
+static bool	is_option(const char *s);
 
 int	ft_echo(char **args)
 {
@@ -35,7 +35,7 @@ int	ft_echo(char **args)
 	return (0);
 }
 
-static bool is_option(const char *s)
+static bool	is_option(const char *s)
 {
 	if (!s)
 		return (false);

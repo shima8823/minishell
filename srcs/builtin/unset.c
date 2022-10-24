@@ -6,14 +6,14 @@
 /*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 10:18:28 by shima             #+#    #+#             */
-/*   Updated: 2022/10/22 11:04:05 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/24 13:13:57 by shima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	is_identifier_valid(char *identifier);
-void	print_error(char *env_var_name);
+static bool	is_identifier_valid(char *identifier);
+static void	print_error(char *env_var_name);
 static void	delete_env(char *env_var_name);
 
 int	ft_unset(char **args)
@@ -39,7 +39,7 @@ int	ft_unset(char **args)
 	return (ret);
 }
 
-bool	is_identifier_valid(char *identifier)
+static bool	is_identifier_valid(char *identifier)
 {
 	size_t	i;
 
@@ -56,7 +56,7 @@ bool	is_identifier_valid(char *identifier)
 	return (true);
 }
 
-void	print_error(char *env_var_name)
+static void	print_error(char *env_var_name)
 {
 	ft_putendl_fd("minishell: unset: `", STDERR_FILENO);
 	ft_putendl_fd(env_var_name, STDERR_FILENO);
