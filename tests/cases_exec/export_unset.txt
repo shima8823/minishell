@@ -1,0 +1,10 @@
+export TEST="hello"
+echo $?
+env | grep TEST
+echo $?
+echo $TEST
+echo $?
+unset TEST
+echo $?
+env | grep TEST
+echo $?

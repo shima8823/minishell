@@ -14,6 +14,8 @@ CASES_EXIT_DIR="$SHELL_DIR/$CASES_DIR/exit"
 CASES_PWD="$SHELL_DIR/$CASES_DIR/pwd.txt"
 CASES_ENV="$SHELL_DIR/$CASES_DIR/env.txt"
 CASES_CD="$SHELL_DIR/$CASES_DIR/cd.txt"
+CASES_EXPORT_UNSET="$SHELL_DIR/$CASES_DIR/export_unset.txt"
+CASES_PIPE_REDIRECT="$SHELL_DIR/$CASES_DIR/pipe_redirect.txt"
 
 # もしshellがMakefileで呼ばれているならば
 if [ "." != "$SHELL_DIR" ]; then
@@ -56,7 +58,7 @@ function exec_test()
 	# =====================================
 	diff -q $OUTPUT_MINISHELL $OUTPUT_BASH > /dev/null
 	if [ $? -eq "0" ] && [ "$MINISHELL_STATUS" == "$BASH_STATUS" ]; then
-		printf "$GREEN[$2]\n"
+		printf "$GREEN[$2]  $MINISHELL_STATUS\n"
 	else
 		printf "$RED[$2]\n"
 		printf "$WHITE""minishell\n[`cat $OUTPUT_MINISHELL`]\nSTATUS[$MINISHELL_STATUS]\n"
@@ -67,6 +69,8 @@ function exec_test()
 exec_test $CASES_PWD "pwd"
 exec_test $CASES_ENV "env"
 exec_test $CASES_CD "cd"
+exec_test $CASES_EXPORT_UNSET "export_unset"
 for file in $(ls $CASES_EXIT_DIR/*); do
 	exec_test $file $file
 done
+exec_test $CASES_PIPE_REDIRECT "pipe_redirect"

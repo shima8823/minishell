@@ -1,0 +1,7 @@
+ls | grep a | grep e | grep M | grep e | grep k 
+echo $?
+ls | grep a | grep e | grep M | grep e | grep k > test
+echo $?
+ls
+rm test
+echo $?

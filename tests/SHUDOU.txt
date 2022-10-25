@@ -1,2 +1,13 @@
 leak.shを起動しながらやる
 echo -n
+
+// echo hello > test
+// echo hello > test > test2
+// echo hello > test > test2 word
+// > test > test2 > test3
+// > test > test2 > test3 word
+// > test > test2 > test3 word hello
+// > test > test2 > test3 word > test4
+// > test > test2 > test3 word > test4 echo
+// > test > test2 > test3 word > test4 echo  | > test > test2 > test3
+// < test echo hello > test2 > test3
