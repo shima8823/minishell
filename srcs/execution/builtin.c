@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shima <shima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: takanoraika <takanoraika@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:12:09 by takanoraika       #+#    #+#             */
-/*   Updated: 2022/10/24 13:11:37 by shima            ###   ########.fr       */
+/*   Updated: 2022/10/30 13:19:02 by takanoraika      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	run_builtin(char **args)
 
 bool	is_command_exist_builtin(char **args)
 {
+	if (!args || !args[0] || args[0][0] == '\0')
+		return (false);
 	if (is_command(args[0], "cd"))
 		return (true);
 	else if (is_command(args[0], "pwd"))
