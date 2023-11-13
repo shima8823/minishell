@@ -35,3 +35,6 @@ builtinコマンドとして
 ### redirect
 `< << > >>`4種類のリダイレクトが実装されています。
 リダイレクトとパイプの併用も可能です。
+
+![minishell](https://github.com/shima8823/minishell/assets/57759015/faeea6b3-75e7-4d59-8330-3bb82f42ce89)
+
